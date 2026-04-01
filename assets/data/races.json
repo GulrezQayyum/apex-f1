@@ -1,0 +1,628 @@
+{
+  "season": 2024,
+  "last_updated": "2024-03-10",
+  "races": [
+    {
+      "round": 1,
+      "name": "Bahrain Grand Prix",
+      "circuit": "Bahrain International Circuit",
+      "country": "Bahrain",
+      "city": "Sakhir",
+      "flag": "🇧🇭",
+      "date": "2024-03-02",
+      "status": "completed",
+      "laps": 57,
+      "distance_km": 308.238,
+      "lap_record": {
+        "time": "1:31.447",
+        "driver": "Pedro de la Rosa",
+        "year": 2005
+      },
+      "circuit_info": {
+        "length_km": 5.412,
+        "corners": 15,
+        "drs_zones": 3,
+        "type": "permanent"
+      },
+      "weather": "dry",
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",    "team": "Red Bull Racing",  "time": "1:31:44.742", "fastest_lap": false, "points": 25, "driver_id": "ver" },
+        { "pos": 2,  "driver": "Sergio Pérez",      "team": "Red Bull Racing",  "time": "+22.457s",    "fastest_lap": false, "points": 18, "driver_id": "per" },
+        { "pos": 3,  "driver": "Carlos Sainz",      "team": "Ferrari",          "time": "+25.110s",    "fastest_lap": false, "points": 15, "driver_id": "sai" },
+        { "pos": 4,  "driver": "Charles Leclerc",   "team": "Ferrari",          "time": "+39.320s",    "fastest_lap": false, "points": 12, "driver_id": "lec" },
+        { "pos": 5,  "driver": "George Russell",    "team": "Mercedes",         "time": "+46.788s",    "fastest_lap": false, "points": 10, "driver_id": "rus" },
+        { "pos": 6,  "driver": "Lando Norris",      "team": "McLaren",          "time": "+48.458s",    "fastest_lap": false, "points": 8,  "driver_id": "nor" },
+        { "pos": 7,  "driver": "Lewis Hamilton",    "team": "Mercedes",         "time": "+50.324s",    "fastest_lap": false, "points": 6,  "driver_id": "ham" },
+        { "pos": 8,  "driver": "Oscar Piastri",     "team": "McLaren",          "time": "+56.271s",    "fastest_lap": false, "points": 4,  "driver_id": "pia" },
+        { "pos": 9,  "driver": "Fernando Alonso",   "team": "Aston Martin",     "time": "+1:10.874s",  "fastest_lap": false, "points": 2,  "driver_id": "alo" },
+        { "pos": 10, "driver": "Lance Stroll",      "team": "Aston Martin",     "time": "+1:11.932s",  "fastest_lap": false, "points": 1,  "driver_id": "str" }
+      ]
+    },
+    {
+      "round": 2,
+      "name": "Saudi Arabian Grand Prix",
+      "circuit": "Jeddah Corniche Circuit",
+      "country": "Saudi Arabia",
+      "city": "Jeddah",
+      "flag": "🇸🇦",
+      "date": "2024-03-09",
+      "status": "completed",
+      "laps": 50,
+      "distance_km": 308.450,
+      "lap_record": {
+        "time": "1:30.734",
+        "driver": "Lewis Hamilton",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 6.174,
+        "corners": 27,
+        "drs_zones": 3,
+        "type": "street"
+      },
+      "weather": "dry",
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",    "team": "Red Bull Racing",  "time": "1:20:43.273", "fastest_lap": false, "points": 25, "driver_id": "ver" },
+        { "pos": 2,  "driver": "Sergio Pérez",      "team": "Red Bull Racing",  "time": "+13.643s",    "fastest_lap": false, "points": 18, "driver_id": "per" },
+        { "pos": 3,  "driver": "Charles Leclerc",   "team": "Ferrari",          "time": "+18.639s",    "fastest_lap": false, "points": 15, "driver_id": "lec" },
+        { "pos": 4,  "driver": "Oscar Piastri",     "team": "McLaren",          "time": "+19.699s",    "fastest_lap": false, "points": 12, "driver_id": "pia" },
+        { "pos": 5,  "driver": "Carlos Sainz",      "team": "Ferrari",          "time": "+20.685s",    "fastest_lap": false, "points": 10, "driver_id": "sai" },
+        { "pos": 6,  "driver": "Lando Norris",      "team": "McLaren",          "time": "+21.445s",    "fastest_lap": false, "points": 8,  "driver_id": "nor" },
+        { "pos": 7,  "driver": "Fernando Alonso",   "team": "Aston Martin",     "time": "+28.916s",    "fastest_lap": false, "points": 6,  "driver_id": "alo" },
+        { "pos": 8,  "driver": "Lewis Hamilton",    "team": "Mercedes",         "time": "+32.010s",    "fastest_lap": false, "points": 4,  "driver_id": "ham" },
+        { "pos": 9,  "driver": "George Russell",    "team": "Mercedes",         "time": "+33.702s",    "fastest_lap": false, "points": 2,  "driver_id": "rus" },
+        { "pos": 10, "driver": "Lance Stroll",      "team": "Aston Martin",     "time": "+40.573s",    "fastest_lap": false, "points": 1,  "driver_id": "str" }
+      ]
+    },
+    {
+      "round": 3,
+      "name": "Australian Grand Prix",
+      "circuit": "Albert Park Circuit",
+      "country": "Australia",
+      "city": "Melbourne",
+      "flag": "🇦🇺",
+      "date": "2024-03-24",
+      "status": "upcoming",
+      "laps": 58,
+      "distance_km": 307.574,
+      "lap_record": {
+        "time": "1:20.235",
+        "driver": "Charles Leclerc",
+        "year": 2022
+      },
+      "circuit_info": {
+        "length_km": 5.303,
+        "corners": 14,
+        "drs_zones": 4,
+        "type": "street"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 4,
+      "name": "Japanese Grand Prix",
+      "circuit": "Suzuka International Racing Course",
+      "country": "Japan",
+      "city": "Suzuka",
+      "flag": "🇯🇵",
+      "date": "2024-04-07",
+      "status": "upcoming",
+      "laps": 53,
+      "distance_km": 307.471,
+      "lap_record": {
+        "time": "1:30.983",
+        "driver": "Lewis Hamilton",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 5.807,
+        "corners": 18,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 5,
+      "name": "Chinese Grand Prix",
+      "circuit": "Shanghai International Circuit",
+      "country": "China",
+      "city": "Shanghai",
+      "flag": "🇨🇳",
+      "date": "2024-04-21",
+      "status": "upcoming",
+      "laps": 56,
+      "distance_km": 305.066,
+      "lap_record": {
+        "time": "1:32.238",
+        "driver": "Michael Schumacher",
+        "year": 2004
+      },
+      "circuit_info": {
+        "length_km": 5.451,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 6,
+      "name": "Miami Grand Prix",
+      "circuit": "Miami International Autodrome",
+      "country": "USA",
+      "city": "Miami",
+      "flag": "🇺🇸",
+      "date": "2024-05-05",
+      "status": "upcoming",
+      "laps": 57,
+      "distance_km": 308.326,
+      "lap_record": {
+        "time": "1:29.708",
+        "driver": "Max Verstappen",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 5.412,
+        "corners": 19,
+        "drs_zones": 3,
+        "type": "street"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 7,
+      "name": "Emilia Romagna Grand Prix",
+      "circuit": "Autodromo Enzo e Dino Ferrari",
+      "country": "Italy",
+      "city": "Imola",
+      "flag": "🇮🇹",
+      "date": "2024-05-19",
+      "status": "upcoming",
+      "laps": 63,
+      "distance_km": 309.049,
+      "lap_record": {
+        "time": "1:15.484",
+        "driver": "Max Verstappen",
+        "year": 2022
+      },
+      "circuit_info": {
+        "length_km": 4.909,
+        "corners": 19,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 8,
+      "name": "Monaco Grand Prix",
+      "circuit": "Circuit de Monaco",
+      "country": "Monaco",
+      "city": "Monte Carlo",
+      "flag": "🇲🇨",
+      "date": "2024-05-26",
+      "status": "upcoming",
+      "laps": 78,
+      "distance_km": 260.286,
+      "lap_record": {
+        "time": "1:12.909",
+        "driver": "Lewis Hamilton",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 3.337,
+        "corners": 19,
+        "drs_zones": 1,
+        "type": "street"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 9,
+      "name": "Canadian Grand Prix",
+      "circuit": "Circuit Gilles Villeneuve",
+      "country": "Canada",
+      "city": "Montreal",
+      "flag": "🇨🇦",
+      "date": "2024-06-09",
+      "status": "upcoming",
+      "laps": 70,
+      "distance_km": 305.270,
+      "lap_record": {
+        "time": "1:13.078",
+        "driver": "Valtteri Bottas",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 4.361,
+        "corners": 14,
+        "drs_zones": 3,
+        "type": "street"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 10,
+      "name": "Spanish Grand Prix",
+      "circuit": "Circuit de Barcelona-Catalunya",
+      "country": "Spain",
+      "city": "Barcelona",
+      "flag": "🇪🇸",
+      "date": "2024-06-23",
+      "status": "upcoming",
+      "laps": 66,
+      "distance_km": 308.424,
+      "lap_record": {
+        "time": "1:16.330",
+        "driver": "Daniel Ricciardo",
+        "year": 2018
+      },
+      "circuit_info": {
+        "length_km": 4.675,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 11,
+      "name": "Austrian Grand Prix",
+      "circuit": "Red Bull Ring",
+      "country": "Austria",
+      "city": "Spielberg",
+      "flag": "🇦🇹",
+      "date": "2024-06-30",
+      "status": "upcoming",
+      "laps": 71,
+      "distance_km": 306.452,
+      "lap_record": {
+        "time": "1:05.619",
+        "driver": "Carlos Sainz",
+        "year": 2020
+      },
+      "circuit_info": {
+        "length_km": 4.318,
+        "corners": 10,
+        "drs_zones": 3,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 12,
+      "name": "British Grand Prix",
+      "circuit": "Silverstone Circuit",
+      "country": "UK",
+      "city": "Silverstone",
+      "flag": "🇬🇧",
+      "date": "2024-07-07",
+      "status": "upcoming",
+      "laps": 52,
+      "distance_km": 306.198,
+      "lap_record": {
+        "time": "1:27.097",
+        "driver": "Max Verstappen",
+        "year": 2020
+      },
+      "circuit_info": {
+        "length_km": 5.891,
+        "corners": 18,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 13,
+      "name": "Hungarian Grand Prix",
+      "circuit": "Hungaroring",
+      "country": "Hungary",
+      "city": "Budapest",
+      "flag": "🇭🇺",
+      "date": "2024-07-21",
+      "status": "upcoming",
+      "laps": 70,
+      "distance_km": 306.630,
+      "lap_record": {
+        "time": "1:16.627",
+        "driver": "Lewis Hamilton",
+        "year": 2020
+      },
+      "circuit_info": {
+        "length_km": 4.381,
+        "corners": 14,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 14,
+      "name": "Belgian Grand Prix",
+      "circuit": "Circuit de Spa-Francorchamps",
+      "country": "Belgium",
+      "city": "Spa",
+      "flag": "🇧🇪",
+      "date": "2024-07-28",
+      "status": "upcoming",
+      "laps": 44,
+      "distance_km": 308.052,
+      "lap_record": {
+        "time": "1:46.286",
+        "driver": "Valtteri Bottas",
+        "year": 2018
+      },
+      "circuit_info": {
+        "length_km": 7.004,
+        "corners": 20,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 15,
+      "name": "Dutch Grand Prix",
+      "circuit": "Circuit Zandvoort",
+      "country": "Netherlands",
+      "city": "Zandvoort",
+      "flag": "🇳🇱",
+      "date": "2024-08-25",
+      "status": "upcoming",
+      "laps": 72,
+      "distance_km": 306.587,
+      "lap_record": {
+        "time": "1:11.097",
+        "driver": "Max Verstappen",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 4.259,
+        "corners": 14,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 16,
+      "name": "Italian Grand Prix",
+      "circuit": "Autodromo Nazionale Monza",
+      "country": "Italy",
+      "city": "Monza",
+      "flag": "🇮🇹",
+      "date": "2024-09-01",
+      "status": "upcoming",
+      "laps": 51,
+      "distance_km": 306.720,
+      "lap_record": {
+        "time": "1:21.046",
+        "driver": "Rubens Barrichello",
+        "year": 2004
+      },
+      "circuit_info": {
+        "length_km": 5.793,
+        "corners": 11,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 17,
+      "name": "Azerbaijan Grand Prix",
+      "circuit": "Baku City Circuit",
+      "country": "Azerbaijan",
+      "city": "Baku",
+      "flag": "🇦🇿",
+      "date": "2024-09-15",
+      "status": "upcoming",
+      "laps": 51,
+      "distance_km": 306.049,
+      "lap_record": {
+        "time": "1:43.009",
+        "driver": "Charles Leclerc",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 6.003,
+        "corners": 20,
+        "drs_zones": 2,
+        "type": "street"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 18,
+      "name": "Singapore Grand Prix",
+      "circuit": "Marina Bay Street Circuit",
+      "country": "Singapore",
+      "city": "Singapore",
+      "flag": "🇸🇬",
+      "date": "2024-09-22",
+      "status": "upcoming",
+      "laps": 62,
+      "distance_km": 308.706,
+      "lap_record": {
+        "time": "1:35.867",
+        "driver": "Kevin Magnussen",
+        "year": 2018
+      },
+      "circuit_info": {
+        "length_km": 4.940,
+        "corners": 19,
+        "drs_zones": 3,
+        "type": "street"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 19,
+      "name": "United States Grand Prix",
+      "circuit": "Circuit of the Americas",
+      "country": "USA",
+      "city": "Austin",
+      "flag": "🇺🇸",
+      "date": "2024-10-20",
+      "status": "upcoming",
+      "laps": 56,
+      "distance_km": 308.405,
+      "lap_record": {
+        "time": "1:36.169",
+        "driver": "Charles Leclerc",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 5.513,
+        "corners": 20,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 20,
+      "name": "Mexico City Grand Prix",
+      "circuit": "Autodromo Hermanos Rodriguez",
+      "country": "Mexico",
+      "city": "Mexico City",
+      "flag": "🇲🇽",
+      "date": "2024-10-27",
+      "status": "upcoming",
+      "laps": 71,
+      "distance_km": 305.354,
+      "lap_record": {
+        "time": "1:17.774",
+        "driver": "Valtteri Bottas",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 4.304,
+        "corners": 17,
+        "drs_zones": 3,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 21,
+      "name": "São Paulo Grand Prix",
+      "circuit": "Autodromo Jose Carlos Pace",
+      "country": "Brazil",
+      "city": "São Paulo",
+      "flag": "🇧🇷",
+      "date": "2024-11-03",
+      "status": "upcoming",
+      "laps": 71,
+      "distance_km": 305.879,
+      "lap_record": {
+        "time": "1:10.540",
+        "driver": "Valtteri Bottas",
+        "year": 2018
+      },
+      "circuit_info": {
+        "length_km": 4.309,
+        "corners": 15,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 22,
+      "name": "Las Vegas Grand Prix",
+      "circuit": "Las Vegas Strip Circuit",
+      "country": "USA",
+      "city": "Las Vegas",
+      "flag": "🇺🇸",
+      "date": "2024-11-23",
+      "status": "upcoming",
+      "laps": 50,
+      "distance_km": 309.958,
+      "lap_record": {
+        "time": "1:35.490",
+        "driver": "Oscar Piastri",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 6.201,
+        "corners": 17,
+        "drs_zones": 2,
+        "type": "street"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 23,
+      "name": "Qatar Grand Prix",
+      "circuit": "Lusail International Circuit",
+      "country": "Qatar",
+      "city": "Lusail",
+      "flag": "🇶🇦",
+      "date": "2024-12-01",
+      "status": "upcoming",
+      "laps": 57,
+      "distance_km": 308.611,
+      "lap_record": {
+        "time": "1:24.319",
+        "driver": "Max Verstappen",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 5.419,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    },
+    {
+      "round": 24,
+      "name": "Abu Dhabi Grand Prix",
+      "circuit": "Yas Marina Circuit",
+      "country": "UAE",
+      "city": "Abu Dhabi",
+      "flag": "🇦🇪",
+      "date": "2024-12-08",
+      "status": "upcoming",
+      "laps": 58,
+      "distance_km": 306.183,
+      "lap_record": {
+        "time": "1:26.103",
+        "driver": "Max Verstappen",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 5.281,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "weather": null,
+      "results": []
+    }
+  ]
+}
