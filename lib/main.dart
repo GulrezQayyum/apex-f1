@@ -6,6 +6,7 @@ import 'package:apex_f1/features/home/presentation/home_screen.dart';
 import 'package:apex_f1/features/races/data/models/race_model.dart';
 import 'package:apex_f1/features/races/presentation/calendar_screen.dart';
 import 'package:apex_f1/features/races/presentation/race_detail_screen.dart';
+import 'package:apex_f1/features/simulation/presentation/race_sim_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,56 +58,47 @@ class _AppEntryPointState extends State<AppEntryPoint> {
 
   void _onNavigate(String route) {
     if (route == 'calendar') {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => CalendarScreen(
-            onRaceTapped: (race) => _openRaceDetail(race),
-          ),
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => CalendarScreen(
+          onRaceTapped: _openRaceDetail,
         ),
-      );
+      ));
       return;
     }
-
-    // Other routes — coming in Phase 3 & 4
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: const Color(0xFF0A0A14),
-        content: Text(
-          'NAVIGATING TO: ${route.toUpperCase()} — Coming soon',
-          style: const TextStyle(
-            fontFamily: 'Courier', fontSize: 11,
-            color: Color(0xFF00E5FF), letterSpacing: 2,
-          ),
-        ),
-        duration: const Duration(seconds: 2),
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: const Color(0xFF0A0A14),
+      content: Text(
+        'NAVIGATING TO: ${route.toUpperCase()} — Coming in Phase 4',
+        style: const TextStyle(fontFamily: 'Courier', fontSize: 11,
+            color: Color(0xFF00E5FF), letterSpacing: 2),
       ),
-    );
+      duration: const Duration(seconds: 2),
+    ));
   }
 
   void _openRaceDetail(RaceModel race) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => RaceDetailScreen(
-          race: race,
-          onStartSim: () {
-            // TODO: push RaceSimScreen in Phase 3
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: const Color(0xFF0A0A14),
-                content: Text(
-                  '🏁  RACE SIM FOR ${race.name.toUpperCase()} — Coming in Phase 3!',
-                  style: const TextStyle(
-                    fontFamily: 'Courier', fontSize: 11,
-                    color: Color(0xFF39FF14), letterSpacing: 1,
-                  ),
-                ),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          },
-        ),
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => RaceDetailScreen(
+        race: race,
+        onStartSim: () => _openRaceSim(race),
       ),
-    );
+    ));
+  }
+
+  void _openRaceSim(RaceModel race) {
+    final profile = _profile!;
+    final driver  = profile.favDriver;
+    final team    = profile.favTeam;
+
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => RaceSimScreen(
+        race:              race,
+        playerDriverId:    driver?.id    ?? 'player',
+        playerDriverName:  driver?.name  ?? profile.name,
+        playerTeamName:    team?.name    ?? 'Independent',
+        playerFlag:        driver?.flag  ?? '🏳️',
+      ),
+    ));
   }
 
   @override
