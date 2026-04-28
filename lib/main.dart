@@ -7,6 +7,11 @@ import 'package:apex_f1/features/races/data/models/race_model.dart';
 import 'package:apex_f1/features/races/presentation/calendar_screen.dart';
 import 'package:apex_f1/features/races/presentation/race_detail_screen.dart';
 import 'package:apex_f1/features/simulation/presentation/race_sim_screen.dart';
+import 'package:apex_f1/features/simulation/presentation/qualifying_screen.dart';
+import 'package:apex_f1/features/standings/presentation/standings_screen.dart';
+import 'package:apex_f1/features/drivers/presentation/drivers_screen.dart';
+import 'package:apex_f1/features/teams/presentation/teams_screen.dart';
+import 'package:apex_f1/features/championship/presentation/championship_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,9 +34,9 @@ class ApexF1App extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFF030308),
         colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF00E5FF),
+          primary:   Color(0xFF00E5FF),
           secondary: Color(0xFFFF00FF),
-          surface: Color(0xFF0A0A14),
+          surface:   Color(0xFF0A0A14),
         ),
       ),
       home: const AppEntryPoint(),
@@ -41,63 +46,92 @@ class ApexF1App extends StatelessWidget {
 
 class AppEntryPoint extends StatefulWidget {
   const AppEntryPoint({super.key});
-
   @override
   State<AppEntryPoint> createState() => _AppEntryPointState();
 }
 
 class _AppEntryPointState extends State<AppEntryPoint> {
-  String _screen = 'splash';
+  String       _screen = 'splash';
   UserProfile? _profile;
 
-  void _onSplashFinished() =>
-      setState(() => _screen = 'profile');
-
+  void _onSplashFinished()            => setState(() => _screen = 'profile');
   void _onProfileFinished(UserProfile p) =>
       setState(() { _profile = p; _screen = 'home'; });
 
   void _onNavigate(String route) {
-    if (route == 'calendar') {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => CalendarScreen(
-          onRaceTapped: _openRaceDetail,
-        ),
-      ));
-      return;
+    switch (route) {
+      case 'calendar':
+      case 'sim':
+        _push(CalendarScreen(onRaceTapped: _openRaceDetail));
+        break;
+      case 'standings':
+        _push(const StandingsScreen());
+        break;
+      case 'drivers':
+        _push(const DriversScreen());
+        break;
+      case 'teams':
+        _push(const TeamsScreen());
+        break;
+      case 'championship':
+        _push(const ChampionshipScreen());
+        break;
+      default:
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: const Color(0xFF0A0A14),
+          content: Text('COMING SOON: ${route.toUpperCase()}',
+              style: const TextStyle(fontFamily: 'Courier', fontSize: 11,
+                  color: Color(0xFF00E5FF), letterSpacing: 2)),
+          duration: const Duration(seconds: 2),
+        ));
     }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: const Color(0xFF0A0A14),
-      content: Text(
-        'NAVIGATING TO: ${route.toUpperCase()} — Coming in Phase 4',
-        style: const TextStyle(fontFamily: 'Courier', fontSize: 11,
-            color: Color(0xFF00E5FF), letterSpacing: 2),
-      ),
-      duration: const Duration(seconds: 2),
-    ));
   }
 
   void _openRaceDetail(RaceModel race) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => RaceDetailScreen(
-        race: race,
-        onStartSim: () => _openRaceSim(race),
-      ),
+    _push(RaceDetailScreen(
+      race:              race,
+      onStartSim:        () => _openRaceSim(race),
+      onStartQualifying: () => _openQualifying(race),
+    ));
+  }
+
+  void _openQualifying(RaceModel race) {
+    final driver = _profile!.favDriver;
+    final team   = _profile!.favTeam;
+    _push(QualifyingScreen(
+      race:             race,
+      playerDriverId:   driver?.id   ?? 'player',
+      playerDriverName: driver?.name ?? _profile!.name,
+      playerTeamName:   team?.name   ?? 'Independent',
+      playerFlag:       driver?.flag ?? '🏳️',
     ));
   }
 
   void _openRaceSim(RaceModel race) {
-    final profile = _profile!;
-    final driver  = profile.favDriver;
-    final team    = profile.favTeam;
+    final driver = _profile!.favDriver;
+    final team   = _profile!.favTeam;
+    _push(RaceSimScreen(
+      race:             race,
+      playerDriverId:   driver?.id   ?? 'player',
+      playerDriverName: driver?.name ?? _profile!.name,
+      playerTeamName:   team?.name   ?? 'Independent',
+      playerFlag:       driver?.flag ?? '🏳️',
+    ));
+  }
 
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => RaceSimScreen(
-        race:              race,
-        playerDriverId:    driver?.id    ?? 'player',
-        playerDriverName:  driver?.name  ?? profile.name,
-        playerTeamName:    team?.name    ?? 'Independent',
-        playerFlag:        driver?.flag  ?? '🏳️',
+  void _push(Widget screen) {
+    Navigator.of(context).push(PageRouteBuilder(
+      pageBuilder: (_, anim, __) => screen,
+      transitionsBuilder: (_, anim, __, child) => FadeTransition(
+        opacity: anim,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.04, 0), end: Offset.zero,
+          ).animate(CurvedAnimation(parent: anim, curve: Curves.easeOutCubic)),
+          child: child,
+        ),
       ),
+      transitionDuration: const Duration(milliseconds: 280),
     ));
   }
 

@@ -85,6 +85,8 @@ enum RaceEventType {
   rivalBattle,
   fastestLap,
   radioMessage,
+  lapUpdate,      // used by debrief screen for start/finish events
+  engineerCall,   // engineer radio call event
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -245,6 +247,32 @@ class RaceSimResult {
 //  RACE SIM ENGINE
 // ─────────────────────────────────────────────────────────────────
 
+// ── Rival personality profiles ────────────────────────────────
+// aggression: chance of making bold moves (0-1)
+// consistency: chance of keeping position (0-1)
+// pace: speed modifier (1.0 = average)
+const _kRivalPersonalities = {
+  'ver': (aggression: 0.90, consistency: 0.95, pace: 1.05, style: 'AGGRESSIVE'),
+  'nor': (aggression: 0.75, consistency: 0.92, pace: 1.03, style: 'CALCULATED'),
+  'lec': (aggression: 0.70, consistency: 0.88, pace: 1.03, style: 'ATTACKING'),
+  'ham': (aggression: 0.60, consistency: 0.97, pace: 1.02, style: 'CONSISTENT'),
+  'sai': (aggression: 0.65, consistency: 0.90, pace: 1.01, style: 'TACTICAL'),
+  'rus': (aggression: 0.55, consistency: 0.93, pace: 1.01, style: 'MEASURED'),
+  'pia': (aggression: 0.60, consistency: 0.89, pace: 1.00, style: 'SMOOTH'),
+  'per': (aggression: 0.50, consistency: 0.80, pace: 0.99, style: 'ERRATIC'),
+  'alo': (aggression: 0.85, consistency: 0.91, pace: 0.98, style: 'RUTHLESS'),
+  'str': (aggression: 0.40, consistency: 0.75, pace: 0.92, style: 'CAUTIOUS'),
+  'gas': (aggression: 0.65, consistency: 0.82, pace: 0.93, style: 'BRAVE'),
+  'hul': (aggression: 0.55, consistency: 0.84, pace: 0.91, style: 'STEADY'),
+  'alb': (aggression: 0.60, consistency: 0.85, pace: 0.90, style: 'RESILIENT'),
+  'tsu': (aggression: 0.75, consistency: 0.78, pace: 0.90, style: 'WILD'),
+  'bot': (aggression: 0.40, consistency: 0.83, pace: 0.89, style: 'DEFENSIVE'),
+  'mag': (aggression: 0.80, consistency: 0.72, pace: 0.88, style: 'RECKLESS'),
+  'oco': (aggression: 0.60, consistency: 0.79, pace: 0.88, style: 'SPIRITED'),
+  'sar': (aggression: 0.45, consistency: 0.70, pace: 0.85, style: 'LEARNING'),
+  'zho': (aggression: 0.45, consistency: 0.76, pace: 0.86, style: 'CAUTIOUS'),
+};
+
 class RaceSimEngine {
   final String raceName;
   final int totalLaps;
@@ -252,6 +280,7 @@ class RaceSimEngine {
   final String playerDriverName;
   final String playerTeamName;
   final String playerFlag;
+  final int qualifyingPos; // grid starting position from qualifying
 
   late List<SimDriver> _drivers;
   late List<RaceEvent> _events;
@@ -270,6 +299,7 @@ class RaceSimEngine {
     required this.playerDriverName,
     required this.playerTeamName,
     required this.playerFlag,
+    this.qualifyingPos = 10,
   });
 
   // ── Initialize ────────────────────────────────────────────────
@@ -309,23 +339,25 @@ class RaceSimEngine {
       ('zho', 'Zhou',        'Sauber',     '🇨🇳'),
     ];
 
-    // Shuffle to randomize starting grid
+    // Shuffle rivals slightly around their expected pace order
     final shuffled = [...rivals]..shuffle(_rng);
 
-    // Player starts P10 for balance
+    // Clamp qualifyingPos to valid range
+    final startPos = qualifyingPos.clamp(1, 20);
+
     final grid = <SimDriver>[];
     int pos = 1;
     for (int i = 0; i < shuffled.length; i++) {
-      if (pos == 10) {
-        // Insert player at P10
+      if (pos == startPos) {
+        // Insert player at qualifying position
         grid.add(SimDriver(
           id: playerDriverId,
           name: playerDriverName,
           teamName: playerTeamName,
           flag: playerFlag,
-          position: 10,
-          gap: 90 + _rng.nextInt(30),
-          tyre: TyreCompound.medium,
+          position: startPos,
+          gap: startPos == 1 ? 0 : (startPos * 10) + _rng.nextInt(20),
+          tyre: startPos <= 3 ? TyreCompound.soft : TyreCompound.medium,
           isPlayer: true,
         ));
         pos++;
@@ -337,10 +369,24 @@ class RaceSimEngine {
         teamName: r.$3,
         flag: r.$4,
         position: pos,
-        gap: pos == 1 ? 0 : (pos * 12) + _rng.nextInt(20),
+        gap: pos == 1 ? 0 : (pos * 10) + _rng.nextInt(20),
         tyre: _randomStartTyre(),
       ));
       pos++;
+    }
+
+    // If player is at position > grid length, append at end
+    if (!grid.any((d) => d.isPlayer)) {
+      grid.add(SimDriver(
+        id: playerDriverId,
+        name: playerDriverName,
+        teamName: playerTeamName,
+        flag: playerFlag,
+        position: grid.length + 1,
+        gap: (grid.length + 1) * 10,
+        tyre: TyreCompound.medium,
+        isPlayer: true,
+      ));
     }
 
     return grid..sort((a, b) => a.position.compareTo(b.position));

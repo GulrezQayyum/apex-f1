@@ -16,7 +16,7 @@ dependencies:
   # Animations
   animated_text_kit: ^4.2.2
 
-  # Local storage (for saving profile)
+  # Local storage (for saving profile + championship tracker)
   shared_preferences: ^2.2.2
 
 dev_dependencies:
@@ -28,7 +28,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/data/races.json
+    - assets/data/
 
   fonts:
     - family: Orbitron

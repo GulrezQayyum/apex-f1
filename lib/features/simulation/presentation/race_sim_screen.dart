@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:apex_f1/features/races/data/models/race_model.dart';
 import 'package:apex_f1/features/simulation/domain/race_sim_engine.dart';
 import 'package:apex_f1/features/simulation/presentation/result_screen.dart';
+
 // ─────────────────────────────────────────────────────────────────
 //  APEX F1 — Race Simulation Screen (VISUAL REBUILD)
 //  Location: lib/features/simulation/presentation/race_sim_screen.dart
@@ -31,6 +32,7 @@ class RaceSimScreen extends StatefulWidget {
   final String playerDriverName;
   final String playerTeamName;
   final String playerFlag;
+  final int qualifyingPos;
 
   const RaceSimScreen({
     super.key,
@@ -39,6 +41,7 @@ class RaceSimScreen extends StatefulWidget {
     required this.playerDriverName,
     required this.playerTeamName,
     required this.playerFlag,
+    this.qualifyingPos = 10,
   });
 
   @override
@@ -92,6 +95,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
       playerDriverName: widget.playerDriverName,
       playerTeamName:   widget.playerTeamName,
       playerFlag:       widget.playerFlag,
+      qualifyingPos:    widget.qualifyingPos,
     );
     _engine.initialize();
     _state = _engine.currentState;
@@ -232,9 +236,10 @@ class _RaceSimScreenState extends State<RaceSimScreen>
     if (!mounted) return;
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (_) => ResultScreen(
-        result: _engine.buildResult(),
+        result:   _engine.buildResult(),
         raceName: widget.race.name,
         raceFlag: widget.race.flag,
+        round:    widget.race.round,
       ),
     ));
   }

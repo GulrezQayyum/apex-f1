@@ -249,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           children: [
             Text(
               _timeStr,
-              style: GoogleFonts.orbitron(
+              style: GoogleFonts.shareTech(
                 fontSize: 16,
                 color: _accent,
                 letterSpacing: 1,
@@ -258,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             Text(
               _dateStr,
-              style: GoogleFonts.orbitron(
+              style: GoogleFonts.shareTech(
                 fontSize: 9,
                 color: _white.withOpacity(0.3),
                 letterSpacing: 1.5,
@@ -500,10 +500,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // ── Quick nav grid ──────────────────────────
   Widget _buildQuickNav() {
     final items = [
-      _NavItem(label: 'CALENDAR',  sub: '24 Grand Prix',    icon: '🏁', color: _cyan,                   route: 'calendar'),
-      _NavItem(label: 'STANDINGS', sub: 'Driver rankings',  icon: '🏆', color: const Color(0xFFFF00FF), route: 'standings'),
-      _NavItem(label: 'DRIVERS',   sub: '20 drivers',       icon: '🧑‍✈️', color: const Color(0xFF39FF14), route: 'drivers'),
-      _NavItem(label: 'RACE SIM',  sub: 'Start a race',     icon: '🎮', color: const Color(0xFFFFE600), route: 'sim'),
+      _NavItem(label: 'CALENDAR',      sub: '24 Grand Prix',       icon: '🏁', color: _cyan,                   route: 'calendar'),
+      _NavItem(label: 'STANDINGS',     sub: 'Driver rankings',     icon: '🏆', color: const Color(0xFFFF00FF), route: 'standings'),
+      _NavItem(label: 'DRIVERS',       sub: '20 drivers',          icon: '🧑‍✈️', color: const Color(0xFF39FF14), route: 'drivers'),
+      _NavItem(label: 'RACE SIM',      sub: 'Start a race',        icon: '🎮', color: const Color(0xFFFFE600), route: 'sim'),
+      _NavItem(label: 'TEAMS',         sub: '10 constructors',     icon: '🔧', color: const Color(0xFFFF8000), route: 'teams'),
+      _NavItem(label: 'MY SEASON',     sub: 'Championship tracker',icon: '📊', color: const Color(0xFF6692FF), route: 'championship'),
     ];
 
     return GridView.count(
@@ -764,7 +766,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: [
           Text(
             'APEXF1  v1.0',
-            style: GoogleFonts.orbitron(
+            style: GoogleFonts.shareTech(
               fontSize: 9, letterSpacing: 2,
               color: _white.withOpacity(0.15),
             ),
@@ -789,7 +791,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const SizedBox(width: 5),
                 Text(
                   'LIVE',
-                  style: GoogleFonts.orbitron(
+                  style: GoogleFonts.shareTech(
                     fontSize: 9, letterSpacing: 2,
                     color: const Color(0xFF39FF14).withOpacity(_pulse.value),
                   ),
@@ -799,7 +801,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           Text(
             '2024 SEASON',
-            style: GoogleFonts.orbitron(
+            style: GoogleFonts.shareTech(
               fontSize: 9, letterSpacing: 2,
               color: _white.withOpacity(0.15),
             ),

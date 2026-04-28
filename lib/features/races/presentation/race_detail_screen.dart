@@ -16,11 +16,13 @@ const Color _kWhite = Colors.white;
 class RaceDetailScreen extends StatefulWidget {
   final RaceModel race;
   final void Function()? onStartSim;
+  final void Function()? onStartQualifying;
 
   const RaceDetailScreen({
     super.key,
     required this.race,
     this.onStartSim,
+    this.onStartQualifying,
   });
 
   @override
@@ -809,35 +811,49 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
   Widget _buildSimButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
-      child: GestureDetector(
-        onTap: widget.onStartSim,
-        child: AnimatedBuilder(
-          animation: _pulseAnim,
-          builder: (_, __) => Container(
+      child: Column(children: [
+        // Qualifying button
+        GestureDetector(
+          onTap: widget.onStartQualifying,
+          child: Container(
             width: double.infinity,
             height: 54,
             decoration: BoxDecoration(
-              color: _accent,
+              color: const Color(0xFFFFE600),
               borderRadius: BorderRadius.circular(3),
-              boxShadow: [
-                BoxShadow(
-                  color: _accent.withOpacity(0.4 * _pulseAnim.value),
-                  blurRadius: 20,
-                ),
-              ],
+              boxShadow: [BoxShadow(
+                  color: const Color(0xFFFFE600).withOpacity(0.3),
+                  blurRadius: 16)],
             ),
-            child: Center(
-              child: Text(
-                '🏁  START RACE SIMULATION',
+            child: Center(child: Text('🏎  QUALIFYING SESSION  →  RACE',
                 style: GoogleFonts.orbitron(
-                  fontSize: 12, fontWeight: FontWeight.w900,
-                  letterSpacing: 2, color: Colors.black,
-                ),
+                    fontSize: 12, fontWeight: FontWeight.w900,
+                    letterSpacing: 1, color: Colors.black))),
+          ),
+        ),
+        const SizedBox(height: 10),
+        // Skip to race button
+        GestureDetector(
+          onTap: widget.onStartSim,
+          child: AnimatedBuilder(
+            animation: _pulseAnim,
+            builder: (_, __) => Container(
+              width: double.infinity,
+              height: 48,
+              decoration: BoxDecoration(
+                border: Border.all(color: _accent.withOpacity(0.4)),
+                borderRadius: BorderRadius.circular(3),
+                color: _accent.withOpacity(0.08),
               ),
+              child: Center(child: Text(
+                  '🏁  SKIP QUALIFYING — START RACE',
+                  style: GoogleFonts.orbitron(
+                      fontSize: 11, fontWeight: FontWeight.w900,
+                      letterSpacing: 1, color: _accent))),
             ),
           ),
         ),
-      ),
+      ]),
     );
   }
 }
