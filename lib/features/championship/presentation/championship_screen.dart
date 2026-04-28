@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:apex_f1/features/races/data/models/race_model.dart';
 
 // ─────────────────────────────────────────────────────────────────
 //  APEX F1 — My Championship Screen

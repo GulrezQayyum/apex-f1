@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:apex_f1/features/onboarding/presentation/profile_setup_screen.dart';
 
 // ─────────────────────────────────────────────────────────────────
@@ -72,6 +74,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late Timer _clock;
   DateTime _now = DateTime.now();
 
+  // ── Last result (from SharedPreferences) ─────
+  Map<String, dynamic>? _lastResult;
+
   // ── Animations ──────────────────────────────
   late AnimationController _pulseCtrl;
   late Animation<double> _pulse;
@@ -92,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
       setState(() => _now = DateTime.now());
     });
+    _loadLastResult();
 
     _pulseCtrl = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 1600),
@@ -108,6 +114,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     Future.delayed(const Duration(milliseconds: 100), () {
       if (mounted) _entryCtrl.forward();
     });
+  }
+
+  Future<void> _loadLastResult() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final raw = prefs.getString('my_championship') ?? '[]';
+      final list = jsonDecode(raw) as List<dynamic>;
+      if (list.isNotEmpty && mounted) {
+        // Get the most recent result (last in sorted list)
+        setState(() => _lastResult = list.last as Map<String, dynamic>);
+      }
+    } catch (_) {}
   }
 
   @override
@@ -249,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           children: [
             Text(
               _timeStr,
-              style: GoogleFonts.shareTech(
+              style: GoogleFonts.orbitron(
                 fontSize: 16,
                 color: _accent,
                 letterSpacing: 1,
@@ -258,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             Text(
               _dateStr,
-              style: GoogleFonts.shareTech(
+              style: GoogleFonts.orbitron(
                 fontSize: 9,
                 color: _white.withOpacity(0.3),
                 letterSpacing: 1.5,
@@ -680,80 +698,117 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // ── Last result card ────────────────────────
+  // ── Last result card ─────────────────────────
   Widget _buildLastResultCard() {
-    // Placeholder — will be populated from races.json once Phase 2 is built
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(color: _white.withOpacity(0.07)),
-        borderRadius: BorderRadius.circular(4),
-        color: _white.withOpacity(0.015),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 3, height: 48,
-            decoration: BoxDecoration(
-              color: _white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(999),
-            ),
+    if (_lastResult == null) {
+      return GestureDetector(
+        onTap: () => widget.onNavigate('sim'),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(color: _white.withOpacity(0.07)),
+            borderRadius: BorderRadius.circular(4),
+            color: _white.withOpacity(0.015),
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
+          child: Row(children: [
+            Container(width: 3, height: 48,
+                decoration: BoxDecoration(
+                  color: _white.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(999),
+                )),
+            const SizedBox(width: 14),
+            Expanded(child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'YOUR LAST RESULT',
-                  style: GoogleFonts.orbitron(
+                Text('YOUR LAST RESULT', style: GoogleFonts.orbitron(
                     fontSize: 9, letterSpacing: 3,
-                    color: _white.withOpacity(0.25),
-                  ),
-                ),
+                    color: _white.withOpacity(0.25))),
                 const SizedBox(height: 6),
-                Text(
-                  'No races completed yet',
-                  style: GoogleFonts.rajdhani(
-                    fontSize: 15,
-                    color: _white.withOpacity(0.4),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  'Start a race sim to see your result here',
-                  style: GoogleFonts.rajdhani(
-                    fontSize: 12,
-                    color: _white.withOpacity(0.2),
-                  ),
-                ),
+                Text('No races completed yet', style: GoogleFonts.rajdhani(
+                    fontSize: 15, color: _white.withOpacity(0.4),
+                    fontWeight: FontWeight.w600)),
+                Text('Tap to start your first race', style: GoogleFonts.rajdhani(
+                    fontSize: 12, color: _white.withOpacity(0.2))),
               ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () => widget.onNavigate('sim'),
-            child: Container(
+            )),
+            Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 border: Border.all(color: _accent.withOpacity(0.5)),
                 borderRadius: BorderRadius.circular(3),
                 color: _accent.withOpacity(0.08),
               ),
-              child: Text(
-                'RACE\nNOW',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.orbitron(
-                  fontSize: 9,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1,
-                  color: _accent,
-                  height: 1.4,
-                ),
-              ),
+              child: Text('RACE\nNOW', textAlign: TextAlign.center,
+                  style: GoogleFonts.orbitron(fontSize: 9,
+                      fontWeight: FontWeight.w900, letterSpacing: 1,
+                      color: _accent, height: 1.4)),
             ),
-          ),
-        ],
+          ]),
+        ),
+      );
+    }
+
+    // Live result from SharedPreferences
+    final pos      = _lastResult!['position'] as int?    ?? 0;
+    final pts      = _lastResult!['points']   as int?    ?? 0;
+    final raceName = _lastResult!['raceName'] as String? ?? 'Unknown Race';
+    final flag     = _lastResult!['flag']     as String? ?? '🏁';
+    final tyre     = _lastResult!['tyre']     as String? ?? '';
+    final round    = _lastResult!['round']    as int?    ?? 0;
+
+    final posColor = pos == 1
+        ? const Color(0xFFFFE600)
+        : pos <= 3
+        ? _cyan
+        : pos <= 10
+        ? const Color(0xFF39FF14)
+        : _white.withOpacity(0.4);
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        border: Border.all(color: posColor.withOpacity(0.3)),
+        borderRadius: BorderRadius.circular(4),
+        color: posColor.withOpacity(0.04),
       ),
+      child: Row(children: [
+        Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Text('P$pos', style: GoogleFonts.orbitron(
+              fontSize: 32, fontWeight: FontWeight.w900, color: posColor,
+              shadows: [Shadow(color: posColor.withOpacity(0.5), blurRadius: 12)])),
+          Text('+$pts PTS', style: GoogleFonts.orbitron(
+              fontSize: 9, color: posColor.withOpacity(0.7), letterSpacing: 1)),
+        ]),
+        const SizedBox(width: 16),
+        Expanded(child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('LAST RESULT', style: GoogleFonts.orbitron(
+                fontSize: 8, letterSpacing: 3, color: _white.withOpacity(0.25))),
+            const SizedBox(height: 4),
+            Text('$flag  $raceName', style: GoogleFonts.rajdhani(
+                fontSize: 14, fontWeight: FontWeight.w700, color: _white),
+                maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text('R$round  ·  $tyre', style: GoogleFonts.orbitron(
+                fontSize: 8, color: _white.withOpacity(0.3), letterSpacing: 1)),
+          ],
+        )),
+        GestureDetector(
+          onTap: () => widget.onNavigate('championship'),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              border: Border.all(color: _accent.withOpacity(0.4)),
+              borderRadius: BorderRadius.circular(3),
+              color: _accent.withOpacity(0.07),
+            ),
+            child: Text('MY\nSEASON', textAlign: TextAlign.center,
+                style: GoogleFonts.orbitron(fontSize: 9,
+                    fontWeight: FontWeight.w900, letterSpacing: 1,
+                    color: _accent, height: 1.4)),
+          ),
+        ),
+      ]),
     );
   }
 
@@ -766,7 +821,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: [
           Text(
             'APEXF1  v1.0',
-            style: GoogleFonts.shareTech(
+            style: GoogleFonts.orbitron(
               fontSize: 9, letterSpacing: 2,
               color: _white.withOpacity(0.15),
             ),
@@ -791,7 +846,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const SizedBox(width: 5),
                 Text(
                   'LIVE',
-                  style: GoogleFonts.shareTech(
+                  style: GoogleFonts.orbitron(
                     fontSize: 9, letterSpacing: 2,
                     color: const Color(0xFF39FF14).withOpacity(_pulse.value),
                   ),
@@ -801,7 +856,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           Text(
             '2024 SEASON',
-            style: GoogleFonts.shareTech(
+            style: GoogleFonts.orbitron(
               fontSize: 9, letterSpacing: 2,
               color: _white.withOpacity(0.15),
             ),

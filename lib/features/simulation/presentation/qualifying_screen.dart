@@ -848,7 +848,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
               Text('QUALIFYING COMPLETE', style: GoogleFonts.orbitron(
                   fontSize: 10, letterSpacing: 4, color: _kWhite.withOpacity(0.4))),
               const SizedBox(height: 24),
-              Text(widget.raceFlag, style: const TextStyle(fontSize: 40)),
+              Text(widget.playerFlag, style: const TextStyle(fontSize: 40)),
               const SizedBox(height: 16),
               Text('P${_gridPosition.toString().padLeft(2, '0')}',
                   style: GoogleFonts.orbitron(
@@ -896,8 +896,4 @@ class _QualifyingScreenState extends State<QualifyingScreen>
   }
 
   String get raceFlag => widget.race.flag;
-}
-
-extension on QualifyingScreen {
-  String get raceFlag => race.flag;
 }
