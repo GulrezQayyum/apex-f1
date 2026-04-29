@@ -1,64 +1,127 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:apex_f1/features/races/data/models/race_model.dart';
 
 // ─────────────────────────────────────────────────────────────────
-//  APEX F1 — Race Service
+//  APEX F1 — Race Service (Enhanced)
 //  Location: lib/features/races/data/services/race_service.dart
 //
 //  Responsibilities:
-//    • Load races.json from assets
+//    • Load races.json from assets or custom JSON
+//    • Support multiple seasons (2023, 2024, 2025)
 //    • Parse it into SeasonModel
 //    • Expose clean helper methods to screens
 //    • Cache the data so we don't reload every time
+//    • Persist user's selected season
 // ─────────────────────────────────────────────────────────────────
 
 class RaceService {
   // ── Singleton pattern ─────────────────────────────────────────
-  // Only one instance of RaceService exists in the whole app
   static final RaceService _instance = RaceService._internal();
   factory RaceService() => _instance;
   RaceService._internal();
 
-  // ── Cache ─────────────────────────────────────────────────────
+  // ── Cache & State ─────────────────────────────────────────────
   SeasonModel? _cachedSeason;
+  int? _currentSeason;
+  String? _customJsonData;
 
   // ── Load & Parse ──────────────────────────────────────────────
 
-  /// Loads races.json from assets and returns a SeasonModel.
-  /// Caches the result — subsequent calls return instantly.
-  Future<SeasonModel> loadSeason() async {
-    // Return cached data if already loaded
-    if (_cachedSeason != null) return _cachedSeason!;
-
+  /// Load season from custom JSON string
+  Future<SeasonModel> loadFromCustomJson(String jsonString) async {
     try {
-      // Load raw JSON string from assets
-      final String jsonString = await rootBundle.loadString(
-        'assets/data/races.json',
-      );
-
-      // Decode JSON string into a Map
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-      // Parse into SeasonModel
       _cachedSeason = SeasonModel.fromJson(jsonMap);
-
+      _currentSeason = _cachedSeason?.season;
+      _customJsonData = jsonString;
+      
+      // Save preference
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('selected_season', _currentSeason ?? 2024);
+      await prefs.setString('custom_races_json', jsonString);
+      
       return _cachedSeason!;
     } catch (e) {
       throw RaceServiceException(
-        'Failed to load races.json: ${e.toString()}',
+        'Failed to parse custom races.json: ${e.toString()}',
       );
     }
   }
 
-  /// Force reload from file — call this after updating races.json
-  Future<SeasonModel> reloadSeason() async {
-    _cachedSeason = null;
-    return loadSeason();
+  /// Load season year from assets (default behavior)
+  Future<SeasonModel> loadSeasonFromAssets({int? season}) async {
+    final targetSeason = season ?? _currentSeason ?? 2024;
+    final assetPath = 'assets/data/races.json';
+    
+    if (_cachedSeason != null && _currentSeason == targetSeason) {
+      return _cachedSeason!;
+    }
+
+    try {
+      final String jsonString = await rootBundle.loadString(assetPath);
+      final Map<String, dynamic> jsonMap = json.decode(jsonString);
+      _cachedSeason = SeasonModel.fromJson(jsonMap);
+      _currentSeason = targetSeason;
+      _customJsonData = null;
+
+      // Clear custom data and save preference
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('selected_season', targetSeason);
+      await prefs.remove('custom_races_json');
+
+      return _cachedSeason!;
+    } catch (e) {
+      throw RaceServiceException(
+        'Failed to load races from assets: ${e.toString()}',
+      );
+    }
   }
 
-  /// Clear the cache
-  void clearCache() => _cachedSeason = null;
+  /// Initialize — loads user's last selected season or default
+  Future<SeasonModel> initialize() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedSeason = prefs.getInt('selected_season') ?? 2024;
+    final customJson = prefs.getString('custom_races_json');
+
+    if (customJson != null && customJson.isNotEmpty) {
+      return loadFromCustomJson(customJson);
+    } else {
+      return loadSeasonFromAssets(season: savedSeason);
+    }
+  }
+
+  /// Legacy method — uses default asset loading
+  Future<SeasonModel> loadSeason() async {
+    if (_cachedSeason != null) return _cachedSeason!;
+    return loadSeasonFromAssets();
+  }
+
+  /// Force reload from current source
+  Future<SeasonModel> reloadSeason() async {
+    _cachedSeason = null;
+    if (_customJsonData != null) {
+      return loadFromCustomJson(_customJsonData!);
+    } else {
+      return loadSeasonFromAssets(season: _currentSeason ?? 2024);
+    }
+  }
+
+  /// Clear cache and reset to default
+  Future<void> clearCache() async {
+    _cachedSeason = null;
+    _customJsonData = null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('selected_season', 2024);
+    await prefs.remove('custom_races_json');
+  }
+
+  /// Get current loaded season year
+  int? get currentSeason => _currentSeason ?? _cachedSeason?.season;
+
+  /// Check if using custom JSON
+  bool get isUsingCustomJson => _customJsonData != null;
 
   // ── Race Queries ──────────────────────────────────────────────
 
@@ -122,7 +185,6 @@ class RaceService {
   /// Get total points for a driver across the season
   Future<int> getDriverPoints(String driverId) async {
     final results = await getDriverResults(driverId);
-    // Add <int> and type the sum parameter
     return results.fold<int>(0, (int sum, r) => sum + r.points);
   }
 
