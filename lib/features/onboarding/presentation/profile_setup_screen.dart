@@ -163,6 +163,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
   // ── Step transition ────────────────────────
   void _goToStep(int step) async {
     await _fadeController.reverse();
+    if (!mounted) return;
     setState(() => _step = step);
     _fadeController.forward();
   }
@@ -201,6 +202,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
         ? kDrivers.firstWhere((d) => d.id == _selectedDriverId)
         : null;
 
+    if (!mounted) return;
     widget.onFinished(UserProfile(
       name: _nameController.text.trim(),
       favTeam: team,
@@ -251,33 +253,24 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
 
           // Main content
           SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: [
-                          _buildHeader(),
+            child: Column(
+              children: [
+                _buildHeader(),
 
-                          Expanded(
-                            child: FadeTransition(
-                              opacity: _fadeAnim,
-                              child: _buildStepContent(),
-                            ),
-                          ),
-
-                          _buildFooter(),
-                        ],
-                      ),
+                // ✅ FIX: Use Expanded + SingleChildScrollView here
+                // instead of LayoutBuilder + IntrinsicHeight
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: FadeTransition(
+                      opacity: _fadeAnim,
+                      child: _buildStepContent(),
                     ),
                   ),
-                );
-              },
+                ),
+
+                _buildFooter(),
+              ],
             ),
           ),
         ],
@@ -571,20 +564,22 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
           ),
           const SizedBox(height: 16),
 
-          // ✅ FIX: Give GridView height
-          Expanded(
-            child: GridView.builder(
-              physics: const BouncingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 2.8,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              itemCount: kTeams.length,
-              itemBuilder: (_, i) => _buildTeamCard(kTeams[i]),
+          // ✅ FIX: shrinkWrap + NeverScrollableScrollPhysics
+          // Parent SingleChildScrollView handles all scrolling
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 2.8,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
             ),
+            itemCount: kTeams.length,
+            itemBuilder: (_, i) => _buildTeamCard(kTeams[i]),
           ),
+
+          const SizedBox(height: 8),
         ],
       ),
     );
@@ -676,54 +671,56 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
           ),
           const SizedBox(height: 12),
 
-          // ✅ FIX: Use ListView with Expanded
-          Expanded(
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                // Team drivers first
-                ..._teamDrivers.map(
-                      (d) => _buildDriverTile(d, highlight: true),
+          // ✅ FIX: shrinkWrap + NeverScrollableScrollPhysics
+          // Parent SingleChildScrollView handles all scrolling
+          ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              // Team drivers first
+              ..._teamDrivers.map(
+                    (d) => _buildDriverTile(d, highlight: true),
+              ),
+
+              // Divider + other drivers
+              if (_otherDrivers.isNotEmpty) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: _white.withValues(alpha: 0.08),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          'OTHER DRIVERS',
+                          style: GoogleFonts.orbitron(
+                            fontSize: 9,
+                            letterSpacing: 2,
+                            color: _white.withValues(alpha: 0.2),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: _white.withValues(alpha: 0.08),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
-                // Divider + other drivers
-                if (_otherDrivers.isNotEmpty) ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: _white.withValues(alpha: 0.08),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            'OTHER DRIVERS',
-                            style: GoogleFonts.orbitron(
-                              fontSize: 9,
-                              letterSpacing: 2,
-                              color: _white.withValues(alpha: 0.2),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: _white.withValues(alpha: 0.08),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  ..._otherDrivers.map(
-                        (d) => _buildDriverTile(d, highlight: false),
-                  ),
-                ],
+                ..._otherDrivers.map(
+                      (d) => _buildDriverTile(d, highlight: false),
+                ),
               ],
-            ),
+            ],
           ),
+
+          const SizedBox(height: 8),
         ],
       ),
     );
