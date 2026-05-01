@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:apex_f1/core/utils/responsive_helper.dart';
 import 'package:apex_f1/features/races/data/services/custom_races_manager.dart';
 import 'dart:convert';
-import 'dart:io';
+// FIX: removed unused 'dart:io' import — this file doesn't use File directly
 
 class SeasonImportScreen extends StatefulWidget {
   const SeasonImportScreen({super.key});
@@ -25,7 +25,7 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
     _checkCustomRaces();
   }
 
-  void _checkCustomRaces() async {
+  Future<void> _checkCustomRaces() async {
     for (var season in _seasons) {
       final has = await CustomRacesManager().hasCustomRaces(season);
       if (mounted) {
@@ -34,11 +34,18 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
     }
   }
 
+  // FIX: removed `Future.delayed(Duration.zero, _showJsonInput)` anti-pattern.
+  // setState is now done before calling _showJsonInput directly.
+  void _selectSeasonAndShowInput(String season) {
+    setState(() => _selectedSeason = season);
+    _showJsonInput();
+  }
+
   void _showJsonInput() {
     final controller = TextEditingController();
     showDialog(
       context: context,
-      builder: (context) => Dialog(
+      builder: (dialogContext) => Dialog(
         backgroundColor: const Color(0xFF0A0A14),
         child: SingleChildScrollView(
           child: Padding(
@@ -65,20 +72,20 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
                     fontFamily: 'Courier',
                     fontSize: 12,
                   ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Paste your races.json content here...',
-                    hintStyle: const TextStyle(
+                    hintStyle: TextStyle(
                       color: Color(0xFF00E5FF),
                       fontSize: 12,
                     ),
                     border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Color(0xFF00E5FF)),
+                      borderSide: BorderSide(color: Color(0xFF00E5FF)),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Color(0xFF00E5FF)),
+                      borderSide: BorderSide(color: Color(0xFF00E5FF)),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Color(0xFFFF00FF)),
+                      borderSide: BorderSide(color: Color(0xFFFF00FF)),
                     ),
                   ),
                 ),
@@ -87,7 +94,7 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.pop(dialogContext),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1a1a2e),
                         side: const BorderSide(color: Color(0xFF00E5FF)),
@@ -98,8 +105,10 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => _importRaces(controller.text,
-                          context),
+                      // FIX: pass dialogContext so Navigator.pop targets
+                      // the dialog, not the whole route stack
+                      onPressed: () =>
+                          _importRaces(controller.text, dialogContext),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF00E5FF),
                       ),
@@ -118,7 +127,7 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
     );
   }
 
-  Future<void> _importRaces(String jsonContent, BuildContext context) async {
+  Future<void> _importRaces(String jsonContent, BuildContext dialogContext) async {
     if (jsonContent.isEmpty) {
       setState(() => _errorMessage = 'Please paste JSON content');
       return;
@@ -128,33 +137,35 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
 
     try {
       final parsed = jsonDecode(jsonContent);
-      
+
       if (!CustomRacesManager.validateRacesStructure(parsed)) {
         setState(() => _errorMessage = 'Invalid races.json structure');
-        Navigator.pop(context);
+        if (dialogContext.mounted) Navigator.pop(dialogContext);
         setState(() => _isLoading = false);
         return;
       }
 
       await CustomRacesManager().saveCustomRaces(_selectedSeason!, jsonContent);
-      
+
       if (mounted) {
         setState(() {
           _hasCustom[_selectedSeason!] = true;
           _errorMessage = null;
         });
-        
-        Navigator.pop(context);
+
+        if (dialogContext.mounted) Navigator.pop(dialogContext);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('✓ Races for $_selectedSeason imported successfully'),
+            content:
+            Text('✓ Races for $_selectedSeason imported successfully'),
             backgroundColor: const Color(0xFF00E5FF),
           ),
         );
       }
     } catch (e) {
       setState(() => _errorMessage = 'Error: ${e.toString()}');
-      if (mounted) Navigator.pop(context);
+      if (dialogContext.mounted) Navigator.pop(dialogContext);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -201,9 +212,11 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
           );
         }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: $e')),
+          );
+        }
       }
     }
   }
@@ -228,7 +241,11 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
         ),
         elevation: 0,
       ),
-      body: SingleChildScrollView(
+      body: _isLoading
+          ? const Center(
+        child: CircularProgressIndicator(color: Color(0xFF00E5FF)),
+      )
+          : SingleChildScrollView(
         padding: padding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,7 +299,9 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
       crossAxisSpacing: spacing,
       mainAxisSpacing: spacing,
       childAspectRatio: isMobile ? 1.2 : 0.9,
-      children: _seasons.map((season) => _buildSeasonCard(season, spacing)).toList(),
+      children: _seasons
+          .map((season) => _buildSeasonCard(season, spacing))
+          .toList(),
     );
   }
 
@@ -293,7 +312,7 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF00E5FF)),
         borderRadius: BorderRadius.circular(8),
-        color:  const Color(0xFF0A0A14),
+        color: const Color(0xFF0A0A14),
       ),
       padding: EdgeInsets.all(spacing),
       child: Column(
@@ -308,7 +327,7 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
               fontFamily: 'Rajdhani',
             ),
           ),
-          if (hasCustom) ...[
+          if (hasCustom)
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -324,15 +343,13 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
                 ),
               ],
             ),
-          ],
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
-                onPressed: () {
-                  setState(() => _selectedSeason = season);
-                  Future.delayed(Duration.zero, _showJsonInput);
-                },
+                // FIX: use the new combined method instead of the
+                // setState + Future.delayed hack
+                onPressed: () => _selectSeasonAndShowInput(season),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF00E5FF),
                   minimumSize: const Size(double.infinity, 40),
@@ -405,10 +422,10 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xFF0A0A14),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'JSON Format Requirements:',
             style: TextStyle(
               color: Color(0xFF00E5FF),
@@ -416,12 +433,12 @@ class _SeasonImportScreenState extends State<SeasonImportScreen> {
               fontFamily: 'Rajdhani',
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
+          SizedBox(height: 8),
+          Text(
             '• Must contain "races" array\n'
-            '• Each race needs: round, name, circuit, country, date\n'
-            '• Optional: status, results, lapRecord\n'
-            '• Max file size: 5MB',
+                '• Each race needs: round, name, circuit, country, date\n'
+                '• Optional: status, results, lapRecord\n'
+                '• Max file size: 5MB',
             style: TextStyle(
               color: Color(0xFFAAAAAA),
               fontSize: 12,

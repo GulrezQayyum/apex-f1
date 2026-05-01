@@ -106,3 +106,135 @@ class ResponsiveHelper {
     return MediaQuery.of(context).padding;
   }
 }
+
+// ─────────────────────────────────────────────────────────────────
+//  RESPONSIVE CONTEXT HELPER (R.of pattern)
+// ─────────────────────────────────────────────────────────────────
+
+class R extends InheritedWidget {
+  final double screenWidth;
+  final double screenHeight;
+
+  const R({
+    Key? key,
+    required this.screenWidth,
+    required this.screenHeight,
+    required Widget child,
+  }) : super(key: key, child: child);
+
+  static R of(BuildContext context) {
+    try {
+      final result = context.dependOnInheritedWidgetOfExactType<R>();
+      if (result != null) return result;
+    } catch (e) {
+      print('⚠️  R.of() error: $e');
+    }
+    
+    // If no R found, throw clear error
+    throw FlutterError(
+      'ResponsiveBuilder not found in widget tree.\n'
+      'Ensure your app is wrapped with ResponsiveBuilder:\n'
+      '  ResponsiveBuilder(\n'
+      '    child: YourWidget(),\n'
+      '  )\n'
+      'This typically goes in main.dart wrapping AppEntryPoint or MaterialApp.'
+    );
+  }
+
+  /// Static helper when R is not available - use MediaQuery directly
+  static double fsSafe(BuildContext context, double baseSize) {
+    final width = MediaQuery.sizeOf(context).width;
+    if (width < ResponsiveHelper.mobileBreakpoint) return baseSize;
+    if (width < ResponsiveHelper.desktopBreakpoint) return baseSize + 2;
+    return baseSize + 4;
+  }
+
+  /// Static helper for grid columns
+  static int navGridColsSafe(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    if (width < ResponsiveHelper.mobileBreakpoint) return 2;
+    if (width < ResponsiveHelper.desktopBreakpoint) return 3;
+    return 4;
+  }
+
+  /// Static helper for card ratio
+  static double navCardRatioSafe(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    if (width < ResponsiveHelper.mobileBreakpoint) return 1.1;
+    if (width < ResponsiveHelper.desktopBreakpoint) return 1.15;
+    return 1.2;
+  }
+
+  bool get _isMobile => screenWidth < ResponsiveHelper.mobileBreakpoint;
+  bool get _isTablet => screenWidth >= ResponsiveHelper.mobileBreakpoint && 
+                        screenWidth < ResponsiveHelper.desktopBreakpoint;
+  bool get _isDesktop => screenWidth >= ResponsiveHelper.desktopBreakpoint;
+
+  /// Responsive font size - use as R.of(context).fs(baseSize)
+  double fs(double baseSize) {
+    if (_isMobile) return baseSize;
+    if (_isTablet) return baseSize + 2;
+    return baseSize + 4;
+  }
+
+  /// Navigation grid columns
+  int get navGridCols {
+    if (_isMobile) return 2;
+    if (_isTablet) return 3;
+    return 4;
+  }
+
+  /// Navigation card aspect ratio
+  double get navCardRatio {
+    if (_isMobile) return 1.1;
+    if (_isTablet) return 1.15;
+    return 1.2;
+  }
+
+  /// Responsive padding
+  EdgeInsets get responsivePadding {
+    if (_isMobile) return const EdgeInsets.all(12);
+    if (_isTablet) return const EdgeInsets.all(16);
+    return const EdgeInsets.all(24);
+  }
+
+  /// Responsive spacing
+  double get spacing {
+    if (_isMobile) return 8;
+    if (_isTablet) return 12;
+    return 16;
+  }
+
+  /// Responsive border radius
+  double get borderRadius {
+    if (_isMobile) return 8;
+    if (_isTablet) return 12;
+    return 16;
+  }
+
+  @override
+  bool updateShouldNotify(R oldWidget) {
+    return oldWidget.screenWidth != screenWidth ||
+        oldWidget.screenHeight != screenHeight;
+  }
+}
+
+/// Wrapper widget to provide R to the widget tree
+class ResponsiveBuilder extends StatelessWidget {
+  final Widget child;
+
+  const ResponsiveBuilder({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return R(
+      screenWidth: size.width,
+      screenHeight: size.height,
+      child: child,
+    );
+  }
+}

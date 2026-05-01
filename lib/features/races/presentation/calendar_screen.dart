@@ -122,8 +122,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     Colors.transparent,
-                    _kCyan.withOpacity(_pulseAnim.value),
-                    const Color(0xFFFF00FF).withOpacity(_pulseAnim.value * 0.6),
+                    _kCyan.withValues(alpha: _pulseAnim.value),
+                    const Color(0xFFFF00FF).withValues(alpha: _pulseAnim.value * 0.6),
                     Colors.transparent,
                   ]),
                 ),
@@ -163,14 +163,14 @@ class _CalendarScreenState extends State<CalendarScreen>
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    border: Border.all(color: _kWhite.withOpacity(0.15)),
+                    border: Border.all(color: _kWhite.withValues(alpha: 0.15)),
                     borderRadius: BorderRadius.circular(2),
                   ),
                   child: Text(
                     '‹  BACK',
                     style: GoogleFonts.orbitron(
                       fontSize: 9, letterSpacing: 2,
-                      color: _kWhite.withOpacity(0.4),
+                      color: _kWhite.withValues(alpha: 0.4),
                     ),
                   ),
                 ),
@@ -180,15 +180,15 @@ class _CalendarScreenState extends State<CalendarScreen>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  border: Border.all(color: _kCyan.withOpacity(0.3)),
+                  border: Border.all(color: _kCyan.withValues(alpha: 0.3)),
                   borderRadius: BorderRadius.circular(2),
-                  color: _kCyan.withOpacity(0.05),
+                  color: _kCyan.withValues(alpha: 0.05),
                 ),
                 child: Text(
                   '2024 SEASON',
                   style: GoogleFonts.orbitron(
                     fontSize: 9, letterSpacing: 2,
-                    color: _kCyan.withOpacity(0.7),
+                    color: _kCyan.withValues(alpha: 0.7),
                   ),
                 ),
               ),
@@ -214,7 +214,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                 color: _kCyan,
                 shadows: [
                   Shadow(
-                    color: _kCyan.withOpacity(0.5 * _pulseAnim.value),
+                    color: _kCyan.withValues(alpha: 0.5 * _pulseAnim.value),
                     blurRadius: 16,
                   ),
                 ],
@@ -242,7 +242,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                 _buildStatChip(
                   '${_allRaces.length}',
                   'TOTAL',
-                  _kWhite.withOpacity(0.4),
+                  _kWhite.withValues(alpha: 0.4),
                 ),
               ],
             ),
@@ -254,7 +254,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
                 Colors.transparent,
-                _kCyan.withOpacity(0.4),
+                _kCyan.withValues(alpha: 0.4),
                 Colors.transparent,
               ]),
             ),
@@ -268,9 +268,9 @@ class _CalendarScreenState extends State<CalendarScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
         borderRadius: BorderRadius.circular(2),
-        color: color.withOpacity(0.05),
+        color: color.withValues(alpha: 0.05),
       ),
       child: Row(
         children: [
@@ -279,7 +279,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             style: GoogleFonts.orbitron(
               fontSize: 13, fontWeight: FontWeight.w900,
               color: color,
-              shadows: [Shadow(color: color.withOpacity(0.4), blurRadius: 6)],
+              shadows: [Shadow(color: color.withValues(alpha: 0.4), blurRadius: 6)],
             ),
           ),
           const SizedBox(width: 5),
@@ -287,7 +287,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             label,
             style: GoogleFonts.orbitron(
               fontSize: 8, letterSpacing: 1.5,
-              color: color.withOpacity(0.6),
+              color: color.withValues(alpha: 0.6),
             ),
           ),
         ],
@@ -312,18 +312,18 @@ class _CalendarScreenState extends State<CalendarScreen>
               decoration: BoxDecoration(
                 color: active ? _kCyan : Colors.transparent,
                 border: Border.all(
-                  color: active ? _kCyan : _kWhite.withOpacity(0.15),
+                  color: active ? _kCyan : _kWhite.withValues(alpha: 0.15),
                 ),
                 borderRadius: BorderRadius.circular(2),
                 boxShadow: active
-                    ? [BoxShadow(color: _kCyan.withOpacity(0.3), blurRadius: 10)]
+                    ? [BoxShadow(color: _kCyan.withValues(alpha: 0.3), blurRadius: 10)]
                     : null,
               ),
               child: Text(
                 label,
                 style: GoogleFonts.orbitron(
                   fontSize: 9, letterSpacing: 2, fontWeight: FontWeight.w700,
-                  color: active ? Colors.black : _kWhite.withOpacity(0.4),
+                  color: active ? Colors.black : _kWhite.withValues(alpha: 0.4),
                 ),
               ),
             ),
@@ -357,7 +357,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             'LOADING RACES...',
             style: GoogleFonts.orbitron(
               fontSize: 10, letterSpacing: 3,
-              color: _kWhite.withOpacity(0.3),
+              color: _kWhite.withValues(alpha: 0.3),
             ),
           ),
         ],
@@ -375,7 +375,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             Text(
               '⚠',
               style: TextStyle(
-                fontSize: 32, color: const Color(0xFFFF073A).withOpacity(0.8),
+                fontSize: 32, color: const Color(0xFFFF073A).withValues(alpha: 0.8),
               ),
             ),
             const SizedBox(height: 12),
@@ -390,7 +390,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             Text(
               _error ?? 'Unknown error',
               style: GoogleFonts.rajdhani(
-                fontSize: 13, color: _kWhite.withOpacity(0.3),
+                fontSize: 13, color: _kWhite.withValues(alpha: 0.3),
               ),
               textAlign: TextAlign.center,
             ),
@@ -400,7 +400,7 @@ class _CalendarScreenState extends State<CalendarScreen>
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
-                  border: Border.all(color: _kCyan.withOpacity(0.5)),
+                  border: Border.all(color: _kCyan.withValues(alpha: 0.5)),
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: Text(
@@ -423,7 +423,7 @@ class _CalendarScreenState extends State<CalendarScreen>
         'NO RACES FOUND',
         style: GoogleFonts.orbitron(
           fontSize: 12, letterSpacing: 3,
-          color: _kWhite.withOpacity(0.2),
+          color: _kWhite.withValues(alpha: 0.2),
         ),
       ),
     );
@@ -505,15 +505,15 @@ class _RaceCardState extends State<_RaceCard> {
         decoration: BoxDecoration(
           border: Border.all(
             color: _hovered
-                ? _roundColor.withOpacity(0.7)
-                : Colors.white.withOpacity(0.08),
+                ? _roundColor.withValues(alpha: 0.7)
+                : Colors.white.withValues(alpha: 0.08),
           ),
           borderRadius: BorderRadius.circular(4),
           color: _hovered
-              ? _roundColor.withOpacity(0.06)
-              : Colors.white.withOpacity(0.02),
+              ? _roundColor.withValues(alpha: 0.06)
+              : Colors.white.withValues(alpha: 0.02),
           boxShadow: _hovered
-              ? [BoxShadow(color: _roundColor.withOpacity(0.15), blurRadius: 12)]
+              ? [BoxShadow(color: _roundColor.withValues(alpha: 0.15), blurRadius: 12)]
               : null,
         ),
         child: Row(
@@ -527,7 +527,7 @@ class _RaceCardState extends State<_RaceCard> {
                     'R',
                     style: GoogleFonts.orbitron(
                       fontSize: 8, letterSpacing: 1,
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                     ),
                   ),
                   Text(
@@ -536,9 +536,9 @@ class _RaceCardState extends State<_RaceCard> {
                       fontSize: 18, fontWeight: FontWeight.w900,
                       color: completed
                           ? _roundColor
-                          : Colors.white.withOpacity(0.25),
+                          : Colors.white.withValues(alpha: 0.25),
                       shadows: completed
-                          ? [Shadow(color: _roundColor.withOpacity(0.5), blurRadius: 8)]
+                          ? [Shadow(color: _roundColor.withValues(alpha: 0.5), blurRadius: 8)]
                           : null,
                     ),
                   ),
@@ -550,7 +550,7 @@ class _RaceCardState extends State<_RaceCard> {
             Container(
               width: 1, height: 48,
               margin: const EdgeInsets.symmetric(horizontal: 12),
-              color: _roundColor.withOpacity(completed ? 0.4 : 0.15),
+              color: _roundColor.withValues(alpha: completed ? 0.4 : 0.15),
             ),
 
             // Flag + race info
@@ -581,7 +581,7 @@ class _RaceCardState extends State<_RaceCard> {
                     '${race.circuit}  ·  ${race.city}',
                     style: GoogleFonts.rajdhani(
                       fontSize: 11,
-                      color: Colors.white.withOpacity(0.35),
+                      color: Colors.white.withValues(alpha: 0.35),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -601,7 +601,7 @@ class _RaceCardState extends State<_RaceCard> {
                           race.winner!.driver,
                           style: GoogleFonts.rajdhani(
                             fontSize: 12, fontWeight: FontWeight.w700,
-                            color: const Color(0xFFFFE600).withOpacity(0.8),
+                            color: const Color(0xFFFFE600).withValues(alpha: 0.8),
                           ),
                         ),
                         const SizedBox(width: 6),
@@ -609,7 +609,7 @@ class _RaceCardState extends State<_RaceCard> {
                           race.winner!.team,
                           style: GoogleFonts.rajdhani(
                             fontSize: 11,
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withValues(alpha: 0.3),
                           ),
                         ),
                       ],
@@ -628,7 +628,7 @@ class _RaceCardState extends State<_RaceCard> {
                   style: GoogleFonts.orbitron(
                     fontSize: 11, fontWeight: FontWeight.w700,
                     color: _roundColor,
-                    shadows: [Shadow(color: _roundColor.withOpacity(0.4), blurRadius: 6)],
+                    shadows: [Shadow(color: _roundColor.withValues(alpha: 0.4), blurRadius: 6)],
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -637,12 +637,12 @@ class _RaceCardState extends State<_RaceCard> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(999),
                     color: completed
-                        ? const Color(0xFF39FF14).withOpacity(0.1)
-                        : _kCyan.withOpacity(0.1),
+                        ? const Color(0xFF39FF14).withValues(alpha: 0.1)
+                        : _kCyan.withValues(alpha: 0.1),
                     border: Border.all(
                       color: completed
-                          ? const Color(0xFF39FF14).withOpacity(0.3)
-                          : _kCyan.withOpacity(0.3),
+                          ? const Color(0xFF39FF14).withValues(alpha: 0.3)
+                          : _kCyan.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Text(
@@ -664,7 +664,7 @@ class _RaceCardState extends State<_RaceCard> {
                         : 'TODAY',
                     style: GoogleFonts.rajdhani(
                       fontSize: 11,
-                      color: Colors.white.withOpacity(0.25),
+                      color: Colors.white.withValues(alpha: 0.25),
                     ),
                   ),
                 ],
@@ -697,7 +697,7 @@ class _ParticleFieldState extends State<_ParticleField>
     c: [
       const Color(0xFF00E5FF), const Color(0xFFFF00FF),
       const Color(0xFF39FF14), const Color(0xFFFFE600),
-    ][i % 4].withOpacity(0.2 + _rng.nextDouble() * 0.15),
+    ][i % 4].withValues(alpha: 0.2 + _rng.nextDouble() * 0.15),
   ));
 
   @override
@@ -744,7 +744,7 @@ class _PPainter extends CustomPainter {
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final p = Paint()..color = Colors.black.withOpacity(0.022);
+    final p = Paint()..color = Colors.black.withValues(alpha: 0.022);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), p);
     }

@@ -139,13 +139,13 @@ class _MultiCarPainter extends CustomPainter {
 
     // 1. Draw Track
     canvas.drawPath(trackPath, Paint()
-      ..color = Colors.white.withOpacity(0.1)
+      ..color = Colors.white.withValues(alpha: 0.1)
       ..strokeWidth = 6
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round);
 
     canvas.drawPath(trackPath, Paint()
-      ..color = const Color(0xFF00E5FF).withOpacity(0.2)
+      ..color = const Color(0xFF00E5FF).withValues(alpha: 0.2)
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke);
 
@@ -158,13 +158,13 @@ class _MultiCarPainter extends CustomPainter {
       double progress = (animationValue + (driver.position * 0.04)) % 1.0;
       
       final carPt = _getPointOnPath(pts, progress);
-      final color = driver.isPlayer ? const Color(0xFF00E5FF) : Colors.white.withOpacity(0.4);
+      final color = driver.isPlayer ? const Color(0xFF00E5FF) : Colors.white.withValues(alpha: 0.4);
       final size = driver.isPlayer ? 5.0 : 3.0;
 
       // Car glow
       if (driver.isPlayer) {
         canvas.drawCircle(carPt, 10, Paint()
-          ..color = color.withOpacity(0.2)
+          ..color = color.withValues(alpha: 0.2)
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6));
       }
 
@@ -176,7 +176,7 @@ class _MultiCarPainter extends CustomPainter {
       final scPt = _getPointOnPath(pts, animationValue);
       canvas.drawCircle(scPt, 6, Paint()..color = const Color(0xFFFFE600));
       canvas.drawCircle(scPt, 12, Paint()
-        ..color = const Color(0xFFFFE600).withOpacity(0.2)
+        ..color = const Color(0xFFFFE600).withValues(alpha: 0.2)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8));
     }
   }

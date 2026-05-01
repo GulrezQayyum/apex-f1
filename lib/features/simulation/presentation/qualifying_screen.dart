@@ -305,7 +305,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
     if (quality > 0.8) return _kPurple;  // purple = personal best zone
     if (quality > 0.5) return _kGreen;   // green = good
     if (quality > 0.2) return _kYellow;  // yellow = ok
-    return _kWhite.withOpacity(0.5);      // white = poor
+    return _kWhite.withValues(alpha: 0.5);      // white = poor
   }
 
   // ── Complete lap ───────────────────────────────────────────────
@@ -448,7 +448,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Icon(Icons.arrow_back_ios_new_rounded,
-              color: _kWhite.withOpacity(0.3), size: 16),
+              color: _kWhite.withValues(alpha: 0.3), size: 16),
         ),
         const SizedBox(width: 12),
         Expanded(child: Column(
@@ -457,13 +457,13 @@ class _QualifyingScreenState extends State<QualifyingScreen>
             Text(widget.race.name.toUpperCase(), style: GoogleFonts.orbitron(
                 fontSize: 13, fontWeight: FontWeight.w900, color: _kWhite)),
             Text('QUALIFYING SESSION', style: GoogleFonts.orbitron(
-                fontSize: 8, letterSpacing: 2, color: _kWhite.withOpacity(0.3))),
+                fontSize: 8, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.3))),
           ],
         )),
         GestureDetector(
           onTap: _skipToRace,
           child: Text('SKIP →', style: GoogleFonts.orbitron(
-              fontSize: 9, color: _kWhite.withOpacity(0.3), letterSpacing: 1)),
+              fontSize: 9, color: _kWhite.withValues(alpha: 0.3), letterSpacing: 1)),
         ),
       ]),
     );
@@ -480,14 +480,14 @@ class _QualifyingScreenState extends State<QualifyingScreen>
           margin: EdgeInsets.only(right: q < 3 ? 8 : 0),
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: active ? _kYellow : done ? _kGreen.withOpacity(0.15) : _kWhite.withOpacity(0.03),
+            color: active ? _kYellow : done ? _kGreen.withValues(alpha: 0.15) : _kWhite.withValues(alpha: 0.03),
             borderRadius: BorderRadius.circular(4),
             border: Border.all(
-                color: active ? _kYellow : done ? _kGreen.withOpacity(0.4) : _kWhite.withOpacity(0.08)),
+                color: active ? _kYellow : done ? _kGreen.withValues(alpha: 0.4) : _kWhite.withValues(alpha: 0.08)),
           ),
           child: Center(child: Text('Q$q', style: GoogleFonts.orbitron(
               fontSize: 12, fontWeight: FontWeight.w900,
-              color: active ? Colors.black : done ? _kGreen : _kWhite.withOpacity(0.3)))),
+              color: active ? Colors.black : done ? _kGreen : _kWhite.withValues(alpha: 0.3)))),
         ));
       }).toList()),
     );
@@ -500,18 +500,18 @@ class _QualifyingScreenState extends State<QualifyingScreen>
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          border: Border.all(color: _kCyan.withOpacity(0.2)),
+          border: Border.all(color: _kCyan.withValues(alpha: 0.2)),
           borderRadius: BorderRadius.circular(6),
-          color: _kCyan.withOpacity(0.03),
+          color: _kCyan.withValues(alpha: 0.03),
         ),
         child: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text('SECTOR TIMES', style: GoogleFonts.orbitron(
-                fontSize: 9, letterSpacing: 3, color: _kWhite.withOpacity(0.3))),
+                fontSize: 9, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.3))),
             if (_playerBestTime != null)
               Text(_fmtTime(_playerBestTime!), style: GoogleFonts.orbitron(
                   fontSize: 14, fontWeight: FontWeight.w900, color: _kCyan,
-                  shadows: [Shadow(color: _kCyan.withOpacity(0.5), blurRadius: 8)])),
+                  shadows: [Shadow(color: _kCyan.withValues(alpha: 0.5), blurRadius: 8)])),
           ]),
           const SizedBox(height: 10),
           Row(children: [
@@ -530,13 +530,13 @@ class _QualifyingScreenState extends State<QualifyingScreen>
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withOpacity(0.25)),
+        border: Border.all(color: color.withValues(alpha: 0.25)),
       ),
       child: Column(children: [
         Text(label, style: GoogleFonts.orbitron(
-            fontSize: 8, letterSpacing: 2, color: color.withOpacity(0.6))),
+            fontSize: 8, letterSpacing: 2, color: color.withValues(alpha: 0.6))),
         const SizedBox(height: 4),
         Text(time, style: GoogleFonts.orbitron(
             fontSize: 10, fontWeight: FontWeight.w700, color: color)),
@@ -558,7 +558,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
                   style: GoogleFonts.orbitron(fontSize: 18, fontWeight: FontWeight.w900, color: _kWhite)),
               const SizedBox(height: 6),
               Text('Q$_session · ${_session == 1 ? "20" : _session == 2 ? "15" : "10"} cars',
-                  style: GoogleFonts.orbitron(fontSize: 9, letterSpacing: 2, color: _kWhite.withOpacity(0.3))),
+                  style: GoogleFonts.orbitron(fontSize: 9, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.3))),
               const SizedBox(height: 40),
               AnimatedBuilder(
                 animation: _pulseAnim,
@@ -571,7 +571,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
                       color: _kYellow,
                       borderRadius: BorderRadius.circular(4),
                       boxShadow: [BoxShadow(
-                          color: _kYellow.withOpacity(0.5 * _pulseAnim.value),
+                          color: _kYellow.withValues(alpha: 0.5 * _pulseAnim.value),
                           blurRadius: 24)],
                     ),
                     child: Center(child: Text(
@@ -584,18 +584,18 @@ class _QualifyingScreenState extends State<QualifyingScreen>
               const SizedBox(height: 16),
               Text('Tap the sectors at the right moment for a fast lap',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.rajdhani(fontSize: 13, color: _kWhite.withOpacity(0.3))),
+                  style: GoogleFonts.rajdhani(fontSize: 13, color: _kWhite.withValues(alpha: 0.3))),
             ] else ...[
               // On lap — timing bar
               Text('ON FLYING LAP', style: GoogleFonts.orbitron(
                   fontSize: 11, letterSpacing: 4, color: _kYellow,
-                  shadows: [Shadow(color: _kYellow.withOpacity(0.5), blurRadius: 10)])),
+                  shadows: [Shadow(color: _kYellow.withValues(alpha: 0.5), blurRadius: 10)])),
               const SizedBox(height: 6),
               Text(_sector1 == '--:--.---' ? 'TAP FOR SECTOR 1'
                   : _sector2 == '--:--.---' ? 'TAP FOR SECTOR 2'
                   : 'TAP FOR SECTOR 3',
                   style: GoogleFonts.orbitron(
-                      fontSize: 9, letterSpacing: 3, color: _kWhite.withOpacity(0.4))),
+                      fontSize: 9, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.4))),
               const SizedBox(height: 32),
               // Timing bar
               if (_showTimingBar) ...[
@@ -607,9 +607,9 @@ class _QualifyingScreenState extends State<QualifyingScreen>
                     width: double.infinity,
                     height: 64,
                     decoration: BoxDecoration(
-                      color: _kPurple.withOpacity(0.2),
+                      color: _kPurple.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: _kPurple.withOpacity(0.6), width: 1.5),
+                      border: Border.all(color: _kPurple.withValues(alpha: 0.6), width: 1.5),
                     ),
                     child: Center(child: Text('⚡  TAP!',
                         style: GoogleFonts.orbitron(
@@ -619,7 +619,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
               ] else ...[
                 const SizedBox(height: 80),
                 Text('GET READY...', style: GoogleFonts.orbitron(
-                    fontSize: 14, letterSpacing: 4, color: _kWhite.withOpacity(0.2))),
+                    fontSize: 14, letterSpacing: 4, color: _kWhite.withValues(alpha: 0.2))),
               ],
             ],
           ],
@@ -635,15 +635,15 @@ class _QualifyingScreenState extends State<QualifyingScreen>
       child: Stack(alignment: Alignment.centerLeft, children: [
         // Background
         Container(decoration: BoxDecoration(
-          color: _kWhite.withOpacity(0.04),
+          color: _kWhite.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: _kWhite.withOpacity(0.1)),
+          border: Border.all(color: _kWhite.withValues(alpha: 0.1)),
         )),
         // Yellow zone (ok)
         Positioned(left: 0, right: 0, child: Container(
           height: 32,
           decoration: BoxDecoration(
-            color: _kYellow.withOpacity(0.12),
+            color: _kYellow.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(4),
           ),
         )),
@@ -651,13 +651,13 @@ class _QualifyingScreenState extends State<QualifyingScreen>
         Positioned(
           left: MediaQuery.of(context).size.width * 0.25 - 32,
           right: MediaQuery.of(context).size.width * 0.25 - 32,
-          child: Container(height: 32, color: _kGreen.withOpacity(0.15)),
+          child: Container(height: 32, color: _kGreen.withValues(alpha: 0.15)),
         ),
         // Purple zone (perfect) — centre 20%
         Positioned(
           left: MediaQuery.of(context).size.width * 0.4 - 32,
           right: MediaQuery.of(context).size.width * 0.4 - 32,
-          child: Container(height: 32, color: _kPurple.withOpacity(0.2)),
+          child: Container(height: 32, color: _kPurple.withValues(alpha: 0.2)),
         ),
         // Moving indicator
         Positioned(
@@ -667,7 +667,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
             decoration: BoxDecoration(
               color: _kWhite,
               borderRadius: BorderRadius.circular(3),
-              boxShadow: [BoxShadow(color: _kWhite.withOpacity(0.8), blurRadius: 8)],
+              boxShadow: [BoxShadow(color: _kWhite.withValues(alpha: 0.8), blurRadius: 8)],
             ),
           ),
         ),
@@ -675,16 +675,16 @@ class _QualifyingScreenState extends State<QualifyingScreen>
         Positioned(
           left: 8, top: 0, bottom: 0,
           child: Center(child: Text('POOR', style: GoogleFonts.orbitron(
-              fontSize: 7, color: _kYellow.withOpacity(0.6)))),
+              fontSize: 7, color: _kYellow.withValues(alpha: 0.6)))),
         ),
         Positioned(
           right: 8, top: 0, bottom: 0,
           child: Center(child: Text('POOR', style: GoogleFonts.orbitron(
-              fontSize: 7, color: _kYellow.withOpacity(0.6)))),
+              fontSize: 7, color: _kYellow.withValues(alpha: 0.6)))),
         ),
         Positioned.fill(
           child: Center(child: Text('PERFECT', style: GoogleFonts.orbitron(
-              fontSize: 7, fontWeight: FontWeight.w900, color: _kPurple.withOpacity(0.7)))),
+              fontSize: 7, fontWeight: FontWeight.w900, color: _kPurple.withValues(alpha: 0.7)))),
         ),
       ]),
     );
@@ -745,28 +745,28 @@ class _QualifyingScreenState extends State<QualifyingScreen>
               decoration: BoxDecoration(
                 border: Border.all(
                   color: isPlayer
-                      ? _kCyan.withOpacity(0.5)
+                      ? _kCyan.withValues(alpha: 0.5)
                       : isEliminated
-                      ? _kRed.withOpacity(0.15)
-                      : _kWhite.withOpacity(0.06),
+                      ? _kRed.withValues(alpha: 0.15)
+                      : _kWhite.withValues(alpha: 0.06),
                   width: isPlayer ? 1.5 : 1,
                 ),
                 borderRadius: BorderRadius.circular(5),
                 color: isPlayer
-                    ? _kCyan.withOpacity(0.06)
+                    ? _kCyan.withValues(alpha: 0.06)
                     : isEliminated
-                    ? _kRed.withOpacity(0.03)
-                    : _kWhite.withOpacity(0.02),
+                    ? _kRed.withValues(alpha: 0.03)
+                    : _kWhite.withValues(alpha: 0.02),
               ),
               child: Row(children: [
                 SizedBox(width: 28, child: Text('$pos',
                     style: GoogleFonts.orbitron(
                         fontSize: 14, fontWeight: FontWeight.w900,
                         color: pos <= 3
-                            ? [_kYellow, _kWhite, _kWhite.withOpacity(0.7)][pos-1]
+                            ? [_kYellow, _kWhite, _kWhite.withValues(alpha: 0.7)][pos-1]
                             : isEliminated
-                            ? _kRed.withOpacity(0.5)
-                            : _kWhite.withOpacity(0.3)))),
+                            ? _kRed.withValues(alpha: 0.5)
+                            : _kWhite.withValues(alpha: 0.3)))),
                 Text(entry['flag'] as String, style: const TextStyle(fontSize: 14)),
                 const SizedBox(width: 8),
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -781,8 +781,8 @@ class _QualifyingScreenState extends State<QualifyingScreen>
                       fontSize: 11, fontWeight: FontWeight.w700, color: _kWhite)),
                   Text(gap, style: GoogleFonts.orbitron(
                       fontSize: 9, color: isPlayer
-                      ? _kCyan.withOpacity(0.7)
-                      : _kWhite.withOpacity(0.3))),
+                      ? _kCyan.withValues(alpha: 0.7)
+                      : _kWhite.withValues(alpha: 0.3))),
                 ]),
                 if (isEliminated)
                   Padding(
@@ -846,7 +846,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('QUALIFYING COMPLETE', style: GoogleFonts.orbitron(
-                  fontSize: 10, letterSpacing: 4, color: _kWhite.withOpacity(0.4))),
+                  fontSize: 10, letterSpacing: 4, color: _kWhite.withValues(alpha: 0.4))),
               const SizedBox(height: 24),
               Text(widget.playerFlag, style: const TextStyle(fontSize: 40)),
               const SizedBox(height: 16),
@@ -854,7 +854,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
                   style: GoogleFonts.orbitron(
                       fontSize: 80, fontWeight: FontWeight.w900, color: posColor,
                       height: 0.9,
-                      shadows: [Shadow(color: posColor.withOpacity(0.5), blurRadius: 30)])),
+                      shadows: [Shadow(color: posColor.withValues(alpha: 0.5), blurRadius: 30)])),
               const SizedBox(height: 8),
               Text(label, style: GoogleFonts.orbitron(
                   fontSize: 14, fontWeight: FontWeight.w900,
@@ -862,10 +862,10 @@ class _QualifyingScreenState extends State<QualifyingScreen>
               const SizedBox(height: 8),
               if (_playerBestTime != null)
                 Text(_fmtTime(_playerBestTime!), style: GoogleFonts.orbitron(
-                    fontSize: 18, color: _kWhite.withOpacity(0.6))),
+                    fontSize: 18, color: _kWhite.withValues(alpha: 0.6))),
               const SizedBox(height: 48),
               Text('YOU WILL START THE RACE FROM', style: GoogleFonts.orbitron(
-                  fontSize: 9, letterSpacing: 2, color: _kWhite.withOpacity(0.3))),
+                  fontSize: 9, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.3))),
               Text('GRID POSITION $_gridPosition', style: GoogleFonts.orbitron(
                   fontSize: 16, fontWeight: FontWeight.w900, color: _kWhite)),
               const SizedBox(height: 48),
@@ -879,7 +879,7 @@ class _QualifyingScreenState extends State<QualifyingScreen>
                       color: _kCyan,
                       borderRadius: BorderRadius.circular(4),
                       boxShadow: [BoxShadow(
-                          color: _kCyan.withOpacity(0.4 * _pulseAnim.value),
+                          color: _kCyan.withValues(alpha: 0.4 * _pulseAnim.value),
                           blurRadius: 20)],
                     ),
                     child: Center(child: Text('🏁  LIGHTS OUT — START RACE',

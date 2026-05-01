@@ -223,7 +223,7 @@ class _MultiCarPainter extends CustomPainter {
 
     // Neon cyan racing line edge
     canvas.drawPath(trackPath, Paint()
-      ..color = _kCyan.withOpacity(0.22)
+      ..color = _kCyan.withValues(alpha: 0.22)
       ..strokeWidth = 1.2
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
@@ -239,13 +239,13 @@ class _MultiCarPainter extends CustomPainter {
       Offset(sf.dx - 6, sf.dy + 5),
       Offset(sf.dx + 6, sf.dy + 5),
       Paint()
-        ..color = _kWhite.withOpacity(0.85)
+        ..color = _kWhite.withValues(alpha: 0.85)
         ..strokeWidth = 2.5
         ..strokeCap = StrokeCap.round,
     );
 
     _text(canvas, 'S/F', Offset(sf.dx + 8, sf.dy + 4),
-        6.5, _kYellow.withOpacity(0.8));
+        6.5, _kYellow.withValues(alpha: 0.8));
   }
 
   // ── All 20 cars ───────────────────────────────────────────────
@@ -270,11 +270,11 @@ class _MultiCarPainter extends CustomPainter {
 
     Color color;
     if (safetyCar) {
-      color = isPlayer ? _kCyan : _kYellow.withOpacity(0.7);
+      color = isPlayer ? _kCyan : _kYellow.withValues(alpha: 0.7);
     } else {
       color = isPlayer
           ? _kCyan
-          : (_kTeamColors[d.id] ?? _kWhite.withOpacity(0.5));
+          : (_kTeamColors[d.id] ?? _kWhite.withValues(alpha: 0.5));
     }
 
     final radius = isPlayer
@@ -284,7 +284,7 @@ class _MultiCarPainter extends CustomPainter {
     // Glow for player + top 3
     if (isPlayer || d.position <= 3) {
       canvas.drawCircle(pos, radius * 2.2, Paint()
-        ..color = color.withOpacity(0.18)
+        ..color = color.withValues(alpha: 0.18)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6));
     }
 
@@ -309,7 +309,7 @@ class _MultiCarPainter extends CustomPainter {
     if (d.position <= 3 && !isPlayer) {
       _text(canvas, 'P${d.position}',
           Offset(pos.dx + radius + 2, pos.dy - 4),
-          size.shortestSide * 0.036, color.withOpacity(0.9));
+          size.shortestSide * 0.036, color.withValues(alpha: 0.9));
     }
   }
 
@@ -327,9 +327,9 @@ class _MultiCarPainter extends CustomPainter {
 
     // Rivals
     canvas.drawCircle(Offset(x, y + r * 3), r * 0.72,
-        Paint()..color = _kWhite.withOpacity(0.4));
+        Paint()..color = _kWhite.withValues(alpha: 0.4));
     _text(canvas, 'RIVALS', Offset(x + r + 5, y + r * 3),
-        size.shortestSide * 0.038, _kWhite.withOpacity(0.35));
+        size.shortestSide * 0.038, _kWhite.withValues(alpha: 0.35));
 
     // SC badge
     if (safetyCar) {
@@ -337,7 +337,7 @@ class _MultiCarPainter extends CustomPainter {
       _text(canvas, '🟡 SC',
           Offset(x, y + r * 6.5),
           size.shortestSide * 0.046,
-          _kYellow.withOpacity(pulse));
+          _kYellow.withValues(alpha: pulse));
     }
   }
 
@@ -347,7 +347,7 @@ class _MultiCarPainter extends CustomPainter {
     _text(canvas, name,
         Offset(size.width * 0.5, size.height * 0.97),
         size.shortestSide * 0.038,
-        _kWhite.withOpacity(0.18),
+        _kWhite.withValues(alpha: 0.18),
         centered: true);
   }
 

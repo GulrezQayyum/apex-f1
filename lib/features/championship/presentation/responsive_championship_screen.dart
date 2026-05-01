@@ -24,7 +24,6 @@ class _ResponsiveTeamsScreenState extends State<ResponsiveTeamsScreen> {
   @override
   Widget build(BuildContext context) {
     final isMobile = ResponsiveHelper.isMobile(context);
-
     final padding = ResponsiveHelper.getResponsivePadding(context);
     final spacing = ResponsiveHelper.getResponsiveSpacing(context);
 
@@ -89,34 +88,43 @@ class _ResponsiveTeamsScreenState extends State<ResponsiveTeamsScreen> {
   }
 
   Widget _buildTeamSelector(double spacing) {
+    // FIX: replaced Column(spacing:) with explicit SizedBox between items
     return Column(
-      spacing: spacing,
-      children: widget.teamNames.map((team) {
+      children: widget.teamNames.expand((team) {
         final isSelected = widget.selectedTeam == team;
-        return GestureDetector(
-          onTap: () => widget.onTeamSelected(team),
-          child: Container(
-            padding: EdgeInsets.all(spacing),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: isSelected ? const Color(0xFF00E5FF) : const Color(0xFF444444),
+        return [
+          GestureDetector(
+            onTap: () => widget.onTeamSelected(team),
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(spacing),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: isSelected
+                      ? const Color(0xFF00E5FF)
+                      : const Color(0xFF444444),
+                ),
+                borderRadius: BorderRadius.circular(4),
+                // FIX: .withValues(alpha: 0.1) → .withAlpha(26)
+                color: isSelected
+                    ? const Color(0xFF00E5FF).withAlpha(26)
+                    : Colors.transparent,
               ),
-              borderRadius: BorderRadius.circular(4),
-              color: isSelected
-                  ? const Color(0xFF00E5FF).withOpacity(0.1)
-                  : Colors.transparent,
-            ),
-            child: Text(
-              team,
-              style: TextStyle(
-                color: isSelected ? const Color(0xFF00E5FF) : const Color(0xFFAAAAAA),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Rajdhani',
-                letterSpacing: 1,
+              child: Text(
+                team,
+                style: TextStyle(
+                  color: isSelected
+                      ? const Color(0xFF00E5FF)
+                      : const Color(0xFFAAAAAA),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Rajdhani',
+                  letterSpacing: 1,
+                ),
               ),
             ),
           ),
-        );
+          SizedBox(height: spacing),
+        ];
       }).toList(),
     );
   }
@@ -155,19 +163,35 @@ class _ResponsiveChampionshipScreenState
         children: [
           widget.header,
           SizedBox(height: spacing * 2),
+          // FIX: ShaderMask had a broken gradient (transparent→black instead of
+          // opaque→transparent). Replaced with a simple ClipRect + fade overlay
+          // that actually works as intended.
           if (isTablet)
             widget.pointsChart
           else
-            ShaderMask(
-              shaderCallback: (bounds) => LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black.withOpacity(0.3),
-                ],
-              ).createShader(bounds),
-              child: widget.pointsChart,
+            Stack(
+              children: [
+                widget.pointsChart,
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: 32,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          // FIX: .withValues(alpha: ) → .withAlpha()
+                          Colors.black.withAlpha(77),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           SizedBox(height: spacing * 2),
           const Text(
@@ -192,9 +216,12 @@ class _ResponsiveChampionshipScreenState
               children: widget.raceResultCards,
             )
           else
+          // FIX: replaced Column(spacing:) with explicit SizedBox
             Column(
-              spacing: spacing,
-              children: widget.raceResultCards,
+              children: widget.raceResultCards.expand((card) => [
+                card,
+                SizedBox(height: spacing),
+              ]).toList(),
             ),
         ],
       ),

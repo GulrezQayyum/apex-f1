@@ -188,7 +188,7 @@ class _TeamsScreenState extends State<TeamsScreen>
           GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Icon(Icons.arrow_back_ios_new_rounded,
-                color: _kWhite.withOpacity(0.3), size: 16),
+                color: _kWhite.withValues(alpha: 0.3), size: 16),
           ),
           const SizedBox(width: 12),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -196,7 +196,7 @@ class _TeamsScreenState extends State<TeamsScreen>
                 fontSize: 18, fontWeight: FontWeight.w900, color: _kWhite)),
             Text('2024 TEAMS & TECHNICAL SPECS',
                 style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 2,
-                    color: _kWhite.withOpacity(0.3))),
+                    color: _kWhite.withValues(alpha: 0.3))),
           ]),
         ],
       ),
@@ -221,17 +221,17 @@ class _TeamsScreenState extends State<TeamsScreen>
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: sel ? t.color.withOpacity(0.15) : _kWhite.withOpacity(0.03),
+                color: sel ? t.color.withValues(alpha: 0.15) : _kWhite.withValues(alpha: 0.03),
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(
-                    color: sel ? t.color : _kWhite.withOpacity(0.08),
+                    color: sel ? t.color : _kWhite.withValues(alpha: 0.08),
                     width: sel ? 1.5 : 1),
               ),
               child: Text(t.name,
                   style: GoogleFonts.orbitron(
                       fontSize: 9, fontWeight: FontWeight.w900,
                       letterSpacing: 1,
-                      color: sel ? t.color : _kWhite.withOpacity(0.35))),
+                      color: sel ? t.color : _kWhite.withValues(alpha: 0.35))),
             ),
           );
         },
@@ -274,9 +274,9 @@ class _TeamsScreenState extends State<TeamsScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: t.color.withOpacity(0.4), width: 1.5),
+        border: Border.all(color: t.color.withValues(alpha: 0.4), width: 1.5),
         borderRadius: BorderRadius.circular(8),
-        color: t.color.withOpacity(0.06),
+        color: t.color.withValues(alpha: 0.06),
       ),
       child: Row(
         children: [
@@ -286,7 +286,7 @@ class _TeamsScreenState extends State<TeamsScreen>
             decoration: BoxDecoration(
               color: t.color,
               borderRadius: BorderRadius.circular(3),
-              boxShadow: [BoxShadow(color: t.color.withOpacity(0.6), blurRadius: 10)],
+              boxShadow: [BoxShadow(color: t.color.withValues(alpha: 0.6), blurRadius: 10)],
             ),
           ),
           const SizedBox(width: 14),
@@ -298,22 +298,22 @@ class _TeamsScreenState extends State<TeamsScreen>
                 Text(t.name, style: GoogleFonts.orbitron(
                     fontSize: 17, fontWeight: FontWeight.w900,
                     color: _kWhite,
-                    shadows: [Shadow(color: t.color.withOpacity(0.5), blurRadius: 10)])),
+                    shadows: [Shadow(color: t.color.withValues(alpha: 0.5), blurRadius: 10)])),
               ]),
               const SizedBox(height: 4),
               Text('P${t.champPos}  CONSTRUCTORS', style: GoogleFonts.orbitron(
                   fontSize: 9, color: t.color, letterSpacing: 2)),
               const SizedBox(height: 2),
               Text(t.base, style: GoogleFonts.rajdhani(
-                  fontSize: 12, color: _kWhite.withOpacity(0.4))),
+                  fontSize: 12, color: _kWhite.withValues(alpha: 0.4))),
             ]),
           ),
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
             Text('${t.points}', style: GoogleFonts.orbitron(
                 fontSize: 28, fontWeight: FontWeight.w900, color: t.color,
-                shadows: [Shadow(color: t.color.withOpacity(0.5), blurRadius: 12)])),
+                shadows: [Shadow(color: t.color.withValues(alpha: 0.5), blurRadius: 12)])),
             Text('POINTS', style: GoogleFonts.orbitron(
-                fontSize: 7, letterSpacing: 2, color: _kWhite.withOpacity(0.3))),
+                fontSize: 7, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.3))),
           ]),
         ],
       ),
@@ -337,19 +337,19 @@ class _TeamsScreenState extends State<TeamsScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
         borderRadius: BorderRadius.circular(6),
-        color: color.withOpacity(0.04),
+        color: color.withValues(alpha: 0.04),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(flag, style: const TextStyle(fontSize: 16)),
         const SizedBox(height: 6),
         Text(surname.toUpperCase(), style: GoogleFonts.orbitron(
             fontSize: 13, fontWeight: FontWeight.w900, color: color,
-            shadows: [Shadow(color: color.withOpacity(0.4), blurRadius: 6)])),
+            shadows: [Shadow(color: color.withValues(alpha: 0.4), blurRadius: 6)])),
         Text(parts.length > 1 ? parts.first : '',
             style: GoogleFonts.rajdhani(
-                fontSize: 11, color: _kWhite.withOpacity(0.4))),
+                fontSize: 11, color: _kWhite.withValues(alpha: 0.4))),
       ]),
     );
   }
@@ -359,16 +359,16 @@ class _TeamsScreenState extends State<TeamsScreen>
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        border: Border.all(color: _kWhite.withOpacity(0.07)),
+        border: Border.all(color: _kWhite.withValues(alpha: 0.07)),
         borderRadius: BorderRadius.circular(6),
-        color: _kWhite.withOpacity(0.02),
+        color: _kWhite.withValues(alpha: 0.02),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('2024 SEASON', style: GoogleFonts.orbitron(
               fontSize: 10, letterSpacing: 3,
-              color: _kWhite.withOpacity(0.4))),
+              color: _kWhite.withValues(alpha: 0.4))),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -388,16 +388,16 @@ class _TeamsScreenState extends State<TeamsScreen>
   }
 
   Widget _vDivider() => Container(
-      width: 1, height: 36, color: _kWhite.withOpacity(0.06));
+      width: 1, height: 36, color: _kWhite.withValues(alpha: 0.06));
 
   Widget _statBlock(String val, String label, Color color) {
     return Column(children: [
       Text(val, style: GoogleFonts.orbitron(
           fontSize: 22, fontWeight: FontWeight.w900, color: color,
-          shadows: [Shadow(color: color.withOpacity(0.4), blurRadius: 8)])),
+          shadows: [Shadow(color: color.withValues(alpha: 0.4), blurRadius: 8)])),
       const SizedBox(height: 2),
       Text(label, style: GoogleFonts.orbitron(
-          fontSize: 7, letterSpacing: 1, color: _kWhite.withOpacity(0.3))),
+          fontSize: 7, letterSpacing: 1, color: _kWhite.withValues(alpha: 0.3))),
     ]);
   }
 
@@ -406,15 +406,15 @@ class _TeamsScreenState extends State<TeamsScreen>
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        border: Border.all(color: _kWhite.withOpacity(0.07)),
+        border: Border.all(color: _kWhite.withValues(alpha: 0.07)),
         borderRadius: BorderRadius.circular(6),
-        color: _kWhite.withOpacity(0.02),
+        color: _kWhite.withValues(alpha: 0.02),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('CAR PERFORMANCE', style: GoogleFonts.orbitron(
-              fontSize: 10, letterSpacing: 3, color: _kWhite.withOpacity(0.4))),
+              fontSize: 10, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.4))),
           const SizedBox(height: 14),
           _carBar('POWER',       t.power,       t.color),
           _carBar('AERODYNAMICS',t.aero,        t.color),
@@ -435,7 +435,7 @@ class _TeamsScreenState extends State<TeamsScreen>
             children: [
               Text(label, style: GoogleFonts.orbitron(
                   fontSize: 9, letterSpacing: 1,
-                  color: _kWhite.withOpacity(0.5))),
+                  color: _kWhite.withValues(alpha: 0.5))),
               Text(val.toStringAsFixed(1), style: GoogleFonts.orbitron(
                   fontSize: 9, fontWeight: FontWeight.w900, color: color)),
             ],
@@ -448,14 +448,14 @@ class _TeamsScreenState extends State<TeamsScreen>
               child: SizedBox(
                 height: 5,
                 child: Stack(children: [
-                  Container(color: _kWhite.withOpacity(0.06)),
+                  Container(color: _kWhite.withValues(alpha: 0.06)),
                   FractionallySizedBox(
                     widthFactor: (val / 10) * _anim.value,
                     child: Container(
                       decoration: BoxDecoration(
                         color: color,
                         boxShadow: [BoxShadow(
-                            color: color.withOpacity(0.6), blurRadius: 5)],
+                            color: color.withValues(alpha: 0.6), blurRadius: 5)],
                       ),
                     ),
                   ),
@@ -473,15 +473,15 @@ class _TeamsScreenState extends State<TeamsScreen>
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        border: Border.all(color: _kWhite.withOpacity(0.07)),
+        border: Border.all(color: _kWhite.withValues(alpha: 0.07)),
         borderRadius: BorderRadius.circular(6),
-        color: _kWhite.withOpacity(0.02),
+        color: _kWhite.withValues(alpha: 0.02),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('TECHNICAL', style: GoogleFonts.orbitron(
-              fontSize: 10, letterSpacing: 3, color: _kWhite.withOpacity(0.4))),
+              fontSize: 10, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.4))),
           const SizedBox(height: 12),
           _techRow('CHASSIS',    t.chassis),
           _techRow('POWER UNIT', t.engine),
@@ -501,7 +501,7 @@ class _TeamsScreenState extends State<TeamsScreen>
             width: 100,
             child: Text(label, style: GoogleFonts.orbitron(
                 fontSize: 9, letterSpacing: 1,
-                color: _kWhite.withOpacity(0.3))),
+                color: _kWhite.withValues(alpha: 0.3))),
           ),
           Expanded(
             child: Text(value, style: GoogleFonts.rajdhani(

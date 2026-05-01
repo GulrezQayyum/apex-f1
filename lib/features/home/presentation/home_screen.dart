@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:apex_f1/features/onboarding/presentation/profile_setup_screen.dart';
+import 'package:apex_f1/core/utils/responsive_helper.dart';
 
 // ─────────────────────────────────────────────────────────────────
 //  STATIC DATA
@@ -95,11 +96,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
 
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() => _now = DateTime.now());
+      setState(() => _now = DateTime.now()); // 👈 THIS LINE
     });
+
     _loadLastResult();
 
-    _pulseCtrl = AnimationController(
+
+   _pulseCtrl = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 1600),
     )..repeat(reverse: true);
     _pulse = Tween<double>(begin: 0.5, end: 1.0).animate(
@@ -174,8 +177,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     Colors.transparent,
-                    _accent.withOpacity(_pulse.value),
-                    const Color(0xFFFF00FF).withOpacity(_pulse.value * 0.7),
+                    _accent.withValues(alpha: _pulse.value),
+                    const Color(0xFFFF00FF).withValues(alpha: _pulse.value * 0.7),
                     Colors.transparent,
                   ]),
                 ),
@@ -232,12 +235,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 TextSpan(
                   text: 'APEX',
                   style: GoogleFonts.orbitron(
-                    fontSize: 22,
+                    fontSize: R.fsSafe(context, 22),
                     fontWeight: FontWeight.w900,
                     color: _white,
                     shadows: [
                       Shadow(
-                        color: _accent.withOpacity(0.5 * _pulse.value),
+                        color: _accent.withValues(alpha: 0.5 * _pulse.value),
                         blurRadius: 16,
                       ),
                     ],
@@ -250,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     fontWeight: FontWeight.w900,
                     color: _accent,
                     shadows: [
-                      Shadow(color: _accent.withOpacity(_pulse.value), blurRadius: 12),
+                      Shadow(color: _accent.withValues(alpha: _pulse.value), blurRadius: 12),
                     ],
                   ),
                 ),
@@ -268,17 +271,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Text(
               _timeStr,
               style: GoogleFonts.orbitron(
-                fontSize: 16,
+                fontSize: R.fsSafe(context, 16),
                 color: _accent,
                 letterSpacing: 1,
-                shadows: [Shadow(color: _accent.withOpacity(0.5), blurRadius: 8)],
+                shadows: [Shadow(color: _accent.withValues(alpha: 0.5), blurRadius: 8)],
               ),
             ),
             Text(
               _dateStr,
               style: GoogleFonts.orbitron(
                 fontSize: 9,
-                color: _white.withOpacity(0.3),
+                color: _white.withValues(alpha: 0.3),
                 letterSpacing: 1.5,
               ),
             ),
@@ -304,8 +307,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: _accent, width: 1.5),
-              color: _accent.withOpacity(0.1),
-              boxShadow: [BoxShadow(color: _accent.withOpacity(0.3), blurRadius: 12)],
+              color: _accent.withValues(alpha: 0.1),
+              boxShadow: [BoxShadow(color: _accent.withValues(alpha: 0.3), blurRadius: 12)],
             ),
             child: Center(
               child: Text(
@@ -329,9 +332,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Text(
                   'WELCOME BACK',
                   style: GoogleFonts.orbitron(
-                    fontSize: 9,
+                    fontSize:  R.fsSafe(context, 9),
                     letterSpacing: 3,
-                    color: _white.withOpacity(0.35),
+                    color: _white.withValues(alpha: 0.35),
                   ),
                 ),
                 const SizedBox(height: 3),
@@ -355,7 +358,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         driver.name,
                         style: GoogleFonts.rajdhani(
                           fontSize: 13,
-                          color: _white.withOpacity(0.6),
+                          color: _white.withValues(alpha: 0.6),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -363,7 +366,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     if (driver != null && team != null)
                       Text(
                         '  ·  ',
-                        style: TextStyle(color: _white.withOpacity(0.2), fontSize: 13),
+                        style: TextStyle(color: _white.withValues(alpha: 0.2), fontSize: 13),
                       ),
                     if (team != null)
                       Text(
@@ -379,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         'No driver set',
                         style: GoogleFonts.rajdhani(
                           fontSize: 13,
-                          color: _white.withOpacity(0.3),
+                          color: _white.withValues(alpha: 0.3),
                         ),
                       ),
                   ],
@@ -392,14 +395,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              border: Border.all(color: _white.withOpacity(0.1)),
+              border: Border.all(color: _white.withValues(alpha: 0.1)),
               borderRadius: BorderRadius.circular(2),
             ),
             child: Text(
               '2024',
               style: GoogleFonts.orbitron(
                 fontSize: 10,
-                color: _white.withOpacity(0.2),
+                color: _white.withValues(alpha: 0.2),
                 letterSpacing: 2,
               ),
             ),
@@ -414,9 +417,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFFFFE600).withOpacity(0.25)),
+        border: Border.all(color: const Color(0xFFFFE600).withValues(alpha: 0.25)),
         borderRadius: BorderRadius.circular(4),
-        color: const Color(0xFFFFE600).withOpacity(0.03),
+        color: const Color(0xFFFFE600).withValues(alpha: 0.03),
       ),
       child: Row(
         children: [
@@ -427,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               color: const Color(0xFFFFE600),
               borderRadius: BorderRadius.circular(999),
               boxShadow: [
-                BoxShadow(color: const Color(0xFFFFE600).withOpacity(0.6), blurRadius: 8),
+                BoxShadow(color: const Color(0xFFFFE600).withValues(alpha: 0.6), blurRadius: 8),
               ],
             ),
           ),
@@ -442,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   style: GoogleFonts.orbitron(
                     fontSize: 9,
                     letterSpacing: 3,
-                    color: const Color(0xFFFFE600).withOpacity(0.8),
+                    color: const Color(0xFFFFE600).withValues(alpha: 0.8),
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -468,7 +471,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             '${kNextRace.circuit}  ·  ${kNextRace.date}',
                             style: GoogleFonts.rajdhani(
                               fontSize: 12,
-                              color: _white.withOpacity(0.45),
+                              color: _white.withValues(alpha: 0.45),
                             ),
                           ),
                         ],
@@ -493,7 +496,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     color: const Color(0xFFFFE600),
                     shadows: [
                       Shadow(
-                        color: const Color(0xFFFFE600).withOpacity(_pulse.value),
+                        color: const Color(0xFFFFE600).withValues(alpha: _pulse.value),
                         blurRadius: 16,
                       ),
                     ],
@@ -505,7 +508,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 style: GoogleFonts.orbitron(
                   fontSize: 9,
                   letterSpacing: 2,
-                  color: const Color(0xFFFFE600).withOpacity(0.5),
+                  color: const Color(0xFFFFE600).withValues(alpha: 0.5),
                 ),
               ),
             ],
@@ -527,12 +530,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ];
 
     return GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount: R.navGridColsSafe(context),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
-      childAspectRatio: 1.9,
+      childAspectRatio: R.navCardRatioSafe(context),
       children: items.map(_buildNavCard).toList(),
     );
   }
@@ -543,9 +546,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          border: Border.all(color: item.color.withOpacity(0.2)),
+          border: Border.all(color: item.color.withValues(alpha: 0.2)),
           borderRadius: BorderRadius.circular(4),
-          color: _white.withOpacity(0.025),
+          color: _white.withValues(alpha: 0.025),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -568,7 +571,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   item.sub,
                   style: GoogleFonts.rajdhani(
                     fontSize: 11,
-                    color: _white.withOpacity(0.35),
+                    color: _white.withValues(alpha: 0.35),
                   ),
                 ),
               ],
@@ -605,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   style: GoogleFonts.orbitron(
                     fontSize: 9,
                     letterSpacing: 2,
-                    color: _white.withOpacity(0.3),
+                    color: _white.withValues(alpha: 0.3),
                   ),
                 ),
               ),
@@ -627,7 +630,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ? const Color(0xFFC0C0C0)
         : s.pos == 3
         ? const Color(0xFFCD7F32)
-        : _white.withOpacity(0.25);
+        : _white.withValues(alpha: 0.25);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -643,7 +646,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 fontWeight: FontWeight.w900,
                 color: posColor,
                 shadows: s.pos <= 3
-                    ? [Shadow(color: posColor.withOpacity(0.6), blurRadius: 8)]
+                    ? [Shadow(color: posColor.withValues(alpha: 0.6), blurRadius: 8)]
                     : null,
               ),
             ),
@@ -656,7 +659,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: s.color,
-              boxShadow: [BoxShadow(color: s.color.withOpacity(0.6), blurRadius: 5)],
+              boxShadow: [BoxShadow(color: s.color.withValues(alpha: 0.6), blurRadius: 5)],
             ),
           ),
           const SizedBox(width: 10),
@@ -678,7 +681,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             s.team,
             style: GoogleFonts.rajdhani(
               fontSize: 12,
-              color: _white.withOpacity(0.35),
+              color: _white.withValues(alpha: 0.35),
             ),
           ),
           const SizedBox(width: 12),
@@ -690,7 +693,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               fontSize: 14,
               fontWeight: FontWeight.w900,
               color: _accent,
-              shadows: [Shadow(color: _accent.withOpacity(0.4), blurRadius: 6)],
+              shadows: [Shadow(color: _accent.withValues(alpha: 0.4), blurRadius: 6)],
             ),
           ),
         ],
@@ -706,14 +709,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            border: Border.all(color: _white.withOpacity(0.07)),
+            border: Border.all(color: _white.withValues(alpha: 0.07)),
             borderRadius: BorderRadius.circular(4),
-            color: _white.withOpacity(0.015),
+            color: _white.withValues(alpha: 0.015),
           ),
           child: Row(children: [
             Container(width: 3, height: 48,
                 decoration: BoxDecoration(
-                  color: _white.withOpacity(0.15),
+                  color: _white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(999),
                 )),
             const SizedBox(width: 14),
@@ -722,21 +725,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 Text('YOUR LAST RESULT', style: GoogleFonts.orbitron(
                     fontSize: 9, letterSpacing: 3,
-                    color: _white.withOpacity(0.25))),
+                    color: _white.withValues(alpha: 0.25))),
                 const SizedBox(height: 6),
                 Text('No races completed yet', style: GoogleFonts.rajdhani(
-                    fontSize: 15, color: _white.withOpacity(0.4),
+                    fontSize: 15, color: _white.withValues(alpha: 0.4),
                     fontWeight: FontWeight.w600)),
                 Text('Tap to start your first race', style: GoogleFonts.rajdhani(
-                    fontSize: 12, color: _white.withOpacity(0.2))),
+                    fontSize: 12, color: _white.withValues(alpha: 0.2))),
               ],
             )),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                border: Border.all(color: _accent.withOpacity(0.5)),
+                border: Border.all(color: _accent.withValues(alpha: 0.5)),
                 borderRadius: BorderRadius.circular(3),
-                color: _accent.withOpacity(0.08),
+                color: _accent.withValues(alpha: 0.08),
               ),
               child: Text('RACE\nNOW', textAlign: TextAlign.center,
                   style: GoogleFonts.orbitron(fontSize: 9,
@@ -762,35 +765,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ? _cyan
         : pos <= 10
         ? const Color(0xFF39FF14)
-        : _white.withOpacity(0.4);
+        : _white.withValues(alpha: 0.4);
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        border: Border.all(color: posColor.withOpacity(0.3)),
+        border: Border.all(color: posColor.withValues(alpha: 0.3)),
         borderRadius: BorderRadius.circular(4),
-        color: posColor.withOpacity(0.04),
+        color: posColor.withValues(alpha: 0.04),
       ),
       child: Row(children: [
         Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Text('P$pos', style: GoogleFonts.orbitron(
               fontSize: 32, fontWeight: FontWeight.w900, color: posColor,
-              shadows: [Shadow(color: posColor.withOpacity(0.5), blurRadius: 12)])),
+              shadows: [Shadow(color: posColor.withValues(alpha: 0.5), blurRadius: 12)])),
           Text('+$pts PTS', style: GoogleFonts.orbitron(
-              fontSize: 9, color: posColor.withOpacity(0.7), letterSpacing: 1)),
+              fontSize: 9, color: posColor.withValues(alpha: 0.7), letterSpacing: 1)),
         ]),
         const SizedBox(width: 16),
         Expanded(child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('LAST RESULT', style: GoogleFonts.orbitron(
-                fontSize: 8, letterSpacing: 3, color: _white.withOpacity(0.25))),
+                fontSize: 8, letterSpacing: 3, color: _white.withValues(alpha: 0.25))),
             const SizedBox(height: 4),
             Text('$flag  $raceName', style: GoogleFonts.rajdhani(
                 fontSize: 14, fontWeight: FontWeight.w700, color: _white),
                 maxLines: 1, overflow: TextOverflow.ellipsis),
             Text('R$round  ·  $tyre', style: GoogleFonts.orbitron(
-                fontSize: 8, color: _white.withOpacity(0.3), letterSpacing: 1)),
+                fontSize: 8, color: _white.withValues(alpha: 0.3), letterSpacing: 1)),
           ],
         )),
         GestureDetector(
@@ -798,9 +801,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              border: Border.all(color: _accent.withOpacity(0.4)),
+              border: Border.all(color: _accent.withValues(alpha: 0.4)),
               borderRadius: BorderRadius.circular(3),
-              color: _accent.withOpacity(0.07),
+              color: _accent.withValues(alpha: 0.07),
             ),
             child: Text('MY\nSEASON', textAlign: TextAlign.center,
                 style: GoogleFonts.orbitron(fontSize: 9,
@@ -823,7 +826,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             'APEXF1  v1.0',
             style: GoogleFonts.orbitron(
               fontSize: 9, letterSpacing: 2,
-              color: _white.withOpacity(0.15),
+              color: _white.withValues(alpha: 0.15),
             ),
           ),
           AnimatedBuilder(
@@ -834,10 +837,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   width: 5, height: 5,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFF39FF14).withOpacity(_pulse.value),
+                    color: const Color(0xFF39FF14).withValues(alpha: _pulse.value),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF39FF14).withOpacity(0.5 * _pulse.value),
+                        color: const Color(0xFF39FF14).withValues(alpha: 0.5 * _pulse.value),
                         blurRadius: 4,
                       ),
                     ],
@@ -848,7 +851,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   'LIVE',
                   style: GoogleFonts.orbitron(
                     fontSize: 9, letterSpacing: 2,
-                    color: const Color(0xFF39FF14).withOpacity(_pulse.value),
+                    color: const Color(0xFF39FF14).withValues(alpha: _pulse.value),
                   ),
                 ),
               ],
@@ -858,7 +861,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             '2024 SEASON',
             style: GoogleFonts.orbitron(
               fontSize: 9, letterSpacing: 2,
-              color: _white.withOpacity(0.15),
+              color: _white.withValues(alpha: 0.15),
             ),
           ),
         ],
@@ -882,9 +885,9 @@ class _NeonCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
         borderRadius: BorderRadius.circular(4),
-        color: Colors.white.withOpacity(0.025),
+        color: Colors.white.withValues(alpha: 0.025),
       ),
       child: child,
     );
@@ -931,7 +934,7 @@ class _ParticleFieldState extends State<_ParticleField>
       const Color(0xFFFF00FF),
       const Color(0xFF39FF14),
       const Color(0xFFFFE600),
-    ][i % 4].withOpacity(0.25 + _rng.nextDouble() * 0.2),
+    ][i % 4].withValues(alpha: 0.25 + _rng.nextDouble() * 0.2),
   ));
 
   @override
@@ -984,7 +987,7 @@ class _PPainter extends CustomPainter {
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final p = Paint()..color = Colors.black.withOpacity(0.022);
+    final p = Paint()..color = Colors.black.withValues(alpha: 0.022);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), p);
     }

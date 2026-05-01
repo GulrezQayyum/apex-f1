@@ -291,14 +291,14 @@ class _RaceSimScreenState extends State<RaceSimScreen>
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: _kCyan.withOpacity(0.12))),
+        border: Border(bottom: BorderSide(color: _kCyan.withValues(alpha: 0.12))),
       ),
       child: Row(
         children: [
           GestureDetector(
             onTap: () { _pauseSim(); Navigator.of(context).pop(); },
             child: Icon(Icons.arrow_back_ios_new_rounded,
-                color: _kWhite.withOpacity(0.3), size: 16),
+                color: _kWhite.withValues(alpha: 0.3), size: 16),
           ),
           const SizedBox(width: 8),
           Text(widget.race.flag, style: const TextStyle(fontSize: 16)),
@@ -318,15 +318,15 @@ class _RaceSimScreenState extends State<RaceSimScreen>
             builder: (_, __) => Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                border: Border.all(color: _kCyan.withOpacity(0.4)),
+                border: Border.all(color: _kCyan.withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(2),
-                color: _kCyan.withOpacity(0.07),
+                color: _kCyan.withValues(alpha: 0.07),
               ),
               child: Text(
                 'LAP ${_state.currentLap} / ${_state.totalLaps}',
                 style: GoogleFonts.orbitron(
                   fontSize: 10, fontWeight: FontWeight.w900,
-                  color: _kCyan.withOpacity(_pulseAnim.value), letterSpacing: 1,
+                  color: _kCyan.withValues(alpha: _pulseAnim.value), letterSpacing: 1,
                 ),
               ),
             ),
@@ -350,7 +350,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
             width: double.infinity,
             height: 240,
             decoration: BoxDecoration(
-              border: Border.all(color: _kCyan.withOpacity(0.2)),
+              border: Border.all(color: _kCyan.withValues(alpha: 0.2)),
               borderRadius: BorderRadius.circular(10),
             ),
             child: ClipRRect(
@@ -380,9 +380,9 @@ class _RaceSimScreenState extends State<RaceSimScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        border: Border.all(color: _kCyan.withOpacity(0.25)),
+        border: Border.all(color: _kCyan.withValues(alpha: 0.25)),
         borderRadius: BorderRadius.circular(6),
-        color: _kCyan.withOpacity(0.05),
+        color: _kCyan.withValues(alpha: 0.05),
       ),
       child: Row(
         children: [
@@ -390,7 +390,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
           Text('P${p.position}',
               style: GoogleFonts.orbitron(
                 fontSize: 28, fontWeight: FontWeight.w900, color: _kCyan,
-                shadows: [Shadow(color: _kCyan.withOpacity(0.6), blurRadius: 14)],
+                shadows: [Shadow(color: _kCyan.withValues(alpha: 0.6), blurRadius: 14)],
               )),
           const SizedBox(width: 12),
 
@@ -402,7 +402,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 Text('${p.flag}  ${p.name}',
                     style: GoogleFonts.rajdhani(fontSize: 13, fontWeight: FontWeight.w700, color: _kWhite)),
                 Text(p.teamName,
-                    style: GoogleFonts.rajdhani(fontSize: 11, color: _kWhite.withOpacity(0.35))),
+                    style: GoogleFonts.rajdhani(fontSize: 11, color: _kWhite.withValues(alpha: 0.35))),
               ],
             ),
           ),
@@ -416,7 +416,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _tyreColor(p.tyre),
-                      boxShadow: [BoxShadow(color: _tyreColor(p.tyre).withOpacity(0.6), blurRadius: 5)],
+                      boxShadow: [BoxShadow(color: _tyreColor(p.tyre).withValues(alpha: 0.6), blurRadius: 5)],
                     )),
                 const SizedBox(width: 5),
                 Text(p.tyre.label,
@@ -429,13 +429,13 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(999),
                   child: Stack(children: [
-                    Container(color: _kWhite.withOpacity(0.08)),
+                    Container(color: _kWhite.withValues(alpha: 0.08)),
                     FractionallySizedBox(
                       widthFactor: p.tyreHealth,
                       child: Container(
                         decoration: BoxDecoration(
                           color: p.tyreCritical ? _kRed : _tyreColor(p.tyre),
-                          boxShadow: [BoxShadow(color: (p.tyreCritical ? _kRed : _tyreColor(p.tyre)).withOpacity(0.5), blurRadius: 3)],
+                          boxShadow: [BoxShadow(color: (p.tyreCritical ? _kRed : _tyreColor(p.tyre)).withValues(alpha: 0.5), blurRadius: 3)],
                         ),
                       ),
                     ),
@@ -443,7 +443,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 ),
               ),
               Text(p.tyreCritical ? '⚠ CRITICAL' : '${(p.tyreHealth*100).toInt()}%',
-                  style: GoogleFonts.orbitron(fontSize: 7, color: p.tyreCritical ? _kRed : _kWhite.withOpacity(0.35))),
+                  style: GoogleFonts.orbitron(fontSize: 7, color: p.tyreCritical ? _kRed : _kWhite.withValues(alpha: 0.35))),
             ],
           ),
 
@@ -454,7 +454,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(p.gapDisplay,
-                  style: GoogleFonts.orbitron(fontSize: 9, color: _kWhite.withOpacity(0.4), letterSpacing: 1)),
+                  style: GoogleFonts.orbitron(fontSize: 9, color: _kWhite.withValues(alpha: 0.4), letterSpacing: 1)),
               if (_state.safetyCar || _state.virtualSafetyCar)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
@@ -475,15 +475,15 @@ class _RaceSimScreenState extends State<RaceSimScreen>
       child: Row(
         children: [
           Text('LIVE TOWER',
-              style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 3, color: _kCyan.withOpacity(0.5))),
+              style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 3, color: _kCyan.withValues(alpha: 0.5))),
           const SizedBox(width: 8),
-          Expanded(child: Container(height: 1, color: _kCyan.withOpacity(0.1))),
+          Expanded(child: Container(height: 1, color: _kCyan.withValues(alpha: 0.1))),
           const SizedBox(width: 8),
           Text('TYRE',
-              style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 2, color: _kWhite.withOpacity(0.2))),
+              style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.2))),
           const SizedBox(width: 20),
           Text('GAP',
-              style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 2, color: _kWhite.withOpacity(0.2))),
+              style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.2))),
         ],
       ),
     );
@@ -505,11 +505,11 @@ class _RaceSimScreenState extends State<RaceSimScreen>
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
           decoration: BoxDecoration(
             border: Border.all(
-              color: isP ? _kCyan.withOpacity(0.6) : _kWhite.withOpacity(0.05),
+              color: isP ? _kCyan.withValues(alpha: 0.6) : _kWhite.withValues(alpha: 0.05),
               width: isP ? 1.5 : 1,
             ),
             borderRadius: BorderRadius.circular(3),
-            color: isP ? _kCyan.withOpacity(0.07) : _kWhite.withOpacity(0.015),
+            color: isP ? _kCyan.withValues(alpha: 0.07) : _kWhite.withValues(alpha: 0.015),
           ),
           child: Row(
             children: [
@@ -518,7 +518,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 child: Text('${d.position}',
                     style: GoogleFonts.orbitron(
                       fontSize: 13, fontWeight: FontWeight.w900,
-                      color: isP ? _kCyan : d.position <= 3 ? _kYellow : _kWhite.withOpacity(0.28),
+                      color: isP ? _kCyan : d.position <= 3 ? _kYellow : _kWhite.withValues(alpha: 0.28),
                     )),
               ),
               Text(d.flag, style: const TextStyle(fontSize: 12)),
@@ -528,7 +528,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                   isP ? '★ ${d.name}' : d.name,
                   style: GoogleFonts.rajdhani(
                     fontSize: 13, fontWeight: FontWeight.w700,
-                    color: isP ? _kWhite : _kWhite.withOpacity(0.6),
+                    color: isP ? _kWhite : _kWhite.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -537,14 +537,14 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 width: 8, height: 8,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle, color: _tyreColor(d.tyre),
-                  boxShadow: isP ? [BoxShadow(color: _tyreColor(d.tyre).withOpacity(0.6), blurRadius: 4)] : null,
+                  boxShadow: isP ? [BoxShadow(color: _tyreColor(d.tyre).withValues(alpha: 0.6), blurRadius: 4)] : null,
                 ),
               ),
               const SizedBox(width: 3),
               SizedBox(
                 width: 16,
                 child: Text(d.tyre.shortLabel,
-                    style: GoogleFonts.orbitron(fontSize: 8, color: _tyreColor(d.tyre).withOpacity(0.7))),
+                    style: GoogleFonts.orbitron(fontSize: 8, color: _tyreColor(d.tyre).withValues(alpha: 0.7))),
               ),
               const SizedBox(width: 4),
               SizedBox(
@@ -553,7 +553,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                     textAlign: TextAlign.right,
                     style: GoogleFonts.orbitron(
                       fontSize: 9,
-                      color: d.position == 1 ? _kYellow : _kWhite.withOpacity(0.28),
+                      color: d.position == 1 ? _kYellow : _kWhite.withValues(alpha: 0.28),
                     )),
               ),
             ],
@@ -576,13 +576,13 @@ class _RaceSimScreenState extends State<RaceSimScreen>
               height: 3,
               child: Stack(
                 children: [
-                  Container(color: _kWhite.withOpacity(0.05)),
+                  Container(color: _kWhite.withValues(alpha: 0.05)),
                   FractionallySizedBox(
                     widthFactor: _state.raceProgress,
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(colors: [_kCyan, _kMagenta]),
-                        boxShadow: [BoxShadow(color: _kCyan.withOpacity(0.4), blurRadius: 4)],
+                        boxShadow: [BoxShadow(color: _kCyan.withValues(alpha: 0.4), blurRadius: 4)],
                       ),
                     ),
                   ),
@@ -602,9 +602,9 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 child: Container(
                   height: 48, width: 52,
                   decoration: BoxDecoration(
-                    border: Border.all(color: _kOrange.withOpacity(0.5)),
+                    border: Border.all(color: _kOrange.withValues(alpha: 0.5)),
                     borderRadius: BorderRadius.circular(3),
-                    color: _kOrange.withOpacity(0.08),
+                    color: _kOrange.withValues(alpha: 0.08),
                   ),
                   child: const Center(child: Text('🔧', style: TextStyle(fontSize: 20))),
                 ),
@@ -623,7 +623,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                         color: _running ? _kRed : _kCyan,
                         borderRadius: BorderRadius.circular(3),
                         boxShadow: [BoxShadow(
-                          color: (_running ? _kRed : _kCyan).withOpacity(0.35 * _pulseAnim.value),
+                          color: (_running ? _kRed : _kCyan).withValues(alpha: 0.35 * _pulseAnim.value),
                           blurRadius: 14,
                         )],
                       ),
@@ -654,11 +654,11 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 child: Container(
                   height: 48, width: 52,
                   decoration: BoxDecoration(
-                    border: Border.all(color: _kWhite.withOpacity(0.1)),
+                    border: Border.all(color: _kWhite.withValues(alpha: 0.1)),
                     borderRadius: BorderRadius.circular(3),
                   ),
                   child: Center(
-                    child: Text('⏭', style: TextStyle(fontSize: 20, color: _kWhite.withOpacity(0.3))),
+                    child: Text('⏭', style: TextStyle(fontSize: 20, color: _kWhite.withValues(alpha: 0.3))),
                   ),
                 ),
               ),
@@ -684,11 +684,11 @@ class _RaceSimScreenState extends State<RaceSimScreen>
             builder: (_, __) => Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               decoration: BoxDecoration(
-                border: Border.all(color: _dramaColor.withOpacity(0.8), width: 1.5),
+                border: Border.all(color: _dramaColor.withValues(alpha: 0.8), width: 1.5),
                 borderRadius: BorderRadius.circular(6),
-                color: _dramaColor.withOpacity(0.12),
+                color: _dramaColor.withValues(alpha: 0.12),
                 boxShadow: [BoxShadow(
-                  color: _dramaColor.withOpacity(0.28 * _pulseAnim.value), blurRadius: 22,
+                  color: _dramaColor.withValues(alpha: 0.28 * _pulseAnim.value), blurRadius: 22,
                 )],
               ),
               child: Column(
@@ -702,7 +702,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                     const SizedBox(height: 4),
                     Text(_dramaSubtitle!,
                         style: GoogleFonts.rajdhani(
-                          fontSize: 13, color: _kWhite.withOpacity(0.7), letterSpacing: 1,
+                          fontSize: 13, color: _kWhite.withValues(alpha: 0.7), letterSpacing: 1,
                         ), textAlign: TextAlign.center),
                   ],
                 ],
@@ -724,10 +724,10 @@ class _RaceSimScreenState extends State<RaceSimScreen>
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
-            border: Border.all(color: _kGreen.withOpacity(0.35)),
+            border: Border.all(color: _kGreen.withValues(alpha: 0.35)),
             borderRadius: BorderRadius.circular(4),
-            color: _kBg.withOpacity(0.96),
-            boxShadow: [BoxShadow(color: _kGreen.withOpacity(0.1), blurRadius: 12)],
+            color: _kBg.withValues(alpha: 0.96),
+            boxShadow: [BoxShadow(color: _kGreen.withValues(alpha: 0.1), blurRadius: 12)],
           ),
           child: Row(
             children: [
@@ -737,8 +737,8 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                   width: 30, height: 30,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _kGreen.withOpacity(0.12 * _pulseAnim.value),
-                    border: Border.all(color: _kGreen.withOpacity(0.45)),
+                    color: _kGreen.withValues(alpha: 0.12 * _pulseAnim.value),
+                    border: Border.all(color: _kGreen.withValues(alpha: 0.45)),
                   ),
                   child: const Center(child: Text('📻', style: TextStyle(fontSize: 13))),
                 ),
@@ -750,12 +750,12 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                   children: [
                     Text('ENGINEER',
                         style: GoogleFonts.orbitron(
-                          fontSize: 8, letterSpacing: 2, color: _kGreen.withOpacity(0.7),
+                          fontSize: 8, letterSpacing: 2, color: _kGreen.withValues(alpha: 0.7),
                         )),
                     Text(_radioMessage ?? '',
                         style: GoogleFonts.rajdhani(
                           fontSize: 13, fontWeight: FontWeight.w600,
-                          color: _kWhite.withOpacity(0.85),
+                          color: _kWhite.withValues(alpha: 0.85),
                         )),
                   ],
                 ),
@@ -772,16 +772,16 @@ class _RaceSimScreenState extends State<RaceSimScreen>
   Widget _buildPitMenu() {
     return Positioned.fill(
       child: Container(
-        color: Colors.black.withOpacity(0.88),
+        color: Colors.black.withValues(alpha: 0.88),
         child: Center(
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              border: Border.all(color: _kOrange.withOpacity(0.55)),
+              border: Border.all(color: _kOrange.withValues(alpha: 0.55)),
               borderRadius: BorderRadius.circular(8),
               color: _kBg,
-              boxShadow: [BoxShadow(color: _kOrange.withOpacity(0.2), blurRadius: 32)],
+              boxShadow: [BoxShadow(color: _kOrange.withValues(alpha: 0.2), blurRadius: 32)],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -789,12 +789,12 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                 Text('🔧  PIT STOP',
                     style: GoogleFonts.orbitron(
                       fontSize: 20, fontWeight: FontWeight.w900, color: _kOrange,
-                      shadows: [Shadow(color: _kOrange.withOpacity(0.5), blurRadius: 12)],
+                      shadows: [Shadow(color: _kOrange.withValues(alpha: 0.5), blurRadius: 12)],
                     )),
                 const SizedBox(height: 4),
                 Text('LAP ${_state.currentLap}  —  CHOOSE YOUR TYRE',
                     style: GoogleFonts.orbitron(
-                      fontSize: 9, letterSpacing: 2, color: _kWhite.withOpacity(0.3),
+                      fontSize: 9, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.3),
                     )),
                 const SizedBox(height: 20),
                 ...[TyreCompound.soft, TyreCompound.medium, TyreCompound.hard,
@@ -807,13 +807,13 @@ class _RaceSimScreenState extends State<RaceSimScreen>
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     decoration: BoxDecoration(
-                      border: Border.all(color: _kWhite.withOpacity(0.1)),
+                      border: Border.all(color: _kWhite.withValues(alpha: 0.1)),
                       borderRadius: BorderRadius.circular(3),
                     ),
                     child: Center(
                       child: Text('STAY OUT',
                           style: GoogleFonts.orbitron(
-                            fontSize: 11, letterSpacing: 3, color: _kWhite.withOpacity(0.3),
+                            fontSize: 11, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.3),
                           )),
                     ),
                   ),
@@ -839,9 +839,9 @@ class _RaceSimScreenState extends State<RaceSimScreen>
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
         decoration: BoxDecoration(
-          border: Border.all(color: rec ? c : c.withOpacity(0.22), width: rec ? 1.5 : 1),
+          border: Border.all(color: rec ? c : c.withValues(alpha: 0.22), width: rec ? 1.5 : 1),
           borderRadius: BorderRadius.circular(3),
-          color: rec ? c.withOpacity(0.1) : Colors.transparent,
+          color: rec ? c.withValues(alpha: 0.1) : Colors.transparent,
         ),
         child: Row(
           children: [
@@ -849,7 +849,7 @@ class _RaceSimScreenState extends State<RaceSimScreen>
               width: 12, height: 12,
               decoration: BoxDecoration(
                 shape: BoxShape.circle, color: c,
-                boxShadow: [BoxShadow(color: c.withOpacity(0.5), blurRadius: 6)],
+                boxShadow: [BoxShadow(color: c.withValues(alpha: 0.5), blurRadius: 6)],
               ),
             ),
             const SizedBox(width: 12),
@@ -857,14 +857,14 @@ class _RaceSimScreenState extends State<RaceSimScreen>
               child: Text(tyre.label,
                   style: GoogleFonts.orbitron(
                     fontSize: 12, fontWeight: FontWeight.w700,
-                    color: rec ? _kWhite : _kWhite.withOpacity(0.4),
+                    color: rec ? _kWhite : _kWhite.withValues(alpha: 0.4),
                   )),
             ),
             if (rec)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: c.withOpacity(0.18), borderRadius: BorderRadius.circular(2),
+                  color: c.withValues(alpha: 0.18), borderRadius: BorderRadius.circular(2),
                 ),
                 child: Text('RECOMMENDED',
                     style: GoogleFonts.orbitron(fontSize: 7, letterSpacing: 1, color: c)),
@@ -895,7 +895,7 @@ class _ParticleFieldState extends State<_ParticleField>
     x: _r.nextDouble(), y: _r.nextDouble(),
     s: 0.02 + _r.nextDouble() * 0.05, r: 0.3 + _r.nextDouble() * 0.8,
     c: [_kCyan, _kMagenta, _kGreen, _kYellow][i % 4]
-        .withOpacity(0.10 + _r.nextDouble() * 0.08),
+        .withValues(alpha: 0.10 + _r.nextDouble() * 0.08),
   ));
 
   @override
@@ -938,7 +938,7 @@ class _PPainter extends CustomPainter {
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final p = Paint()..color = Colors.black.withOpacity(0.02);
+    final p = Paint()..color = Colors.black.withValues(alpha: 0.02);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), p);
     }

@@ -108,7 +108,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     Colors.transparent,
-                    _accent.withOpacity(_pulseAnim.value),
+                    _accent.withValues(alpha: _pulseAnim.value),
                     Colors.transparent,
                   ]),
                 ),
@@ -158,14 +158,14 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                border: Border.all(color: _kWhite.withOpacity(0.15)),
+                border: Border.all(color: _kWhite.withValues(alpha: 0.15)),
                 borderRadius: BorderRadius.circular(2),
               ),
               child: Text(
                 '‹  BACK',
                 style: GoogleFonts.orbitron(
                   fontSize: 9, letterSpacing: 2,
-                  color: _kWhite.withOpacity(0.4),
+                  color: _kWhite.withValues(alpha: 0.4),
                 ),
               ),
             ),
@@ -178,16 +178,16 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
             builder: (_, __) => Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                border: Border.all(color: _accent.withOpacity(0.4)),
+                border: Border.all(color: _accent.withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(2),
-                color: _accent.withOpacity(0.08),
+                color: _accent.withValues(alpha: 0.08),
               ),
               child: Text(
                 'ROUND  ${widget.race.round}',
                 style: GoogleFonts.orbitron(
                   fontSize: 9, letterSpacing: 2,
-                  color: _accent.withOpacity(0.9),
-                  shadows: [Shadow(color: _accent.withOpacity(_pulseAnim.value * 0.5), blurRadius: 8)],
+                  color: _accent.withValues(alpha: 0.9),
+                  shadows: [Shadow(color: _accent.withValues(alpha: _pulseAnim.value * 0.5), blurRadius: 8)],
                 ),
               ),
             ),
@@ -204,9 +204,9 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: _accent.withOpacity(0.3)),
+          border: Border.all(color: _accent.withValues(alpha: 0.3)),
           borderRadius: BorderRadius.circular(4),
-          color: _accent.withOpacity(0.05),
+          color: _accent.withValues(alpha: 0.05),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,13 +232,13 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                       Text(
                         widget.race.circuit,
                         style: GoogleFonts.rajdhani(
-                          fontSize: 13, color: _kWhite.withOpacity(0.45),
+                          fontSize: 13, color: _kWhite.withValues(alpha: 0.45),
                         ),
                       ),
                       Text(
                         '${widget.race.city}  ·  ${widget.race.country}',
                         style: GoogleFonts.rajdhani(
-                          fontSize: 12, color: _kWhite.withOpacity(0.3),
+                          fontSize: 12, color: _kWhite.withValues(alpha: 0.3),
                         ),
                       ),
                     ],
@@ -265,7 +265,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Colors.transparent,
-                  _accent.withOpacity(0.3),
+                  _accent.withValues(alpha: 0.3),
                   Colors.transparent,
                 ]),
               ),
@@ -278,12 +278,12 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(999),
                     color: _isCompleted
-                        ? const Color(0xFF39FF14).withOpacity(0.1)
-                        : _kCyan.withOpacity(0.1),
+                        ? const Color(0xFF39FF14).withValues(alpha: 0.1)
+                        : _kCyan.withValues(alpha: 0.1),
                     border: Border.all(
                       color: _isCompleted
-                          ? const Color(0xFF39FF14).withOpacity(0.4)
-                          : _kCyan.withOpacity(0.4),
+                          ? const Color(0xFF39FF14).withValues(alpha: 0.4)
+                          : _kCyan.withValues(alpha: 0.4),
                     ),
                   ),
                   child: Text(
@@ -301,7 +301,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                   widget.race.circuitTypeLabel.toUpperCase(),
                   style: GoogleFonts.orbitron(
                     fontSize: 8, letterSpacing: 1.5,
-                    color: _kWhite.withOpacity(0.25),
+                    color: _kWhite.withValues(alpha: 0.25),
                   ),
                 ),
               ],
@@ -321,7 +321,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
             label,
             style: GoogleFonts.orbitron(
               fontSize: 7, letterSpacing: 2,
-              color: _kWhite.withOpacity(0.25),
+              color: _kWhite.withValues(alpha: 0.25),
             ),
           ),
           const SizedBox(height: 3),
@@ -329,7 +329,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
             value,
             style: GoogleFonts.rajdhani(
               fontSize: 13, fontWeight: FontWeight.w700,
-              color: _kWhite.withOpacity(0.85),
+              color: _kWhite.withValues(alpha: 0.85),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -359,18 +359,18 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
               decoration: BoxDecoration(
                 color: active ? _accent : Colors.transparent,
                 border: Border.all(
-                  color: active ? _accent : _kWhite.withOpacity(0.12),
+                  color: active ? _accent : _kWhite.withValues(alpha: 0.12),
                 ),
                 borderRadius: BorderRadius.circular(2),
                 boxShadow: active
-                    ? [BoxShadow(color: _accent.withOpacity(0.3), blurRadius: 10)]
+                    ? [BoxShadow(color: _accent.withValues(alpha: 0.3), blurRadius: 10)]
                     : null,
               ),
               child: Text(
                 e.value,
                 style: GoogleFonts.orbitron(
                   fontSize: 9, letterSpacing: 2, fontWeight: FontWeight.w700,
-                  color: active ? Colors.black : _kWhite.withOpacity(0.4),
+                  color: active ? Colors.black : _kWhite.withValues(alpha: 0.4),
                 ),
               ),
             ),
@@ -422,7 +422,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
       title,
       style: GoogleFonts.orbitron(
         fontSize: 9, letterSpacing: 3,
-        color: _accent.withOpacity(0.7),
+        color: _accent.withValues(alpha: 0.7),
       ),
     );
   }
@@ -442,14 +442,14 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                 style: GoogleFonts.orbitron(
                   fontSize: 22, fontWeight: FontWeight.w900,
                   color: _accent,
-                  shadows: [Shadow(color: _accent.withOpacity(0.5), blurRadius: 12)],
+                  shadows: [Shadow(color: _accent.withValues(alpha: 0.5), blurRadius: 12)],
                 ),
               ),
               Text(
                 'FASTEST LAP',
                 style: GoogleFonts.orbitron(
                   fontSize: 8, letterSpacing: 2,
-                  color: _kWhite.withOpacity(0.25),
+                  color: _kWhite.withValues(alpha: 0.25),
                 ),
               ),
             ],
@@ -468,7 +468,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
               Text(
                 '${lr.year}',
                 style: GoogleFonts.orbitron(
-                  fontSize: 10, color: _kWhite.withOpacity(0.3),
+                  fontSize: 10, color: _kWhite.withValues(alpha: 0.3),
                 ),
               ),
             ],
@@ -512,7 +512,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
           label,
           style: GoogleFonts.orbitron(
             fontSize: 7, letterSpacing: 1.5,
-            color: _kWhite.withOpacity(0.3),
+            color: _kWhite.withValues(alpha: 0.3),
           ),
         ),
       ],
@@ -521,7 +521,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
 
   Widget _buildCircuitDivider() => Container(
     width: 1, height: 32,
-    color: _kWhite.withOpacity(0.08),
+    color: _kWhite.withValues(alpha: 0.08),
   );
 
   Widget _buildPodiumCard() {
@@ -558,7 +558,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                       Text(
                         r.team,
                         style: GoogleFonts.rajdhani(
-                          fontSize: 11, color: _kWhite.withOpacity(0.35),
+                          fontSize: 11, color: _kWhite.withValues(alpha: 0.35),
                         ),
                       ),
                     ],
@@ -570,7 +570,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                     Text(
                       r.time,
                       style: GoogleFonts.orbitron(
-                        fontSize: 10, color: _kWhite.withOpacity(0.5),
+                        fontSize: 10, color: _kWhite.withValues(alpha: 0.5),
                       ),
                     ),
                     Text(
@@ -578,7 +578,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                       style: GoogleFonts.orbitron(
                         fontSize: 10, fontWeight: FontWeight.w700,
                         color: color,
-                        shadows: [Shadow(color: color.withOpacity(0.5), blurRadius: 6)],
+                        shadows: [Shadow(color: color.withValues(alpha: 0.5), blurRadius: 6)],
                       ),
                     ),
                   ],
@@ -604,7 +604,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                 'RACE STARTS IN',
                 style: GoogleFonts.orbitron(
                   fontSize: 8, letterSpacing: 2,
-                  color: _kWhite.withOpacity(0.25),
+                  color: _kWhite.withValues(alpha: 0.25),
                 ),
               ),
               const SizedBox(height: 6),
@@ -617,13 +617,13 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                       style: GoogleFonts.orbitron(
                         fontSize: 36, fontWeight: FontWeight.w900,
                         color: _accent,
-                        shadows: [Shadow(color: _accent.withOpacity(_pulseAnim.value), blurRadius: 20)],
+                        shadows: [Shadow(color: _accent.withValues(alpha: _pulseAnim.value), blurRadius: 20)],
                       ),
                     ),
                     TextSpan(
                       text: '  DAYS',
                       style: GoogleFonts.orbitron(
-                        fontSize: 14, color: _kWhite.withOpacity(0.3),
+                        fontSize: 14, color: _kWhite.withValues(alpha: 0.3),
                         letterSpacing: 2,
                       ),
                     ),
@@ -646,7 +646,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
               Text(
                 '${widget.race.city.toUpperCase()}',
                 style: GoogleFonts.rajdhani(
-                  fontSize: 13, color: _kWhite.withOpacity(0.35),
+                  fontSize: 13, color: _kWhite.withValues(alpha: 0.35),
                   letterSpacing: 1,
                 ),
               ),
@@ -669,7 +669,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
           'NO RESULTS YET',
           style: GoogleFonts.orbitron(
             fontSize: 11, letterSpacing: 3,
-            color: _kWhite.withOpacity(0.2),
+            color: _kWhite.withValues(alpha: 0.2),
           ),
         ),
       );
@@ -703,7 +703,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
       2: const Color(0xFFC0C0C0),
       3: const Color(0xFFCD7F32),
     };
-    final posColor = posColors[r.pos] ?? _kWhite.withOpacity(0.2);
+    final posColor = posColors[r.pos] ?? _kWhite.withValues(alpha: 0.2);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -711,13 +711,13 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
       decoration: BoxDecoration(
         border: Border.all(
           color: r.pos <= 3
-              ? posColor.withOpacity(0.3)
-              : _kWhite.withOpacity(0.06),
+              ? posColor.withValues(alpha: 0.3)
+              : _kWhite.withValues(alpha: 0.06),
         ),
         borderRadius: BorderRadius.circular(4),
         color: r.pos == 1
-            ? const Color(0xFFFFE600).withOpacity(0.04)
-            : _kWhite.withOpacity(0.015),
+            ? const Color(0xFFFFE600).withValues(alpha: 0.04)
+            : _kWhite.withValues(alpha: 0.015),
       ),
       child: Row(
         children: [
@@ -730,7 +730,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                 fontSize: 16, fontWeight: FontWeight.w900,
                 color: posColor,
                 shadows: r.pos <= 3
-                    ? [Shadow(color: posColor.withOpacity(0.5), blurRadius: 8)]
+                    ? [Shadow(color: posColor.withValues(alpha: 0.5), blurRadius: 8)]
                     : null,
               ),
               textAlign: TextAlign.center,
@@ -753,7 +753,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                 Text(
                   r.team,
                   style: GoogleFonts.rajdhani(
-                    fontSize: 11, color: _kWhite.withOpacity(0.35),
+                    fontSize: 11, color: _kWhite.withValues(alpha: 0.35),
                   ),
                 ),
               ],
@@ -768,7 +768,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                 r.time,
                 style: GoogleFonts.orbitron(
                   fontSize: 10,
-                  color: _kWhite.withOpacity(r.pos == 1 ? 0.8 : 0.45),
+                  color: _kWhite.withValues(alpha: r.pos == 1 ? 0.8 : 0.45),
                 ),
               ),
               // Points
@@ -777,8 +777,8 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
                 style: GoogleFonts.orbitron(
                   fontSize: 9, fontWeight: FontWeight.w700,
                   color: r.isPointsFinish
-                      ? _accent.withOpacity(0.8)
-                      : _kWhite.withOpacity(0.15),
+                      ? _accent.withValues(alpha: 0.8)
+                      : _kWhite.withValues(alpha: 0.15),
                 ),
               ),
             ],
@@ -790,8 +790,8 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
               decoration: BoxDecoration(
-                color: const Color(0xFFFF00FF).withOpacity(0.15),
-                border: Border.all(color: const Color(0xFFFF00FF).withOpacity(0.4)),
+                color: const Color(0xFFFF00FF).withValues(alpha: 0.15),
+                border: Border.all(color: const Color(0xFFFF00FF).withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(2),
               ),
               child: Text(
@@ -822,7 +822,7 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
               color: const Color(0xFFFFE600),
               borderRadius: BorderRadius.circular(3),
               boxShadow: [BoxShadow(
-                  color: const Color(0xFFFFE600).withOpacity(0.3),
+                  color: const Color(0xFFFFE600).withValues(alpha: 0.3),
                   blurRadius: 16)],
             ),
             child: Center(child: Text('🏎  QUALIFYING SESSION  →  RACE',
@@ -841,9 +841,9 @@ class _RaceDetailScreenState extends State<RaceDetailScreen>
               width: double.infinity,
               height: 48,
               decoration: BoxDecoration(
-                border: Border.all(color: _accent.withOpacity(0.4)),
+                border: Border.all(color: _accent.withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(3),
-                color: _accent.withOpacity(0.08),
+                color: _accent.withValues(alpha: 0.08),
               ),
               child: Center(child: Text(
                   '🏁  SKIP QUALIFYING — START RACE',
@@ -874,9 +874,9 @@ class _InfoCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white.withOpacity(0.07)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
         borderRadius: BorderRadius.circular(4),
-        color: Colors.white.withOpacity(0.02),
+        color: Colors.white.withValues(alpha: 0.02),
       ),
       child: child,
     );
@@ -903,7 +903,7 @@ class _ParticleFieldState extends State<_ParticleField>
     c: [
       const Color(0xFF00E5FF), const Color(0xFFFF00FF),
       const Color(0xFF39FF14), const Color(0xFFFFE600),
-    ][i % 4].withOpacity(0.18 + _rng.nextDouble() * 0.12),
+    ][i % 4].withValues(alpha: 0.18 + _rng.nextDouble() * 0.12),
   ));
 
   @override
@@ -950,7 +950,7 @@ class _PPainter extends CustomPainter {
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final p = Paint()..color = Colors.black.withOpacity(0.022);
+    final p = Paint()..color = Colors.black.withValues(alpha: 0.022);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), p);
     }

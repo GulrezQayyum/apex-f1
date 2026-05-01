@@ -53,20 +53,21 @@ class _ResponsiveHomeScreenState extends State<ResponsiveHomeScreen> {
       padding: padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: spacing,
         children: [
           widget.statusBar,
-          Row(
-            spacing: spacing,
-            children: [
-              Expanded(child: widget.clockCard),
-              Expanded(child: SizedBox.shrink()),
-            ],
-          ),
+          SizedBox(height: spacing),
+          // FIX: removed broken Expanded(child: SizedBox.shrink()) —
+          // clockCard takes full width on mobile
+          widget.clockCard,
+          SizedBox(height: spacing),
           widget.welcomeCard,
+          SizedBox(height: spacing),
           widget.nextRaceCard,
+          SizedBox(height: spacing),
           widget.quickMenuCard,
+          SizedBox(height: spacing),
           widget.standingsPreviewCard,
+          SizedBox(height: spacing),
           widget.lastRaceCard,
         ],
       ),
@@ -85,10 +86,11 @@ class _ResponsiveHomeScreenState extends State<ResponsiveHomeScreen> {
         children: [
           widget.statusBar,
           SizedBox(height: spacing),
+          // FIX: replaced Row(spacing:) with explicit SizedBox
           Row(
-            spacing: spacing,
             children: [
               Expanded(child: widget.clockCard),
+              SizedBox(width: spacing),
               Expanded(child: widget.nextRaceCard),
             ],
           ),
@@ -96,9 +98,9 @@ class _ResponsiveHomeScreenState extends State<ResponsiveHomeScreen> {
           widget.welcomeCard,
           SizedBox(height: spacing),
           Row(
-            spacing: spacing,
             children: [
               Expanded(child: widget.quickMenuCard),
+              SizedBox(width: spacing),
               Expanded(child: widget.standingsPreviewCard),
             ],
           ),
@@ -122,19 +124,21 @@ class _ResponsiveHomeScreenState extends State<ResponsiveHomeScreen> {
           widget.statusBar,
           SizedBox(height: spacing),
           Row(
-            spacing: spacing,
             children: [
               Expanded(flex: 1, child: widget.clockCard),
+              SizedBox(width: spacing),
               Expanded(flex: 2, child: widget.welcomeCard),
+              SizedBox(width: spacing),
               Expanded(flex: 1, child: widget.nextRaceCard),
             ],
           ),
           SizedBox(height: spacing),
           Row(
-            spacing: spacing,
             children: [
               Expanded(flex: 1, child: widget.quickMenuCard),
+              SizedBox(width: spacing),
               Expanded(flex: 1, child: widget.standingsPreviewCard),
+              SizedBox(width: spacing),
               Expanded(flex: 1, child: widget.lastRaceCard),
             ],
           ),

@@ -36,17 +36,14 @@ class _ResponsiveDriversScreenState extends State<ResponsiveDriversScreen> {
     }
   }
 
-  /// Mobile: 1 column list
   Widget _buildMobileLayout() {
     return _buildLayout(crossAxisCount: 1, isListView: true);
   }
 
-  /// Tablet: 2 column grid
   Widget _buildTabletLayout() {
     return _buildLayout(crossAxisCount: 2, isListView: false);
   }
 
-  /// Desktop: 3-4 column grid
   Widget _buildDesktopLayout() {
     final width = MediaQuery.of(context).size.width;
     final crossAxisCount = width > 1400 ? 4 : 3;
@@ -71,12 +68,11 @@ class _ResponsiveDriversScreenState extends State<ResponsiveDriversScreen> {
           SizedBox(height: spacing),
           if (isListView)
             Column(
-              children: widget.driverCards.map((card) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: spacing),
-                  child: card,
-                );
-              }).toList(),
+              // FIX: replaced Column(spacing:) with explicit SizedBox children
+              children: widget.driverCards.expand((card) => [
+                card,
+                SizedBox(height: spacing),
+              ]).toList(),
             )
           else
             GridView.count(
@@ -124,24 +120,34 @@ class _ResponsiveDriversScreenState extends State<ResponsiveDriversScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        spacing: spacing,
-        children: widget.sortOptions.map((option) {
+        // FIX: replaced Row(spacing:) with explicit SizedBox between children
+        children: widget.sortOptions.expand((option) {
           final isActive = widget.currentSort == option;
-          return FilterChip(
-            label: Text(option),
-            selected: isActive,
-            onSelected: (_) => widget.onSortChanged(option),
-            backgroundColor: isActive ? const Color(0xFF00E5FF) : const Color(0xFF0A0A14),
-            selectedColor: const Color(0xFF00E5FF),
-            labelStyle: TextStyle(
-              color: isActive ? const Color(0xFF030308) : const Color(0xFF00E5FF),
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Rajdhani',
+          return [
+            FilterChip(
+              label: Text(option),
+              selected: isActive,
+              onSelected: (_) => widget.onSortChanged(option),
+              // FIX: replaced .withValues(alpha: ) with .withAlpha() (non-deprecated)
+              backgroundColor: isActive
+                  ? const Color(0xFF00E5FF)
+                  : const Color(0xFF0A0A14),
+              selectedColor: const Color(0xFF00E5FF),
+              labelStyle: TextStyle(
+                color: isActive
+                    ? const Color(0xFF030308)
+                    : const Color(0xFF00E5FF),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Rajdhani',
+              ),
+              side: BorderSide(
+                color: isActive
+                    ? const Color(0xFF00E5FF)
+                    : const Color(0xFF444444),
+              ),
             ),
-            side: BorderSide(
-              color: isActive ? const Color(0xFF00E5FF) : const Color(0xFF444444),
-            ),
-          );
+            SizedBox(width: spacing),
+          ];
         }).toList(),
       ),
     );
@@ -174,6 +180,9 @@ class _ResponsiveStandingsScreenState
   Widget build(BuildContext context) {
     final padding = ResponsiveHelper.getResponsivePadding(context);
     final spacing = ResponsiveHelper.getResponsiveSpacing(context);
+    final cards = widget.showDrivers
+        ? widget.driverCards
+        : widget.constructorCards;
 
     return SingleChildScrollView(
       padding: padding,
@@ -193,9 +202,12 @@ class _ResponsiveStandingsScreenState
           SizedBox(height: spacing * 2),
           _buildTabButtons(spacing),
           SizedBox(height: spacing * 2),
+          // FIX: replaced Column(spacing:) with explicit SizedBox
           Column(
-            spacing: spacing,
-            children: widget.showDrivers ? widget.driverCards : widget.constructorCards,
+            children: cards.expand((card) => [
+              card,
+              SizedBox(height: spacing),
+            ]).toList(),
           ),
         ],
       ),
@@ -204,7 +216,7 @@ class _ResponsiveStandingsScreenState
 
   Widget _buildTabButtons(double spacing) {
     return Row(
-      spacing: spacing,
+      // FIX: replaced Row(spacing:) with explicit SizedBox
       children: [
         Expanded(
           child: GestureDetector(
@@ -213,18 +225,23 @@ class _ResponsiveStandingsScreenState
               padding: EdgeInsets.all(spacing),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: widget.showDrivers ? const Color(0xFF00E5FF) : const Color(0xFF444444),
+                  color: widget.showDrivers
+                      ? const Color(0xFF00E5FF)
+                      : const Color(0xFF444444),
                 ),
                 borderRadius: BorderRadius.circular(4),
+                // FIX: .withValues(alpha: 0.1) → Color.withAlpha(26)
                 color: widget.showDrivers
-                    ? const Color(0xFF00E5FF).withOpacity(0.1)
+                    ? const Color(0xFF00E5FF).withAlpha(26)
                     : const Color(0xFF0A0A14),
               ),
               child: Text(
                 'DRIVERS',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: widget.showDrivers ? const Color(0xFF00E5FF) : const Color(0xFFAAAAAA),
+                  color: widget.showDrivers
+                      ? const Color(0xFF00E5FF)
+                      : const Color(0xFFAAAAAA),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Rajdhani',
                   letterSpacing: 1,
@@ -233,6 +250,7 @@ class _ResponsiveStandingsScreenState
             ),
           ),
         ),
+        SizedBox(width: spacing),
         Expanded(
           child: GestureDetector(
             onTap: () => widget.onTabChanged(false),
@@ -240,18 +258,23 @@ class _ResponsiveStandingsScreenState
               padding: EdgeInsets.all(spacing),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: !widget.showDrivers ? const Color(0xFF00E5FF) : const Color(0xFF444444),
+                  color: !widget.showDrivers
+                      ? const Color(0xFF00E5FF)
+                      : const Color(0xFF444444),
                 ),
                 borderRadius: BorderRadius.circular(4),
+                // FIX: .withValues(alpha: 0.1) → Color.withAlpha(26)
                 color: !widget.showDrivers
-                    ? const Color(0xFF00E5FF).withOpacity(0.1)
+                    ? const Color(0xFF00E5FF).withAlpha(26)
                     : const Color(0xFF0A0A14),
               ),
               child: Text(
                 'CONSTRUCTORS',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: !widget.showDrivers ? const Color(0xFF00E5FF) : const Color(0xFFAAAAAA),
+                  color: !widget.showDrivers
+                      ? const Color(0xFF00E5FF)
+                      : const Color(0xFFAAAAAA),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Rajdhani',
                   letterSpacing: 1,

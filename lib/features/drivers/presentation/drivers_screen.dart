@@ -124,14 +124,14 @@ class _DriversScreenState extends State<DriversScreen>
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: _kCyan.withOpacity(0.15))),
+        border: Border(bottom: BorderSide(color: _kCyan.withValues(alpha: 0.15))),
       ),
       child: Row(
         children: [
           GestureDetector(
             onTap: () => Navigator.of(context).pop(),
             child: Icon(Icons.arrow_back_ios_new_rounded,
-                color: _kWhite.withOpacity(0.4), size: 18),
+                color: _kWhite.withValues(alpha: 0.4), size: 18),
           ),
           const SizedBox(width: 12),
           Text('DRIVERS', style: GoogleFonts.orbitron(
@@ -140,11 +140,11 @@ class _DriversScreenState extends State<DriversScreen>
           )),
           const SizedBox(width: 8),
           Text('2024', style: GoogleFonts.orbitron(
-            fontSize: 10, color: _kCyan.withOpacity(0.6), letterSpacing: 2,
+            fontSize: 10, color: _kCyan.withValues(alpha: 0.6), letterSpacing: 2,
           )),
           const Spacer(),
           Text('${_drivers.length} DRIVERS', style: GoogleFonts.orbitron(
-            fontSize: 9, color: _kWhite.withOpacity(0.3), letterSpacing: 1,
+            fontSize: 9, color: _kWhite.withValues(alpha: 0.3), letterSpacing: 1,
           )),
         ],
       ),
@@ -159,7 +159,7 @@ class _DriversScreenState extends State<DriversScreen>
       child: Row(
         children: [
           Text('SORT  ', style: GoogleFonts.orbitron(
-              fontSize: 8, color: _kWhite.withOpacity(0.3), letterSpacing: 2)),
+              fontSize: 8, color: _kWhite.withValues(alpha: 0.3), letterSpacing: 2)),
           ...options.map((o) => GestureDetector(
             onTap: () => setState(() => _sortBy = o.$1),
             child: Container(
@@ -167,16 +167,16 @@ class _DriversScreenState extends State<DriversScreen>
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 border: Border.all(color: _sortBy == o.$1
-                    ? _kCyan.withOpacity(0.6)
-                    : _kWhite.withOpacity(0.08)),
+                    ? _kCyan.withValues(alpha: 0.6)
+                    : _kWhite.withValues(alpha: 0.08)),
                 borderRadius: BorderRadius.circular(3),
                 color: _sortBy == o.$1
-                    ? _kCyan.withOpacity(0.1)
+                    ? _kCyan.withValues(alpha: 0.1)
                     : Colors.transparent,
               ),
               child: Text(o.$2, style: GoogleFonts.orbitron(
                 fontSize: 8, letterSpacing: 1,
-                color: _sortBy == o.$1 ? _kCyan : _kWhite.withOpacity(0.3),
+                color: _sortBy == o.$1 ? _kCyan : _kWhite.withValues(alpha: 0.3),
                 fontWeight: _sortBy == o.$1 ? FontWeight.w700 : FontWeight.w400,
               )),
             ),
@@ -203,11 +203,11 @@ class _DriversScreenState extends State<DriversScreen>
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
               border: Border.all(
-                color: d.teamColor.withOpacity(0.3),
+                color: d.teamColor.withValues(alpha: 0.3),
                 width: 1,
               ),
               borderRadius: BorderRadius.circular(4),
-              color: d.teamColor.withOpacity(0.04),
+              color: d.teamColor.withValues(alpha: 0.04),
             ),
             child: Row(
               children: [
@@ -219,7 +219,7 @@ class _DriversScreenState extends State<DriversScreen>
                         fontSize: 13, fontWeight: FontWeight.w900,
                         color: rank <= 3
                             ? [const Color(0xFFFFE600), const Color(0xFFC0C0C0), const Color(0xFFCD7F32)][rank-1]
-                            : _kWhite.withOpacity(0.25),
+                            : _kWhite.withValues(alpha: 0.25),
                       )),
                 ),
 
@@ -228,9 +228,9 @@ class _DriversScreenState extends State<DriversScreen>
                   width: 28, height: 22,
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
-                    color: d.teamColor.withOpacity(0.15),
+                    color: d.teamColor.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(3),
-                    border: Border.all(color: d.teamColor.withOpacity(0.4)),
+                    border: Border.all(color: d.teamColor.withValues(alpha: 0.4)),
                   ),
                   child: Center(
                     child: Text('${d.number}',
@@ -255,7 +255,7 @@ class _DriversScreenState extends State<DriversScreen>
                           )),
                       Text(d.team,
                           style: GoogleFonts.rajdhani(
-                            fontSize: 11, color: d.teamColor.withOpacity(0.7),
+                            fontSize: 11, color: d.teamColor.withValues(alpha: 0.7),
                           )),
                     ],
                   ),
@@ -272,14 +272,14 @@ class _DriversScreenState extends State<DriversScreen>
                         )),
                     Text('${d.wins}W  ${d.podiums}P',
                         style: GoogleFonts.orbitron(
-                          fontSize: 8, color: _kWhite.withOpacity(0.3),
+                          fontSize: 8, color: _kWhite.withValues(alpha: 0.3),
                         )),
                   ],
                 ),
 
                 const SizedBox(width: 8),
                 Icon(Icons.chevron_right_rounded,
-                    color: _kWhite.withOpacity(0.2), size: 16),
+                    color: _kWhite.withValues(alpha: 0.2), size: 16),
               ],
             ),
           ),
@@ -295,7 +295,7 @@ class _DriversScreenState extends State<DriversScreen>
       child: GestureDetector(
         onTap: _closeDriver,
         child: Container(
-          color: Colors.black.withOpacity(0.85),
+          color: Colors.black.withValues(alpha: 0.85),
           child: Center(
             child: FadeTransition(
               opacity: _detailAnim,
@@ -309,10 +309,10 @@ class _DriversScreenState extends State<DriversScreen>
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      border: Border.all(color: d.teamColor.withOpacity(0.6), width: 1.5),
+                      border: Border.all(color: d.teamColor.withValues(alpha: 0.6), width: 1.5),
                       borderRadius: BorderRadius.circular(8),
                       color: _kBg,
-                      boxShadow: [BoxShadow(color: d.teamColor.withOpacity(0.2), blurRadius: 30)],
+                      boxShadow: [BoxShadow(color: d.teamColor.withValues(alpha: 0.2), blurRadius: 30)],
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -323,7 +323,7 @@ class _DriversScreenState extends State<DriversScreen>
                           child: GestureDetector(
                             onTap: _closeDriver,
                             child: Icon(Icons.close_rounded,
-                                color: _kWhite.withOpacity(0.3), size: 20),
+                                color: _kWhite.withValues(alpha: 0.3), size: 20),
                           ),
                         ),
 
@@ -332,7 +332,7 @@ class _DriversScreenState extends State<DriversScreen>
                             style: GoogleFonts.orbitron(
                               fontSize: 48, fontWeight: FontWeight.w900,
                               color: d.teamColor,
-                              shadows: [Shadow(color: d.teamColor.withOpacity(0.6), blurRadius: 20)],
+                              shadows: [Shadow(color: d.teamColor.withValues(alpha: 0.6), blurRadius: 20)],
                             )),
 
                         // Name
@@ -345,12 +345,12 @@ class _DriversScreenState extends State<DriversScreen>
                         const SizedBox(height: 4),
                         Text(d.team,
                             style: GoogleFonts.rajdhani(
-                              fontSize: 13, color: d.teamColor.withOpacity(0.8),
+                              fontSize: 13, color: d.teamColor.withValues(alpha: 0.8),
                               letterSpacing: 1,
                             )),
                         Text(d.nationality,
                             style: GoogleFonts.rajdhani(
-                              fontSize: 11, color: _kWhite.withOpacity(0.3),
+                              fontSize: 11, color: _kWhite.withValues(alpha: 0.3),
                             )),
 
                         const SizedBox(height: 20),
@@ -390,16 +390,16 @@ class _DriversScreenState extends State<DriversScreen>
       childAspectRatio: 1.2,
       children: stats.map((s) => Container(
         decoration: BoxDecoration(
-          color: d.teamColor.withOpacity(0.08),
+          color: d.teamColor.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: d.teamColor.withOpacity(0.2)),
+          border: Border.all(color: d.teamColor.withValues(alpha: 0.2)),
         ),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(s.$2, style: GoogleFonts.orbitron(
               fontSize: 16, fontWeight: FontWeight.w900, color: d.teamColor)),
           const SizedBox(height: 2),
           Text(s.$1, style: GoogleFonts.orbitron(
-              fontSize: 7, letterSpacing: 1, color: _kWhite.withOpacity(0.3))),
+              fontSize: 7, letterSpacing: 1, color: _kWhite.withValues(alpha: 0.3))),
         ]),
       )).toList(),
     );
@@ -411,7 +411,7 @@ class _DriversScreenState extends State<DriversScreen>
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text('DRIVER RATING', style: GoogleFonts.orbitron(
-              fontSize: 8, letterSpacing: 2, color: _kWhite.withOpacity(0.3))),
+              fontSize: 8, letterSpacing: 2, color: _kWhite.withValues(alpha: 0.3))),
           Text('${d.rating}/10', style: GoogleFonts.orbitron(
               fontSize: 10, fontWeight: FontWeight.w900, color: d.teamColor)),
         ]),
@@ -421,13 +421,13 @@ class _DriversScreenState extends State<DriversScreen>
           child: SizedBox(
             height: 5,
             child: Stack(children: [
-              Container(color: _kWhite.withOpacity(0.07)),
+              Container(color: _kWhite.withValues(alpha: 0.07)),
               FractionallySizedBox(
                 widthFactor: d.rating / 10,
                 child: Container(
                   decoration: BoxDecoration(
                     color: d.teamColor,
-                    boxShadow: [BoxShadow(color: d.teamColor.withOpacity(0.5), blurRadius: 4)],
+                    boxShadow: [BoxShadow(color: d.teamColor.withValues(alpha: 0.5), blurRadius: 4)],
                   ),
                 ),
               ),

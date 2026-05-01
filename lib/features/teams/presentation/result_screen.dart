@@ -53,7 +53,7 @@ class _ResultScreenState extends State<ResultScreen>
     2 => const Color(0xFFC0C0C0),
     3 => const Color(0xFFCD7F32),
     _ when widget.result.isPoints => _kCyan,
-    _ => _kWhite.withOpacity(0.4),
+    _ => _kWhite.withValues(alpha: 0.4),
   };
 
   @override
@@ -139,7 +139,7 @@ class _ResultScreenState extends State<ResultScreen>
                       center: Alignment.center,
                       radius: 1.2,
                       colors: [
-                        _resultColor.withOpacity(0.08 * _pulseAnim.value),
+                        _resultColor.withValues(alpha: 0.08 * _pulseAnim.value),
                         Colors.transparent,
                       ],
                     ),
@@ -183,7 +183,7 @@ class _ResultScreenState extends State<ResultScreen>
           '🏁  CHEQUERED FLAG',
           style: GoogleFonts.orbitron(
             fontSize: 11, letterSpacing: 4,
-            color: _kWhite.withOpacity(0.4),
+            color: _kWhite.withValues(alpha: 0.4),
           ),
         ),
         const SizedBox(height: 6),
@@ -221,11 +221,11 @@ class _ResultScreenState extends State<ResultScreen>
                   color: _resultColor, height: 1,
                   shadows: [
                     Shadow(
-                      color: _resultColor.withOpacity(0.8 * _pulseAnim.value),
+                      color: _resultColor.withValues(alpha: 0.8 * _pulseAnim.value),
                       blurRadius: 30,
                     ),
                     Shadow(
-                      color: _resultColor.withOpacity(0.4 * _pulseAnim.value),
+                      color: _resultColor.withValues(alpha: 0.4 * _pulseAnim.value),
                       blurRadius: 60,
                     ),
                   ],
@@ -241,7 +241,7 @@ class _ResultScreenState extends State<ResultScreen>
                   : 'RACE COMPLETE',
               style: GoogleFonts.orbitron(
                 fontSize: 13, letterSpacing: 4,
-                color: _resultColor.withOpacity(0.7),
+                color: _resultColor.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -259,9 +259,9 @@ class _ResultScreenState extends State<ResultScreen>
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: _resultColor.withOpacity(0.3)),
+          border: Border.all(color: _resultColor.withValues(alpha: 0.3)),
           borderRadius: BorderRadius.circular(4),
-          color: _resultColor.withOpacity(0.05),
+          color: _resultColor.withValues(alpha: 0.05),
         ),
         child: Column(
           children: [
@@ -276,7 +276,7 @@ class _ResultScreenState extends State<ResultScreen>
             Text(
               widget.result.teamName,
               style: GoogleFonts.rajdhani(
-                fontSize: 14, color: _kWhite.withOpacity(0.4),
+                fontSize: 14, color: _kWhite.withValues(alpha: 0.4),
                 letterSpacing: 1,
               ),
             ),
@@ -286,7 +286,7 @@ class _ResultScreenState extends State<ResultScreen>
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Colors.transparent,
-                  _resultColor.withOpacity(0.3),
+                  _resultColor.withValues(alpha: 0.3),
                   Colors.transparent,
                 ]),
               ),
@@ -304,13 +304,13 @@ class _ResultScreenState extends State<ResultScreen>
                       style: GoogleFonts.orbitron(
                         fontSize: 36, fontWeight: FontWeight.w900,
                         color: _resultColor,
-                        shadows: [Shadow(color: _resultColor.withOpacity(0.5), blurRadius: 12)],
+                        shadows: [Shadow(color: _resultColor.withValues(alpha: 0.5), blurRadius: 12)],
                       ),
                     ),
                     TextSpan(
                       text: '  POINTS',
                       style: GoogleFonts.orbitron(
-                        fontSize: 14, color: _kWhite.withOpacity(0.3),
+                        fontSize: 14, color: _kWhite.withValues(alpha: 0.3),
                         letterSpacing: 2,
                       ),
                     ),
@@ -347,9 +347,9 @@ class _ResultScreenState extends State<ResultScreen>
         childAspectRatio: 1.5,
         children: stats.map((s) => Container(
           decoration: BoxDecoration(
-            border: Border.all(color: _kWhite.withOpacity(0.07)),
+            border: Border.all(color: _kWhite.withValues(alpha: 0.07)),
             borderRadius: BorderRadius.circular(4),
-            color: _kWhite.withOpacity(0.02),
+            color: _kWhite.withValues(alpha: 0.02),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -366,7 +366,7 @@ class _ResultScreenState extends State<ResultScreen>
                 s.$1,
                 style: GoogleFonts.orbitron(
                   fontSize: 7, letterSpacing: 1.5,
-                  color: _kWhite.withOpacity(0.25),
+                  color: _kWhite.withValues(alpha: 0.25),
                 ),
               ),
             ],
@@ -395,7 +395,7 @@ class _ResultScreenState extends State<ResultScreen>
             'RACE HIGHLIGHTS',
             style: GoogleFonts.orbitron(
               fontSize: 9, letterSpacing: 3,
-              color: _kCyan.withOpacity(0.6),
+              color: _kCyan.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 8),
@@ -406,7 +406,7 @@ class _ResultScreenState extends State<ResultScreen>
                 Text(
                   'LAP ${e.lap}',
                   style: GoogleFonts.orbitron(
-                    fontSize: 9, color: _kCyan.withOpacity(0.5),
+                    fontSize: 9, color: _kCyan.withValues(alpha: 0.5),
                     letterSpacing: 1,
                   ),
                 ),
@@ -415,7 +415,7 @@ class _ResultScreenState extends State<ResultScreen>
                   child: Text(
                     e.message,
                     style: GoogleFonts.rajdhani(
-                      fontSize: 12, color: _kWhite.withOpacity(0.6),
+                      fontSize: 12, color: _kWhite.withValues(alpha: 0.6),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -450,7 +450,7 @@ class _ResultScreenState extends State<ResultScreen>
                   borderRadius: BorderRadius.circular(3),
                   boxShadow: [
                     BoxShadow(
-                      color: _resultColor.withOpacity(0.4 * _pulseAnim.value),
+                      color: _resultColor.withValues(alpha: 0.4 * _pulseAnim.value),
                       blurRadius: 20,
                     ),
                   ],
@@ -476,7 +476,7 @@ class _ResultScreenState extends State<ResultScreen>
               width: double.infinity,
               height: 48,
               decoration: BoxDecoration(
-                border: Border.all(color: _kWhite.withOpacity(0.15)),
+                border: Border.all(color: _kWhite.withValues(alpha: 0.15)),
                 borderRadius: BorderRadius.circular(3),
               ),
               child: Center(
@@ -484,7 +484,7 @@ class _ResultScreenState extends State<ResultScreen>
                   '↺  RACE AGAIN',
                   style: GoogleFonts.orbitron(
                     fontSize: 11, letterSpacing: 2,
-                    color: _kWhite.withOpacity(0.4),
+                    color: _kWhite.withValues(alpha: 0.4),
                   ),
                 ),
               ),
@@ -509,9 +509,9 @@ class _ResultScreenState extends State<ResultScreen>
               width: double.infinity,
               height: 48,
               decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFFFF00FF).withOpacity(0.35)),
+                border: Border.all(color: const Color(0xFFFF00FF).withValues(alpha: 0.35)),
                 borderRadius: BorderRadius.circular(3),
-                color: const Color(0xFFFF00FF).withOpacity(0.06),
+                color: const Color(0xFFFF00FF).withValues(alpha: 0.06),
               ),
               child: Center(
                 child: Text(
@@ -542,9 +542,9 @@ class _ResultScreenState extends State<ResultScreen>
               width: double.infinity,
               height: 48,
               decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFF6692FF).withOpacity(0.35)),
+                border: Border.all(color: const Color(0xFF6692FF).withValues(alpha: 0.35)),
                 borderRadius: BorderRadius.circular(3),
-                color: const Color(0xFF6692FF).withOpacity(0.06),
+                color: const Color(0xFF6692FF).withValues(alpha: 0.06),
               ),
               child: Center(
                 child: Text(
@@ -584,7 +584,7 @@ class _ParticleFieldState extends State<_ParticleField>
       const Color(0xFF00E5FF), const Color(0xFFFF00FF),
       const Color(0xFF39FF14), const Color(0xFFFFE600),
       const Color(0xFFFF073A),
-    ][i % 5].withOpacity(0.2 + _rng.nextDouble() * 0.2),
+    ][i % 5].withValues(alpha: 0.2 + _rng.nextDouble() * 0.2),
   ));
 
   @override
@@ -627,7 +627,7 @@ class _PPainter extends CustomPainter {
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final p = Paint()..color = Colors.black.withOpacity(0.022);
+    final p = Paint()..color = Colors.black.withValues(alpha: 0.022);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), p);
     }

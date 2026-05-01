@@ -162,7 +162,7 @@ class _StandingsScreenState extends State<StandingsScreen>
           GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Icon(Icons.arrow_back_ios_new_rounded,
-                color: _kWhite.withOpacity(0.3), size: 16),
+                color: _kWhite.withValues(alpha: 0.3), size: 16),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -171,10 +171,10 @@ class _StandingsScreenState extends State<StandingsScreen>
               children: [
                 Text('CHAMPIONSHIP', style: GoogleFonts.orbitron(
                     fontSize: 18, fontWeight: FontWeight.w900, color: _kWhite,
-                    shadows: [Shadow(color: _kCyan.withOpacity(0.4), blurRadius: 12)])),
+                    shadows: [Shadow(color: _kCyan.withValues(alpha: 0.4), blurRadius: 12)])),
                 Text('2024 FORMULA ONE WORLD CHAMPIONSHIP',
                     style: GoogleFonts.orbitron(fontSize: 8, letterSpacing: 2,
-                        color: _kWhite.withOpacity(0.3))),
+                        color: _kWhite.withValues(alpha: 0.3))),
               ],
             ),
           ),
@@ -183,9 +183,9 @@ class _StandingsScreenState extends State<StandingsScreen>
             builder: (_, __) => Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                border: Border.all(color: _kYellow.withOpacity(0.5)),
+                border: Border.all(color: _kYellow.withValues(alpha: 0.5)),
                 borderRadius: BorderRadius.circular(4),
-                color: _kYellow.withOpacity(0.08 * _pulseAnim.value),
+                color: _kYellow.withValues(alpha: 0.08 * _pulseAnim.value),
               ),
               child: Text('FINAL', style: GoogleFonts.orbitron(
                   fontSize: 9, fontWeight: FontWeight.w900,
@@ -219,16 +219,16 @@ class _StandingsScreenState extends State<StandingsScreen>
         duration: const Duration(milliseconds: 250),
         padding: const EdgeInsets.symmetric(vertical: 11),
         decoration: BoxDecoration(
-          color: active ? _kCyan : _kWhite.withOpacity(0.03),
+          color: active ? _kCyan : _kWhite.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
-              color: active ? _kCyan : _kWhite.withOpacity(0.08)),
+              color: active ? _kCyan : _kWhite.withValues(alpha: 0.08)),
         ),
         child: Center(
           child: Text(label, style: GoogleFonts.orbitron(
               fontSize: 10, fontWeight: FontWeight.w900,
               letterSpacing: 2,
-              color: active ? Colors.black : _kWhite.withOpacity(0.4))),
+              color: active ? Colors.black : _kWhite.withValues(alpha: 0.4))),
         ),
       ),
     );
@@ -254,16 +254,16 @@ class _StandingsScreenState extends State<StandingsScreen>
               decoration: BoxDecoration(
                 border: Border.all(
                   color: isChamp
-                      ? _kYellow.withOpacity(0.5)
+                      ? _kYellow.withValues(alpha: 0.5)
                       : isPodium
-                      ? d.teamColor.withOpacity(0.3)
-                      : _kWhite.withOpacity(0.06),
+                      ? d.teamColor.withValues(alpha: 0.3)
+                      : _kWhite.withValues(alpha: 0.06),
                   width: isChamp ? 1.5 : 1,
                 ),
                 borderRadius: BorderRadius.circular(6),
                 color: isChamp
-                    ? _kYellow.withOpacity(0.05)
-                    : _kWhite.withOpacity(0.02),
+                    ? _kYellow.withValues(alpha: 0.05)
+                    : _kWhite.withValues(alpha: 0.02),
               ),
               child: Column(
                 children: [
@@ -280,7 +280,7 @@ class _StandingsScreenState extends State<StandingsScreen>
                                   ? _kYellow
                                   : isPodium
                                   ? d.teamColor
-                                  : _kWhite.withOpacity(0.3),
+                                  : _kWhite.withValues(alpha: 0.3),
                             )),
                       ),
                       // Flag
@@ -310,7 +310,7 @@ class _StandingsScreenState extends State<StandingsScreen>
                                   fontSize: 18, fontWeight: FontWeight.w900,
                                   color: isChamp ? _kYellow : _kWhite)),
                           Text('PTS', style: GoogleFonts.orbitron(
-                              fontSize: 8, color: _kWhite.withOpacity(0.3),
+                              fontSize: 8, color: _kWhite.withValues(alpha: 0.3),
                               letterSpacing: 1)),
                         ],
                       ),
@@ -325,14 +325,14 @@ class _StandingsScreenState extends State<StandingsScreen>
                     child: SizedBox(
                       height: 3,
                       child: Stack(children: [
-                        Container(color: _kWhite.withOpacity(0.06)),
+                        Container(color: _kWhite.withValues(alpha: 0.06)),
                         FractionallySizedBox(
                           widthFactor: (d.points / maxPts) * _barAnim.value,
                           child: Container(
                             decoration: BoxDecoration(
                               color: isChamp ? _kYellow : d.teamColor,
                               boxShadow: [BoxShadow(
-                                  color: (isChamp ? _kYellow : d.teamColor).withOpacity(0.5),
+                                  color: (isChamp ? _kYellow : d.teamColor).withValues(alpha: 0.5),
                                   blurRadius: 4)],
                             ),
                           ),
@@ -354,9 +354,9 @@ class _StandingsScreenState extends State<StandingsScreen>
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: d.teamColor.withOpacity(0.15),
+                          color: d.teamColor.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(3),
-                          border: Border.all(color: d.teamColor.withOpacity(0.3)),
+                          border: Border.all(color: d.teamColor.withValues(alpha: 0.3)),
                         ),
                         child: Text(d.shortName,
                             style: GoogleFonts.orbitron(
@@ -381,7 +381,7 @@ class _StandingsScreenState extends State<StandingsScreen>
             fontSize: 13, fontWeight: FontWeight.w900, color: color)),
         Text(label, style: GoogleFonts.orbitron(
             fontSize: 7, letterSpacing: 1,
-            color: _kWhite.withOpacity(0.25))),
+            color: _kWhite.withValues(alpha: 0.25))),
       ],
     );
   }
@@ -405,12 +405,12 @@ class _StandingsScreenState extends State<StandingsScreen>
               decoration: BoxDecoration(
                 border: Border.all(
                   color: isTop
-                      ? c.color.withOpacity(0.7)
-                      : c.color.withOpacity(0.2),
+                      ? c.color.withValues(alpha: 0.7)
+                      : c.color.withValues(alpha: 0.2),
                   width: isTop ? 1.5 : 1,
                 ),
                 borderRadius: BorderRadius.circular(6),
-                color: c.color.withOpacity(0.04),
+                color: c.color.withValues(alpha: 0.04),
               ),
               child: Column(
                 children: [
@@ -422,7 +422,7 @@ class _StandingsScreenState extends State<StandingsScreen>
                         child: Text('${c.pos}',
                             style: GoogleFonts.orbitron(
                                 fontSize: 20, fontWeight: FontWeight.w900,
-                                color: isTop ? c.color : _kWhite.withOpacity(0.3))),
+                                color: isTop ? c.color : _kWhite.withValues(alpha: 0.3))),
                       ),
                       // Flag + color bar
                       Container(
@@ -430,7 +430,7 @@ class _StandingsScreenState extends State<StandingsScreen>
                         decoration: BoxDecoration(
                           color: c.color,
                           borderRadius: BorderRadius.circular(2),
-                          boxShadow: [BoxShadow(color: c.color.withOpacity(0.5), blurRadius: 6)],
+                          boxShadow: [BoxShadow(color: c.color.withValues(alpha: 0.5), blurRadius: 6)],
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -448,7 +448,7 @@ class _StandingsScreenState extends State<StandingsScreen>
                             ]),
                             Text(c.drivers.join('  ·  '),
                                 style: GoogleFonts.orbitron(
-                                    fontSize: 9, color: c.color.withOpacity(0.7),
+                                    fontSize: 9, color: c.color.withValues(alpha: 0.7),
                                     letterSpacing: 1)),
                           ],
                         ),
@@ -461,7 +461,7 @@ class _StandingsScreenState extends State<StandingsScreen>
                                   fontSize: 20, fontWeight: FontWeight.w900,
                                   color: isTop ? c.color : _kWhite)),
                           Text('PTS', style: GoogleFonts.orbitron(
-                              fontSize: 8, color: _kWhite.withOpacity(0.3),
+                              fontSize: 8, color: _kWhite.withValues(alpha: 0.3),
                               letterSpacing: 1)),
                         ],
                       ),
@@ -476,14 +476,14 @@ class _StandingsScreenState extends State<StandingsScreen>
                     child: SizedBox(
                       height: 4,
                       child: Stack(children: [
-                        Container(color: _kWhite.withOpacity(0.06)),
+                        Container(color: _kWhite.withValues(alpha: 0.06)),
                         FractionallySizedBox(
                           widthFactor: (c.points / maxPts) * _barAnim.value,
                           child: Container(
                             decoration: BoxDecoration(
                               color: c.color,
                               boxShadow: [BoxShadow(
-                                  color: c.color.withOpacity(0.6), blurRadius: 5)],
+                                  color: c.color.withValues(alpha: 0.6), blurRadius: 5)],
                             ),
                           ),
                         ),
@@ -502,9 +502,9 @@ class _StandingsScreenState extends State<StandingsScreen>
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: c.color.withOpacity(0.12),
+                          color: c.color.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(3),
-                          border: Border.all(color: c.color.withOpacity(0.3)),
+                          border: Border.all(color: c.color.withValues(alpha: 0.3)),
                         ),
                         child: Text(
                             isTop ? '🏆 CHAMPION' : 'P${c.pos}',
@@ -527,7 +527,7 @@ class _StandingsScreenState extends State<StandingsScreen>
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final p = Paint()..color = Colors.black.withOpacity(0.02);
+    final p = Paint()..color = Colors.black.withValues(alpha: 0.02);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), p);
     }

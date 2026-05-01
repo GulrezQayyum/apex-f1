@@ -232,6 +232,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: _bg,
       body: Stack(
         children: [
@@ -239,24 +240,44 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
           const _ParticleBackground(),
 
           // Scanlines
-          Positioned.fill(child: CustomPaint(painter: _ScanlinePainter())),
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _ScanlinePainter(),
+            ),
+          ),
 
           // Corner brackets
           ..._corners(),
 
           // Main content
           SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(),
-                Expanded(
-                  child: FadeTransition(
-                    opacity: _fadeAnim,
-                    child: _buildStepContent(),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          _buildHeader(),
+
+                          Expanded(
+                            child: FadeTransition(
+                              opacity: _fadeAnim,
+                              child: _buildStepContent(),
+                            ),
+                          ),
+
+                          _buildFooter(),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                _buildFooter(),
-              ],
+                );
+              },
             ),
           ),
         ],
@@ -278,7 +299,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
               style: GoogleFonts.orbitron(
                 fontSize: 10,
                 letterSpacing: 4,
-                color: _accentColor.withOpacity(_pulseAnim.value),
+                color: _accentColor.withValues(alpha: _pulseAnim.value),
               ),
             ),
           ),
@@ -311,9 +332,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                   borderRadius: BorderRadius.circular(999),
                   color: done || active
                       ? _accentColor
-                      : _white.withOpacity(0.15),
+                      : _white.withValues(alpha: 0.15),
                   boxShadow: active
-                      ? [BoxShadow(color: _accentColor.withOpacity(0.6), blurRadius: 6)]
+                      ? [BoxShadow(color: _accentColor.withValues(alpha: 0.6), blurRadius: 6)]
                       : null,
                 ),
               );
@@ -329,7 +350,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
                 Colors.transparent,
-                _accentColor.withOpacity(0.6),
+                _accentColor.withValues(alpha: 0.6),
                 Colors.transparent,
               ]),
             ),
@@ -354,7 +375,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
                 Colors.transparent,
-                _accentColor.withOpacity(0.3),
+                _accentColor.withValues(alpha: 0.3),
                 Colors.transparent,
               ]),
             ),
@@ -373,7 +394,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: [
                   BoxShadow(
-                    color: _accentColor.withOpacity(0.3),
+                    color: _accentColor.withValues(alpha: 0.3),
                     blurRadius: 16,
                   ),
                 ],
@@ -402,7 +423,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                 style: GoogleFonts.orbitron(
                   fontSize: 10,
                   letterSpacing: 3,
-                  color: _white.withOpacity(0.25),
+                  color: _white.withValues(alpha: 0.25),
                 ),
               ),
             ),
@@ -437,7 +458,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
             'What should we call you on the grid?',
             style: GoogleFonts.rajdhani(
               fontSize: 15,
-              color: _white.withOpacity(0.5),
+              color: _white.withValues(alpha: 0.5),
               letterSpacing: 0.5,
             ),
           ),
@@ -452,13 +473,13 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                   color: _nameError != null
                       ? const Color(0xFFFF073A)
                       : _nameController.text.isNotEmpty
-                      ? _accentColor.withOpacity(0.8)
-                      : _white.withOpacity(0.15),
+                      ? _accentColor.withValues(alpha: 0.8)
+                      : _white.withValues(alpha: 0.15),
                 ),
                 borderRadius: BorderRadius.circular(4),
-                color: _white.withOpacity(0.03),
+                color: _white.withValues(alpha: 0.03),
                 boxShadow: _nameController.text.isNotEmpty
-                    ? [BoxShadow(color: _accentColor.withOpacity(0.1), blurRadius: 12)]
+                    ? [BoxShadow(color: _accentColor.withValues(alpha: 0.1), blurRadius: 12)]
                     : null,
               ),
               child: TextField(
@@ -476,7 +497,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                   hintText: 'e.g. VERSTAPPEN FAN',
                   hintStyle: GoogleFonts.orbitron(
                     fontSize: 13,
-                    color: _white.withOpacity(0.2),
+                    color: _white.withValues(alpha: 0.2),
                     letterSpacing: 2,
                   ),
                   border: InputBorder.none,
@@ -514,14 +535,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               border: Border(
-                left: BorderSide(color: _accentColor.withOpacity(0.5), width: 2),
+                left: BorderSide(color: _accentColor.withValues(alpha: 0.5), width: 2),
               ),
             ),
             child: Text(
               'Your name will appear on the leaderboard during race simulations.',
               style: GoogleFonts.rajdhani(
                 fontSize: 13,
-                color: _white.withOpacity(0.35),
+                color: _white.withValues(alpha: 0.35),
                 height: 1.6,
               ),
             ),
@@ -545,12 +566,15 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
             'Choose your constructor allegiance',
             style: GoogleFonts.rajdhani(
               fontSize: 15,
-              color: _white.withOpacity(0.5),
+              color: _white.withValues(alpha: 0.5),
             ),
           ),
           const SizedBox(height: 16),
+
+          // ✅ FIX: Give GridView height
           Expanded(
             child: GridView.builder(
+              physics: const BouncingScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 2.8,
@@ -578,13 +602,13 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           border: Border.all(
-            color: selected ? team.color : _white.withOpacity(0.1),
+            color: selected ? team.color : _white.withValues(alpha: 0.1),
             width: selected ? 1.5 : 1,
           ),
           borderRadius: BorderRadius.circular(4),
-          color: selected ? team.color.withOpacity(0.1) : _white.withOpacity(0.02),
+          color: selected ? team.color.withValues(alpha: 0.1) : _white.withValues(alpha: 0.02),
           boxShadow: selected
-              ? [BoxShadow(color: team.color.withOpacity(0.25), blurRadius: 12)]
+              ? [BoxShadow(color: team.color.withValues(alpha: 0.25), blurRadius: 12)]
               : null,
         ),
         child: Row(
@@ -596,7 +620,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: team.color,
-                boxShadow: [BoxShadow(color: team.color.withOpacity(0.6), blurRadius: 6)],
+                boxShadow: [BoxShadow(color: team.color.withValues(alpha: 0.6), blurRadius: 6)],
               ),
             ),
             const SizedBox(width: 8),
@@ -606,7 +630,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                 style: GoogleFonts.rajdhani(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: selected ? _white : _white.withOpacity(0.6),
+                  color: selected ? _white : _white.withValues(alpha: 0.6),
                   letterSpacing: 0.3,
                 ),
                 maxLines: 1,
@@ -647,23 +671,32 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                 : 'Pick your favourite driver',
             style: GoogleFonts.rajdhani(
               fontSize: 15,
-              color: _white.withOpacity(0.5),
+              color: _white.withValues(alpha: 0.5),
             ),
           ),
           const SizedBox(height: 12),
+
+          // ✅ FIX: Use ListView with Expanded
           Expanded(
             child: ListView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 // Team drivers first
-                ..._teamDrivers.map((d) => _buildDriverTile(d, highlight: true)),
+                ..._teamDrivers.map(
+                      (d) => _buildDriverTile(d, highlight: true),
+                ),
 
-                // Divider if there are other drivers
+                // Divider + other drivers
                 if (_otherDrivers.isNotEmpty) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Row(
                       children: [
-                        Expanded(child: Divider(color: _white.withOpacity(0.08))),
+                        Expanded(
+                          child: Divider(
+                            color: _white.withValues(alpha: 0.08),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: Text(
@@ -671,15 +704,22 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                             style: GoogleFonts.orbitron(
                               fontSize: 9,
                               letterSpacing: 2,
-                              color: _white.withOpacity(0.2),
+                              color: _white.withValues(alpha: 0.2),
                             ),
                           ),
                         ),
-                        Expanded(child: Divider(color: _white.withOpacity(0.08))),
+                        Expanded(
+                          child: Divider(
+                            color: _white.withValues(alpha: 0.08),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  ..._otherDrivers.map((d) => _buildDriverTile(d, highlight: false)),
+
+                  ..._otherDrivers.map(
+                        (d) => _buildDriverTile(d, highlight: false),
+                  ),
                 ],
               ],
             ),
@@ -701,15 +741,15 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           border: Border.all(
-            color: selected ? team.color : _white.withOpacity(highlight ? 0.1 : 0.05),
+            color: selected ? team.color : _white.withValues(alpha: highlight ? 0.1 : 0.05),
             width: selected ? 1.5 : 1,
           ),
           borderRadius: BorderRadius.circular(4),
           color: selected
-              ? team.color.withOpacity(0.1)
-              : _white.withOpacity(highlight ? 0.03 : 0.01),
+              ? team.color.withValues(alpha: 0.1)
+              : _white.withValues(alpha: highlight ? 0.03 : 0.01),
           boxShadow: selected
-              ? [BoxShadow(color: team.color.withOpacity(0.2), blurRadius: 10)]
+              ? [BoxShadow(color: team.color.withValues(alpha: 0.2), blurRadius: 10)]
               : null,
         ),
         child: Row(
@@ -728,14 +768,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
                     style: GoogleFonts.rajdhani(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: selected ? _white : _white.withOpacity(highlight ? 0.9 : 0.45),
+                      color: selected ? _white : _white.withValues(alpha: highlight ? 0.9 : 0.45),
                     ),
                   ),
                   Text(
                     team.name,
                     style: GoogleFonts.rajdhani(
                       fontSize: 12,
-                      color: selected ? team.color : _white.withOpacity(0.3),
+                      color: selected ? team.color : _white.withValues(alpha: 0.3),
                     ),
                   ),
                 ],
@@ -748,7 +788,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>
               style: GoogleFonts.orbitron(
                 fontSize: 14,
                 fontWeight: FontWeight.w900,
-                color: team.color.withOpacity(selected ? 0.9 : 0.4),
+                color: team.color.withValues(alpha: selected ? 0.9 : 0.4),
               ),
             ),
 
@@ -801,7 +841,7 @@ class _ParticleBackgroundState extends State<_ParticleBackground>
       const Color(0xFFFF00FF),
       const Color(0xFF39FF14),
       const Color(0xFFFFE600),
-    ][i % 4].withOpacity(0.35 + _rng.nextDouble() * 0.25),
+    ][i % 4].withValues(alpha: 0.35 + _rng.nextDouble() * 0.25),
   ));
 
   @override
@@ -858,7 +898,7 @@ class _ParticlePainter extends CustomPainter {
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.black.withOpacity(0.025);
+    final paint = Paint()..color = Colors.black.withValues(alpha: 0.025);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), paint);
     }

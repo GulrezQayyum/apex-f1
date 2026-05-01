@@ -6,28 +6,23 @@ import 'package:apex_f1/features/races/data/models/race_model.dart';
 // ─────────────────────────────────────────────────────────────────
 //  APEX F1 — Race Service (Enhanced)
 //  Location: lib/features/races/data/services/race_service.dart
-//
-//  Responsibilities:
-//    • Load races.json from assets or custom JSON
-//    • Support multiple seasons (2023, 2024, 2025)
-//    • Parse it into SeasonModel
-//    • Expose clean helper methods to screens
-//    • Cache the data so we don't reload every time
-//    • Persist user's selected season
 // ─────────────────────────────────────────────────────────────────
 
 class RaceService {
-  // ── Singleton pattern ─────────────────────────────────────────
+  // ── Singleton ────────────────────────────────────────────────
   static final RaceService _instance = RaceService._internal();
   factory RaceService() => _instance;
   RaceService._internal();
 
-  // ── Cache & State ─────────────────────────────────────────────
+  // ── Cache & State ────────────────────────────────────────────
   SeasonModel? _cachedSeason;
   int? _currentSeason;
   String? _customJsonData;
 
-  // ── Load & Parse ──────────────────────────────────────────────
+  // FIX: in-flight guard so concurrent calls don't double-load
+  Future<SeasonModel>? _loadingFuture;
+
+  // ── Load & Parse ─────────────────────────────────────────────
 
   /// Load season from custom JSON string
   Future<SeasonModel> loadFromCustomJson(String jsonString) async {
@@ -36,12 +31,11 @@ class RaceService {
       _cachedSeason = SeasonModel.fromJson(jsonMap);
       _currentSeason = _cachedSeason?.season;
       _customJsonData = jsonString;
-      
-      // Save preference
+
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt('selected_season', _currentSeason ?? 2024);
       await prefs.setString('custom_races_json', jsonString);
-      
+
       return _cachedSeason!;
     } catch (e) {
       throw RaceServiceException(
@@ -50,23 +44,57 @@ class RaceService {
     }
   }
 
-  /// Load season year from assets (default behavior)
+  /// Load a season from assets.
+  /// FIX: was always loading 'assets/data/races.json' regardless of the
+  /// season parameter — now loads 'assets/data/races_<season>.json'.
+  /// Falls back to 'assets/data/races.json' for backward compatibility.
   Future<SeasonModel> loadSeasonFromAssets({int? season}) async {
     final targetSeason = season ?? _currentSeason ?? 2024;
-    final assetPath = 'assets/data/races.json';
-    
+
+    // Return cache if we already have this season loaded
     if (_cachedSeason != null && _currentSeason == targetSeason) {
       return _cachedSeason!;
     }
 
+    // FIX: race-condition guard — reuse in-flight future if one exists
+    if (_loadingFuture != null) return _loadingFuture!;
+
+    _loadingFuture = _doLoadFromAssets(targetSeason);
     try {
-      final String jsonString = await rootBundle.loadString(assetPath);
+      final result = await _loadingFuture!;
+      return result;
+    } finally {
+      _loadingFuture = null;
+    }
+  }
+
+  Future<SeasonModel> _doLoadFromAssets(int targetSeason) async {
+    // Try season-specific file first (e.g. races_2025.json)
+    // FIX: original code always loaded 'assets/data/races.json', ignoring year
+    const seasonSpecificPath = 'assets/data/races_';
+    final specificPath = '${seasonSpecificPath}$targetSeason.json';
+    const fallbackPath = 'assets/data/races.json';
+
+    String jsonString;
+    try {
+      jsonString = await rootBundle.loadString(specificPath);
+    } catch (_) {
+      // Graceful fallback for projects with a single races.json
+      try {
+        jsonString = await rootBundle.loadString(fallbackPath);
+      } catch (e) {
+        throw RaceServiceException(
+          'No asset found for season $targetSeason: ${e.toString()}',
+        );
+      }
+    }
+
+    try {
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
       _cachedSeason = SeasonModel.fromJson(jsonMap);
       _currentSeason = targetSeason;
       _customJsonData = null;
 
-      // Clear custom data and save preference
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt('selected_season', targetSeason);
       await prefs.remove('custom_races_json');
@@ -74,7 +102,7 @@ class RaceService {
       return _cachedSeason!;
     } catch (e) {
       throw RaceServiceException(
-        'Failed to load races from assets: ${e.toString()}',
+        'Failed to parse races for season $targetSeason: ${e.toString()}',
       );
     }
   }
@@ -101,6 +129,7 @@ class RaceService {
   /// Force reload from current source
   Future<SeasonModel> reloadSeason() async {
     _cachedSeason = null;
+    _loadingFuture = null;
     if (_customJsonData != null) {
       return loadFromCustomJson(_customJsonData!);
     } else {
@@ -112,44 +141,37 @@ class RaceService {
   Future<void> clearCache() async {
     _cachedSeason = null;
     _customJsonData = null;
+    _loadingFuture = null;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('selected_season', 2024);
     await prefs.remove('custom_races_json');
   }
 
-  /// Get current loaded season year
   int? get currentSeason => _currentSeason ?? _cachedSeason?.season;
-
-  /// Check if using custom JSON
   bool get isUsingCustomJson => _customJsonData != null;
 
   // ── Race Queries ──────────────────────────────────────────────
 
-  /// Get all races in the season
   Future<List<RaceModel>> getAllRaces() async {
     final season = await loadSeason();
     return season.races;
   }
 
-  /// Get only completed races
   Future<List<RaceModel>> getCompletedRaces() async {
     final season = await loadSeason();
     return season.completedRaces;
   }
 
-  /// Get only upcoming races
   Future<List<RaceModel>> getUpcomingRaces() async {
     final season = await loadSeason();
     return season.upcomingRaces;
   }
 
-  /// Get the next upcoming race
   Future<RaceModel?> getNextRace() async {
     final season = await loadSeason();
     return season.nextRace;
   }
 
-  /// Get a single race by its round number
   Future<RaceModel?> getRaceByRound(int round) async {
     final season = await loadSeason();
     try {
@@ -159,7 +181,6 @@ class RaceService {
     }
   }
 
-  /// Get races for a specific country
   Future<List<RaceModel>> getRacesByCountry(String country) async {
     final season = await loadSeason();
     return season.races
@@ -169,32 +190,26 @@ class RaceService {
 
   // ── Driver Queries ────────────────────────────────────────────
 
-  /// Get all results for a specific driver across the season
   Future<List<RaceResult>> getDriverResults(String driverId) async {
     final season = await loadSeason();
     final List<RaceResult> results = [];
-
     for (final race in season.completedRaces) {
       final result = race.resultForDriver(driverId);
       if (result != null) results.add(result);
     }
-
     return results;
   }
 
-  /// Get total points for a driver across the season
   Future<int> getDriverPoints(String driverId) async {
     final results = await getDriverResults(driverId);
     return results.fold<int>(0, (int sum, r) => sum + r.points);
   }
 
-  /// Get total wins for a driver across the season
   Future<int> getDriverWins(String driverId) async {
     final results = await getDriverResults(driverId);
     return results.where((r) => r.pos == 1).length;
   }
 
-  /// Get total podiums for a driver across the season
   Future<int> getDriverPodiums(String driverId) async {
     final results = await getDriverResults(driverId);
     return results.where((r) => r.isPodium).length;
@@ -202,22 +217,21 @@ class RaceService {
 
   // ── Season Stats ──────────────────────────────────────────────
 
-  /// Get season summary info
   Future<SeasonSummary> getSeasonSummary() async {
     final season = await loadSeason();
     return SeasonSummary(
-      season:         season.season,
-      totalRaces:     season.totalRaces,
+      season: season.season,
+      totalRaces: season.totalRaces,
       completedRaces: season.completedCount,
-      upcomingRaces:  season.totalRaces - season.completedCount,
-      nextRace:       season.nextRace,
-      lastUpdated:    season.lastUpdated,
+      upcomingRaces: season.totalRaces - season.completedCount,
+      nextRace: season.nextRace,
+      lastUpdated: season.lastUpdated,
     );
   }
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SEASON SUMMARY — lightweight object for home screen
+//  SEASON SUMMARY
 // ─────────────────────────────────────────────────────────────────
 
 class SeasonSummary {
@@ -237,10 +251,7 @@ class SeasonSummary {
     required this.lastUpdated,
   });
 
-  /// Progress through the season e.g. 0.08 = 8%
-  double get seasonProgress => completedRaces / totalRaces;
-
-  /// e.g. "2 of 24 races completed"
+  double get seasonProgress => totalRaces == 0 ? 0 : completedRaces / totalRaces;
   String get progressLabel => '$completedRaces of $totalRaces races completed';
 }
 

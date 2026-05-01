@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen>
         y: _rng.nextDouble(),
         speed: 0.4 + _rng.nextDouble() * 0.6,
         length: 0.06 + _rng.nextDouble() * 0.14,
-        color: colors[i % colors.length].withOpacity(0.35 + _rng.nextDouble() * 0.3),
+        color: colors[i % colors.length].withValues(alpha: 0.35 + _rng.nextDouble() * 0.3),
         width: 0.5 + _rng.nextDouble() * 1.0,
       ));
     }
@@ -244,7 +244,7 @@ class _SplashScreenState extends State<SplashScreen>
                         fontFamily: 'Courier',
                         fontSize: 11,
                         letterSpacing: 3.5,
-                        color: Colors.white.withOpacity(0.4),
+                        color: Colors.white.withValues(alpha: 0.4),
                       ),
                     ),
                   ),
@@ -273,7 +273,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white.withOpacity(0.15)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: Text(
@@ -282,7 +282,7 @@ class _SplashScreenState extends State<SplashScreen>
                     fontFamily: 'Courier',
                     fontSize: 10,
                     letterSpacing: 2,
-                    color: Colors.white.withOpacity(0.3),
+                    color: Colors.white.withValues(alpha: 0.3),
                   ),
                 ),
               ),
@@ -316,8 +316,8 @@ class _SplashScreenState extends State<SplashScreen>
                 letterSpacing: -1,
                 color: Colors.white,
                 shadows: [
-                  Shadow(color: _cyan.withOpacity(0.6 * _pulse.value), blurRadius: 30),
-                  Shadow(color: _magenta.withOpacity(0.4 * _pulse.value), blurRadius: 50),
+                  Shadow(color: _cyan.withValues(alpha: 0.6 * _pulse.value), blurRadius: 30),
+                  Shadow(color: _magenta.withValues(alpha: 0.4 * _pulse.value), blurRadius: 50),
                 ],
               ),
             ),
@@ -331,8 +331,8 @@ class _SplashScreenState extends State<SplashScreen>
               letterSpacing: 14,
               color: _magenta,
               shadows: [
-                Shadow(color: _magenta.withOpacity(_pulse.value), blurRadius: 20),
-                Shadow(color: _magenta.withOpacity(0.5 * _pulse.value), blurRadius: 40),
+                Shadow(color: _magenta.withValues(alpha: _pulse.value), blurRadius: 20),
+                Shadow(color: _magenta.withValues(alpha: 0.5 * _pulse.value), blurRadius: 40),
               ],
             ),
           ),
@@ -353,7 +353,7 @@ class _SplashScreenState extends State<SplashScreen>
               height: 2,
               child: Stack(
                 children: [
-                  Container(color: Colors.white.withOpacity(0.06)),
+                  Container(color: Colors.white.withValues(alpha: 0.06)),
                   FractionallySizedBox(
                     widthFactor: progress,
                     child: Container(
@@ -374,7 +374,7 @@ class _SplashScreenState extends State<SplashScreen>
               fontFamily: 'Courier',
               fontSize: 9,
               letterSpacing: 2,
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
             ),
           ),
         ],
@@ -526,7 +526,7 @@ class _ParticlePainter extends CustomPainter {
         const Color(0xFF39FF14),
         const Color(0xFFFFE600),
         const Color(0xFFFF3E3E),
-      ][i % 5].withOpacity(0.4 + _rng.nextDouble() * 0.3),
+      ][i % 5].withValues(alpha: 0.4 + _rng.nextDouble() * 0.3),
     ),
   );
 
@@ -559,7 +559,7 @@ class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black.withOpacity(0.03)
+      ..color = Colors.black.withValues(alpha: 0.03)
       ..style = PaintingStyle.fill;
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), paint);

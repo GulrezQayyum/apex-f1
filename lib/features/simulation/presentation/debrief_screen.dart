@@ -159,7 +159,7 @@ class _DebriefScreenState extends State<DebriefScreen>
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Icon(Icons.arrow_back_ios_new_rounded,
-              color: _kWhite.withOpacity(0.3), size: 16),
+              color: _kWhite.withValues(alpha: 0.3), size: 16),
         ),
         const SizedBox(width: 12),
         Expanded(child: Column(
@@ -170,7 +170,7 @@ class _DebriefScreenState extends State<DebriefScreen>
             Text('${widget.raceFlag}  ${widget.raceName.toUpperCase()}',
                 style: GoogleFonts.orbitron(
                     fontSize: 8, letterSpacing: 2,
-                    color: _kWhite.withOpacity(0.3))),
+                    color: _kWhite.withValues(alpha: 0.3))),
           ],
         )),
       ]),
@@ -184,7 +184,7 @@ class _DebriefScreenState extends State<DebriefScreen>
         ? _kYellow
         : pos <= 3
         ? _kCyan
-        : pos <= 10 ? _kGreen : _kWhite.withOpacity(0.4);
+        : pos <= 10 ? _kGreen : _kWhite.withValues(alpha: 0.4);
     final best    = _lapTimes.reduce(min);
     final bestIdx = _lapTimes.indexOf(best);
 
@@ -193,27 +193,27 @@ class _DebriefScreenState extends State<DebriefScreen>
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          border: Border.all(color: color.withOpacity(0.4), width: 1.5),
+          border: Border.all(color: color.withValues(alpha: 0.4), width: 1.5),
           borderRadius: BorderRadius.circular(8),
-          color: color.withOpacity(0.05),
+          color: color.withValues(alpha: 0.05),
         ),
         child: Row(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('FINISH', style: GoogleFonts.orbitron(
-                fontSize: 8, letterSpacing: 2, color: color.withOpacity(0.6))),
+                fontSize: 8, letterSpacing: 2, color: color.withValues(alpha: 0.6))),
             Text('P$pos', style: GoogleFonts.orbitron(
                 fontSize: 40, fontWeight: FontWeight.w900, color: color,
                 height: 0.9,
-                shadows: [Shadow(color: color.withOpacity(0.5), blurRadius: 16)])),
+                shadows: [Shadow(color: color.withValues(alpha: 0.5), blurRadius: 16)])),
           ]),
           const SizedBox(width: 20),
           Expanded(child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _statLine('POINTS EARNED', '+${widget.result.pointsEarned}', color),
-              _statLine('PIT STOPS',     '${widget.result.pitStops}',      _kWhite.withOpacity(0.6)),
+              _statLine('PIT STOPS',     '${widget.result.pitStops}',      _kWhite.withValues(alpha: 0.6)),
               _statLine('FASTEST LAP',   'L${bestIdx+1} — ${_fmtLap(best)}', _kPurple),
-              _statLine('WEATHER',       widget.result.peakWeather.label,   _kCyan.withOpacity(0.7)),
+              _statLine('WEATHER',       widget.result.peakWeather.label,   _kCyan.withValues(alpha: 0.7)),
             ],
           )),
         ]),
@@ -226,7 +226,7 @@ class _DebriefScreenState extends State<DebriefScreen>
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(children: [
         Text('$label  ', style: GoogleFonts.orbitron(
-            fontSize: 8, letterSpacing: 1, color: _kWhite.withOpacity(0.3))),
+            fontSize: 8, letterSpacing: 1, color: _kWhite.withValues(alpha: 0.3))),
         Text(value, style: GoogleFonts.orbitron(
             fontSize: 9, fontWeight: FontWeight.w900, color: color)),
       ]),
@@ -248,14 +248,14 @@ class _DebriefScreenState extends State<DebriefScreen>
               margin: EdgeInsets.only(right: i < 2 ? 8 : 0),
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                color: active ? _kCyan : _kWhite.withOpacity(0.03),
+                color: active ? _kCyan : _kWhite.withValues(alpha: 0.03),
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(
-                    color: active ? _kCyan : _kWhite.withOpacity(0.08)),
+                    color: active ? _kCyan : _kWhite.withValues(alpha: 0.08)),
               ),
               child: Center(child: Text(tabs[i], style: GoogleFonts.orbitron(
                   fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1,
-                  color: active ? Colors.black : _kWhite.withOpacity(0.4)))),
+                  color: active ? Colors.black : _kWhite.withValues(alpha: 0.4)))),
             ),
           ));
         }),
@@ -286,14 +286,14 @@ class _DebriefScreenState extends State<DebriefScreen>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('LAP TIME CHART', style: GoogleFonts.orbitron(
-            fontSize: 9, letterSpacing: 3, color: _kWhite.withOpacity(0.3))),
+            fontSize: 9, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.3))),
         const SizedBox(height: 6),
         Row(children: [
           _miniChip('BEST', _fmtLap(best), _kPurple),
           const SizedBox(width: 8),
           _miniChip('AVG', _fmtLap(avgTime), _kCyan),
           const SizedBox(width: 8),
-          _miniChip('LAPS', '${_lapTimes.length}', _kWhite.withOpacity(0.5)),
+          _miniChip('LAPS', '${_lapTimes.length}', _kWhite.withValues(alpha: 0.5)),
         ]),
         const SizedBox(height: 14),
         Expanded(child: AnimatedBuilder(
@@ -311,14 +311,14 @@ class _DebriefScreenState extends State<DebriefScreen>
         const SizedBox(height: 10),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           _legendDot(_kPurple), Text('  FASTEST LAP', style: GoogleFonts.orbitron(
-              fontSize: 8, color: _kWhite.withOpacity(0.4))),
+              fontSize: 8, color: _kWhite.withValues(alpha: 0.4))),
           const SizedBox(width: 16),
           _legendDot(_kCyan), Text('  YOUR PACE', style: GoogleFonts.orbitron(
-              fontSize: 8, color: _kWhite.withOpacity(0.4))),
+              fontSize: 8, color: _kWhite.withValues(alpha: 0.4))),
           const SizedBox(width: 16),
-          _legendDot(_kYellow.withOpacity(0.5)),
+          _legendDot(_kYellow.withValues(alpha: 0.5)),
           Text('  PIT LAP', style: GoogleFonts.orbitron(
-              fontSize: 8, color: _kWhite.withOpacity(0.4))),
+              fontSize: 8, color: _kWhite.withValues(alpha: 0.4))),
         ]),
       ],
     );
@@ -328,15 +328,15 @@ class _DebriefScreenState extends State<DebriefScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
         borderRadius: BorderRadius.circular(4),
-        color: color.withOpacity(0.06),
+        color: color.withValues(alpha: 0.06),
       ),
       child: Column(children: [
         Text(value, style: GoogleFonts.orbitron(
             fontSize: 11, fontWeight: FontWeight.w900, color: color)),
         Text(label, style: GoogleFonts.orbitron(
-            fontSize: 7, letterSpacing: 1, color: color.withOpacity(0.6))),
+            fontSize: 7, letterSpacing: 1, color: color.withValues(alpha: 0.6))),
       ]),
     );
   }
@@ -351,7 +351,7 @@ class _DebriefScreenState extends State<DebriefScreen>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('TYRE STRATEGY', style: GoogleFonts.orbitron(
-            fontSize: 9, letterSpacing: 3, color: _kWhite.withOpacity(0.3))),
+            fontSize: 9, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.3))),
         const SizedBox(height: 16),
         // Timeline bar
         AnimatedBuilder(
@@ -372,11 +372,11 @@ class _DebriefScreenState extends State<DebriefScreen>
                           duration: const Duration(milliseconds: 600),
                           margin: const EdgeInsets.only(right: 3),
                           decoration: BoxDecoration(
-                            color: color.withOpacity(0.2),
+                            color: color.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: color.withOpacity(0.5)),
+                            border: Border.all(color: color.withValues(alpha: 0.5)),
                             boxShadow: [BoxShadow(
-                                color: color.withOpacity(0.3), blurRadius: 6)],
+                                color: color.withValues(alpha: 0.3), blurRadius: 6)],
                           ),
                           child: Center(child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -385,7 +385,7 @@ class _DebriefScreenState extends State<DebriefScreen>
                                   fontSize: 11, fontWeight: FontWeight.w900,
                                   color: color)),
                               Text('${stint.laps}L', style: GoogleFonts.orbitron(
-                                  fontSize: 8, color: color.withOpacity(0.7))),
+                                  fontSize: 8, color: color.withValues(alpha: 0.7))),
                             ],
                           )),
                         ),
@@ -396,10 +396,10 @@ class _DebriefScreenState extends State<DebriefScreen>
                 const SizedBox(height: 6),
                 Row(children: [
                   Text('L1', style: GoogleFonts.orbitron(
-                      fontSize: 7, color: _kWhite.withOpacity(0.2))),
+                      fontSize: 7, color: _kWhite.withValues(alpha: 0.2))),
                   const Spacer(),
                   Text('L${widget.result.totalLaps}', style: GoogleFonts.orbitron(
-                      fontSize: 7, color: _kWhite.withOpacity(0.2))),
+                      fontSize: 7, color: _kWhite.withValues(alpha: 0.2))),
                 ]),
               ],
             );
@@ -415,17 +415,17 @@ class _DebriefScreenState extends State<DebriefScreen>
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              border: Border.all(color: color.withOpacity(0.25)),
+              border: Border.all(color: color.withValues(alpha: 0.25)),
               borderRadius: BorderRadius.circular(6),
-              color: color.withOpacity(0.04),
+              color: color.withValues(alpha: 0.04),
             ),
             child: Row(children: [
               Container(
                 width: 36, height: 36,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.15),
+                  color: color.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: color.withOpacity(0.4)),
+                  border: Border.all(color: color.withValues(alpha: 0.4)),
                 ),
                 child: Center(child: Text(s.compound.shortLabel, style: GoogleFonts.orbitron(
                     fontSize: 13, fontWeight: FontWeight.w900, color: color))),
@@ -438,15 +438,15 @@ class _DebriefScreenState extends State<DebriefScreen>
                       fontSize: 14, fontWeight: FontWeight.w700, color: _kWhite)),
                   Text('Laps ${s.startLap}–${s.endLap}  ·  ${s.laps} laps',
                       style: GoogleFonts.orbitron(
-                          fontSize: 8, color: _kWhite.withOpacity(0.3))),
+                          fontSize: 8, color: _kWhite.withValues(alpha: 0.3))),
                 ],
               )),
               Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text('STINT ${i + 1}', style: GoogleFonts.orbitron(
-                    fontSize: 8, letterSpacing: 2, color: color.withOpacity(0.5))),
+                    fontSize: 8, letterSpacing: 2, color: color.withValues(alpha: 0.5))),
                 if (i < _stints.length - 1)
                   Text('→ PIT L${s.endLap}', style: GoogleFonts.orbitron(
-                      fontSize: 8, color: _kYellow.withOpacity(0.5))),
+                      fontSize: 8, color: _kYellow.withValues(alpha: 0.5))),
               ]),
             ]),
           );
@@ -458,7 +458,7 @@ class _DebriefScreenState extends State<DebriefScreen>
   Color _tyreColor(TyreCompound t) => switch (t) {
     TyreCompound.soft         => _kRed,
     TyreCompound.medium       => _kYellow,
-    TyreCompound.hard         => _kWhite.withOpacity(0.8),
+    TyreCompound.hard         => _kWhite.withValues(alpha: 0.8),
     TyreCompound.intermediate => _kGreen,
     TyreCompound.wet          => const Color(0xFF4488FF),
   };
@@ -469,7 +469,7 @@ class _DebriefScreenState extends State<DebriefScreen>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('RACE STORY', style: GoogleFonts.orbitron(
-            fontSize: 9, letterSpacing: 3, color: _kWhite.withOpacity(0.3))),
+            fontSize: 9, letterSpacing: 3, color: _kWhite.withValues(alpha: 0.3))),
         const SizedBox(height: 12),
         Expanded(child: ListView.builder(
           itemCount: _events.length,
@@ -484,9 +484,9 @@ class _DebriefScreenState extends State<DebriefScreen>
                   Container(
                     width: 40, height: 40,
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
+                      color: color.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
-                      border: Border.all(color: color.withOpacity(0.3)),
+                      border: Border.all(color: color.withValues(alpha: 0.3)),
                     ),
                     child: Center(child: Text(
                         e.lap == 0 ? 'GO' : 'L${e.lap}',
@@ -494,13 +494,13 @@ class _DebriefScreenState extends State<DebriefScreen>
                             fontSize: 8, fontWeight: FontWeight.w900, color: color))),
                   ),
                   if (i < _events.length - 1)
-                    Container(width: 1, height: 24, color: _kWhite.withOpacity(0.06)),
+                    Container(width: 1, height: 24, color: _kWhite.withValues(alpha: 0.06)),
                 ]),
                 const SizedBox(width: 12),
                 Expanded(child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 12),
                   child: Text(e.message, style: GoogleFonts.rajdhani(
-                      fontSize: 14, color: _kWhite.withOpacity(0.8), height: 1.4)),
+                      fontSize: 14, color: _kWhite.withValues(alpha: 0.8), height: 1.4)),
                 )),
               ],
             );
@@ -512,12 +512,12 @@ class _DebriefScreenState extends State<DebriefScreen>
 
   Color _eventColor(RaceEventType t) => switch (t) {
     RaceEventType.safetyCar       => _kYellow,
-    RaceEventType.virtualSafetyCar=> _kYellow.withOpacity(0.7),
+    RaceEventType.virtualSafetyCar=> _kYellow.withValues(alpha: 0.7),
     RaceEventType.weatherChange   => const Color(0xFF4488FF),
     RaceEventType.rivalBattle     => _kRed,
     RaceEventType.pitWindowOpen   => _kCyan,
     RaceEventType.engineerCall    => _kGreen,
-    _                             => _kWhite.withOpacity(0.4),
+    _                             => _kWhite.withValues(alpha: 0.4),
   };
 }
 
@@ -584,7 +584,7 @@ class _LapChartPainter extends CustomPainter {
         canvas.drawLine(
           Offset(xFor(lap), 0), Offset(xFor(lap), size.height),
           Paint()
-            ..color = const Color(0xFFFFE600).withOpacity(0.2)
+            ..color = const Color(0xFFFFE600).withValues(alpha: 0.2)
             ..strokeWidth = 1
             ..style = PaintingStyle.stroke,
         );
@@ -595,7 +595,7 @@ class _LapChartPainter extends CustomPainter {
     for (int i = 0; i < 5; i++) {
       final y = padY + i * (size.height - 2 * padY) / 4;
       canvas.drawLine(Offset(0, y), Offset(size.width, y), Paint()
-        ..color = Colors.white.withOpacity(0.04)
+        ..color = Colors.white.withValues(alpha: 0.04)
         ..strokeWidth = 0.5);
     }
 
@@ -610,7 +610,7 @@ class _LapChartPainter extends CustomPainter {
     fillPath.lineTo(xFor(drawCount - 1), size.height);
     fillPath.close();
     canvas.drawPath(fillPath, Paint()
-      ..color = const Color(0xFF00E5FF).withOpacity(0.08)
+      ..color = const Color(0xFF00E5FF).withValues(alpha: 0.08)
       ..style = PaintingStyle.fill);
 
     // Main line
@@ -633,7 +633,7 @@ class _LapChartPainter extends CustomPainter {
       final y = yFor(lapTimes[i]);
       if (isBest) {
         canvas.drawCircle(Offset(x, y), 6, Paint()
-          ..color = const Color(0xFFFF00FF).withOpacity(0.3));
+          ..color = const Color(0xFFFF00FF).withValues(alpha: 0.3));
         canvas.drawCircle(Offset(x, y), 4, Paint()
           ..color = const Color(0xFFFF00FF));
       } else if (i % 5 == 0) {
