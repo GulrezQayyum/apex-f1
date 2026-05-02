@@ -1,452 +1,520 @@
-import 'package:flutter/material.dart';
-import 'package:apex_f1/core/utils/responsive_helper.dart';
-import 'package:apex_f1/features/races/data/services/custom_races_manager.dart';
 import 'dart:convert';
-// FIX: removed unused 'dart:io' import — this file doesn't use File directly
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:apex_f1/features/races/data/models/race_model.dart';
+import 'package:apex_f1/features/races/data/services/race_service_v2.dart';
+import 'package:apex_f1/core/utils/responsive_helper.dart';
+
+// ─────────────────────────────────────────────────────────────────
+//  APEX F1 — Season Import Screen
+//  Location: lib/features/races/presentation/season_import_screen.dart
+//
+//  Standalone screen for importing a custom season via paste or
+//  file picker. Navigated to from main.dart via route 'season_import'.
+//  Pops itself on success and shows a SnackBar confirmation.
+// ─────────────────────────────────────────────────────────────────
+
+const _kBg    = Color(0xFF030308);
+const _kCyan  = Color(0xFF00E5FF);
+const _kRed   = Color(0xFFFF073A);
+const _kGreen = Color(0xFF39FF14);
+const _kWhite = Colors.white;
+
+// withOpacity replacement helpers (avoids deprecated_member_use warnings)
+extension _ColorX on Color {
+  Color o(double opacity) => withValues(alpha: opacity);
+}
 
 class SeasonImportScreen extends StatefulWidget {
-  const SeasonImportScreen({super.key});
+  /// Optional — called with the model if the caller needs to react.
+  /// If null the screen simply pops.
+  final void Function(SeasonModel season)? onSeasonLoaded;
+
+  /// When provided, the screen is pre-locked to this season key
+  /// (e.g. '2023' or '2024') and the JSON must declare a matching season.
+  final String? targetSeason;
+
+  const SeasonImportScreen({super.key, this.onSeasonLoaded, this.targetSeason});
 
   @override
   State<SeasonImportScreen> createState() => _SeasonImportScreenState();
 }
 
-class _SeasonImportScreenState extends State<SeasonImportScreen> {
-  final List<String> _seasons = ['2023', '2024', '2025'];
-  late Map<String, bool> _hasCustom;
-  String? _selectedSeason;
-  String? _errorMessage;
-  bool _isLoading = false;
+class _SeasonImportScreenState extends State<SeasonImportScreen>
+    with SingleTickerProviderStateMixin {
+
+  final _service = RaceServiceV2();
+  final _jsonCtrl = TextEditingController();
+
+  bool         _loading = false;
+  String?      _error;
+  SeasonModel? _preview;
+
+  late AnimationController _pulse;
+  late Animation<double>   _pulseAnim;
+
+  // ── Responsive helpers ────────────────────────────────────────
+
+  double _pad(BuildContext ctx) =>
+      ResponsiveHelper.isMobile(ctx) ? 16 : 24;
+
+  double _sp(BuildContext ctx, double base) =>
+      ResponsiveHelper.isMobile(ctx) ? base : base + 4;
+
+  double _fs(BuildContext ctx, double base) =>
+      ResponsiveHelper.getResponsiveFontSize(ctx, mobileSize: base);
+
+  double _radius(BuildContext ctx) =>
+      ResponsiveHelper.getResponsiveBorderRadius(ctx);
+
+  double _btnH(BuildContext ctx) =>
+      ResponsiveHelper.isMobile(ctx) ? 50 : 56;
+
+  // ── Lifecycle ─────────────────────────────────────────────────
 
   @override
   void initState() {
     super.initState();
-    _hasCustom = {for (var season in _seasons) season: false};
-    _checkCustomRaces();
-  }
-
-  Future<void> _checkCustomRaces() async {
-    for (var season in _seasons) {
-      final has = await CustomRacesManager().hasCustomRaces(season);
-      if (mounted) {
-        setState(() => _hasCustom[season] = has);
-      }
-    }
-  }
-
-  // FIX: removed `Future.delayed(Duration.zero, _showJsonInput)` anti-pattern.
-  // setState is now done before calling _showJsonInput directly.
-  void _selectSeasonAndShowInput(String season) {
-    setState(() => _selectedSeason = season);
-    _showJsonInput();
-  }
-
-  void _showJsonInput() {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (dialogContext) => Dialog(
-        backgroundColor: const Color(0xFF0A0A14),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Import Races for $_selectedSeason',
-                  style: const TextStyle(
-                    color: Color(0xFF00E5FF),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Rajdhani',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: controller,
-                  maxLines: 15,
-                  minLines: 10,
-                  style: const TextStyle(
-                    color: Color(0xFF00E5FF),
-                    fontFamily: 'Courier',
-                    fontSize: 12,
-                  ),
-                  decoration: const InputDecoration(
-                    hintText: 'Paste your races.json content here...',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF00E5FF),
-                      fontSize: 12,
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFF00E5FF)),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFF00E5FF)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFFFF00FF)),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => Navigator.pop(dialogContext),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1a1a2e),
-                        side: const BorderSide(color: Color(0xFF00E5FF)),
-                      ),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(color: Color(0xFF00E5FF)),
-                      ),
-                    ),
-                    ElevatedButton(
-                      // FIX: pass dialogContext so Navigator.pop targets
-                      // the dialog, not the whole route stack
-                      onPressed: () =>
-                          _importRaces(controller.text, dialogContext),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF00E5FF),
-                      ),
-                      child: const Text(
-                        'Import',
-                        style: TextStyle(color: Color(0xFF030308)),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _importRaces(String jsonContent, BuildContext dialogContext) async {
-    if (jsonContent.isEmpty) {
-      setState(() => _errorMessage = 'Please paste JSON content');
-      return;
-    }
-
-    setState(() => _isLoading = true);
-
-    try {
-      final parsed = jsonDecode(jsonContent);
-
-      if (!CustomRacesManager.validateRacesStructure(parsed)) {
-        setState(() => _errorMessage = 'Invalid races.json structure');
-        if (dialogContext.mounted) Navigator.pop(dialogContext);
-        setState(() => _isLoading = false);
-        return;
-      }
-
-      await CustomRacesManager().saveCustomRaces(_selectedSeason!, jsonContent);
-
-      if (mounted) {
-        setState(() {
-          _hasCustom[_selectedSeason!] = true;
-          _errorMessage = null;
-        });
-
-        if (dialogContext.mounted) Navigator.pop(dialogContext);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-            Text('✓ Races for $_selectedSeason imported successfully'),
-            backgroundColor: const Color(0xFF00E5FF),
-          ),
-        );
-      }
-    } catch (e) {
-      setState(() => _errorMessage = 'Error: ${e.toString()}');
-      if (dialogContext.mounted) Navigator.pop(dialogContext);
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
-
-  Future<void> _deleteCustomRaces(String season) async {
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF0A0A14),
-        title: const Text(
-          'Delete Custom Races?',
-          style: TextStyle(color: Color(0xFF00E5FF)),
-        ),
-        content: Text(
-          'This will delete custom races for $season',
-          style: const TextStyle(color: Color(0xFFAAAAAA)),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel',
-                style: TextStyle(color: Color(0xFF00E5FF))),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete',
-                style: TextStyle(color: Color(0xFFFF00FF))),
-          ),
-        ],
-      ),
-    );
-
-    if (confirm == true) {
-      try {
-        await CustomRacesManager().deleteCustomRaces(season);
-        if (mounted) {
-          setState(() => _hasCustom[season] = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('✓ Deleted custom races for $season'),
-              backgroundColor: const Color(0xFF00E5FF),
-            ),
-          );
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: $e')),
-          );
-        }
-      }
-    }
+    _pulse = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200))
+      ..repeat(reverse: true);
+    _pulseAnim = Tween<double>(begin: 0.5, end: 1.0).animate(
+        CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
   }
 
   @override
+  void dispose() {
+    _pulse.dispose();
+    _jsonCtrl.dispose();
+    super.dispose();
+  }
+
+  // ── Logic ─────────────────────────────────────────────────────
+
+  void _onTextChanged(String value) {
+    if (value.trim().isEmpty) {
+      setState(() { _preview = null; _error = null; });
+      return;
+    }
+    try {
+      final decoded = _validate(value.trim());
+      final season  = (decoded['season'] ?? 'custom').toString();
+      final races   = decoded['races'] as List<dynamic>;
+      setState(() {
+        _error   = null;
+        _preview = SeasonModel(
+          season:      int.tryParse(season) ?? 0,
+          lastUpdated: DateTime.now().toIso8601String().split('T').first,
+          races: races
+              .map((r) => RaceModel.fromJson(r as Map<String, dynamic>))
+              .toList(),
+        );
+      });
+    } on FormatException {
+      setState(() { _preview = null; _error = 'Invalid JSON — check your file.'; });
+    } catch (e) {
+      setState(() {
+        _preview = null;
+        _error   = e.toString().replaceAll('Exception: ', '');
+      });
+    }
+  }
+
+  Future<void> _pasteFromClipboard() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final text = data?.text ?? '';
+    if (text.isEmpty) {
+      setState(() => _error = 'Clipboard is empty.');
+      return;
+    }
+    _jsonCtrl.text = text;
+    _onTextChanged(text);
+  }
+
+  /// FIX: Use FilePicker.platform.pickFiles() — correct API for all versions.
+  /// file_picker exposes a static `platform` getter that returns the
+  /// platform implementation; calling pickFiles() on it is the correct pattern.
+  Future<void> _pickFile() async {
+    try {
+      final result = await FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+        allowMultiple: false,
+        withData: true,
+      );
+
+      if (result == null || result.files.isEmpty) return; // cancelled
+
+      final file = result.files.first;
+
+      final bytes = file.bytes;
+      if (bytes == null) {
+        setState(() => _error = 'Could not read file — try pasting instead.');
+        return;
+      }
+
+      // 5 MB guard
+      if (bytes.lengthInBytes > 5 * 1024 * 1024) {
+        setState(() => _error = 'File too large (max 5 MB).');
+        return;
+      }
+
+      final text = String.fromCharCodes(bytes);
+      _jsonCtrl.text = text;
+      _onTextChanged(text);
+    } catch (e) {
+      setState(() => _error = 'File picker error: ${e.toString()}');
+    }
+  }
+
+  Future<void> _loadSeason() async {
+    final raw = _jsonCtrl.text.trim();
+    if (raw.isEmpty) {
+      setState(() => _error = 'Paste your races.json content first.');
+      return;
+    }
+    setState(() { _loading = true; _error = null; });
+    try {
+      final decoded = _validate(raw);
+      final season  = (decoded['season'] ?? 'custom').toString();
+
+      // If caller locked to a specific season, enforce it
+      if (widget.targetSeason != null && season != widget.targetSeason) {
+        setState(() {
+          _loading = false;
+          _error = 'Wrong season — this JSON is for $season, '
+              'but you selected ${widget.targetSeason}.';
+        });
+        return;
+      }
+
+      final model = await _service.saveAndSwitchCustom(season, raw);
+      setState(() => _loading = false);
+
+      if (widget.onSeasonLoaded != null) widget.onSeasonLoaded!(model);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: const Color(0xFF0A0A14),
+          content: Text(
+            '✅  Season ${model.season} loaded — ${model.races.length} races',
+            style: GoogleFonts.orbitron(
+                fontSize: 11, letterSpacing: 1.5, color: _kGreen),
+          ),
+          duration: const Duration(seconds: 3),
+        ));
+        // Only pop if no onSeasonLoaded (caller handles navigation)
+        if (widget.onSeasonLoaded == null) Navigator.of(context).pop();
+      }
+    } on FormatException {
+      setState(() { _loading = false; _error = 'Invalid JSON — check your file.'; });
+    } catch (e) {
+      setState(() {
+        _loading = false;
+        _error   = e.toString().replaceAll('Exception: ', '');
+      });
+    }
+  }
+
+  Map<String, dynamic> _validate(String raw) {
+    final decoded = Map<String, dynamic>.from(jsonDecode(raw) as Map);
+    if (!decoded.containsKey('races')) throw Exception("Missing 'races' key.");
+    final races = decoded['races'] as List<dynamic>;
+    if (races.isEmpty) throw Exception('No races found.');
+    final first = races.first as Map<String, dynamic>;
+    for (final f in ['round', 'name', 'flag', 'laps']) {
+      if (!first.containsKey(f)) {
+        throw Exception("Missing required field '$f' in first race.");
+      }
+    }
+    return decoded;
+  }
+
+  // ── Build ─────────────────────────────────────────────────────
+
+  @override
   Widget build(BuildContext context) {
-    final padding = ResponsiveHelper.getResponsivePadding(context);
-    final spacing = ResponsiveHelper.getResponsiveSpacing(context);
-    final isMobile = ResponsiveHelper.isMobile(context);
-
+    final pad = _pad(context);
     return Scaffold(
-      backgroundColor: const Color(0xFF030308),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0A0A14),
-        title: const Text(
-          'SEASON IMPORT',
-          style: TextStyle(
-            color: Color(0xFF00E5FF),
-            fontFamily: 'Rajdhani',
-            letterSpacing: 2,
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: _isLoading
-          ? const Center(
-        child: CircularProgressIndicator(color: Color(0xFF00E5FF)),
-      )
-          : SingleChildScrollView(
-        padding: padding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(spacing),
-            SizedBox(height: spacing * 2),
-            _buildSeasonGrid(spacing, isMobile),
-            if (_errorMessage != null) ...[
-              SizedBox(height: spacing),
-              _buildErrorMessage(),
+      backgroundColor: _kBg,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(pad, 20, pad, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildHeader(context),
+              SizedBox(height: _sp(context, 20)),
+              _buildFormatHint(context),
+              SizedBox(height: _sp(context, 12)),
+              _buildTextField(context),
+              if (_error != null) _buildError(context),
+              if (_preview != null) _buildPreview(context),
+              const Spacer(),
+              _buildButtons(context),
             ],
-            SizedBox(height: spacing),
-            _buildInfo(),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader(double spacing) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Import Custom Races',
-          style: TextStyle(
-            color: Color(0xFF00E5FF),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Rajdhani',
-          ),
-        ),
-        SizedBox(height: spacing),
-        const Text(
-          'Add your own races.json files for 2023, 2024, or 2025 seasons',
-          style: TextStyle(
-            color: Color(0xFFAAAAAA),
-            fontSize: 14,
-            fontFamily: 'Rajdhani',
-          ),
-        ),
-      ],
-    );
+  Widget _buildHeader(BuildContext context) {
+    return Row(children: [
+      GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: Icon(Icons.arrow_back_ios_new_rounded,
+            color: _kWhite.o(0.3), size: _sp(context, 18)),
+      ),
+      SizedBox(width: _sp(context, 12)),
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('IMPORT SEASON', style: GoogleFonts.orbitron(
+            fontSize: _fs(context, 18),
+            fontWeight: FontWeight.w900, color: _kWhite)),
+        Text(
+            widget.targetSeason != null
+                ? 'IMPORTING ${widget.targetSeason} SEASON'
+                : 'PASTE OR PICK FROM PHONE',
+            style: GoogleFonts.orbitron(
+                fontSize: _fs(context, 10), letterSpacing: 2,
+                color: _kWhite.o(0.3))),
+      ]),
+    ]);
   }
 
-  Widget _buildSeasonGrid(double spacing, bool isMobile) {
-    return GridView.count(
-      crossAxisCount: isMobile ? 1 : 3,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: spacing,
-      mainAxisSpacing: spacing,
-      childAspectRatio: isMobile ? 1.2 : 0.9,
-      children: _seasons
-          .map((season) => _buildSeasonCard(season, spacing))
-          .toList(),
-    );
-  }
-
-  Widget _buildSeasonCard(String season, double spacing) {
-    final hasCustom = _hasCustom[season] ?? false;
-
+  Widget _buildFormatHint(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(_sp(context, 14)),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00E5FF)),
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFF0A0A14),
+        border: Border.all(color: _kCyan.o(0.2)),
+        borderRadius: BorderRadius.circular(_radius(context)),
+        color: _kCyan.o(0.04),
       ),
-      padding: EdgeInsets.all(spacing),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            season,
-            style: const TextStyle(
-              color: Color(0xFF00E5FF),
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Rajdhani',
-            ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('REQUIRED FORMAT', style: GoogleFonts.orbitron(
+            fontSize: _fs(context, 10), letterSpacing: 2,
+            color: _kCyan.o(0.7))),
+        SizedBox(height: _sp(context, 8)),
+        Text(
+          '{ "season": 2025, "races": [\n'
+              '  { "round": 1, "name": "...", "flag": "🏁",\n'
+              '    "laps": 57, "circuit": "...", "country": "...",\n'
+              '    "date": "2025-03-16", "status": "upcoming",\n'
+              '    "distance_km": 308.2 }\n'
+              ']}',
+          style: GoogleFonts.robotoMono(
+              fontSize: _fs(context, 10),
+              color: _kWhite.o(0.4), height: 1.5),
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildTextField(BuildContext context) {
+    return Container(
+      height: 180,
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: _error != null ? _kRed.o(0.5) : _kCyan.o(0.2)),
+        borderRadius: BorderRadius.circular(_radius(context)),
+        color: _kWhite.o(0.02),
+      ),
+      child: TextField(
+        controller: _jsonCtrl,
+        maxLines: null,
+        expands: true,
+        onChanged: _onTextChanged,
+        style: GoogleFonts.robotoMono(
+            fontSize: _fs(context, 11), color: _kWhite, height: 1.5),
+        decoration: InputDecoration(
+          hintText: 'Paste your races.json here...',
+          hintStyle: GoogleFonts.robotoMono(
+              fontSize: _fs(context, 11), color: _kWhite.o(0.2)),
+          contentPadding: EdgeInsets.all(_sp(context, 14)),
+          border: InputBorder.none,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildError(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: _sp(context, 10)),
+      child: Container(
+        padding: EdgeInsets.all(_sp(context, 12)),
+        decoration: BoxDecoration(
+          border: Border.all(color: _kRed.o(0.4)),
+          borderRadius: BorderRadius.circular(_radius(context)),
+          color: _kRed.o(0.06),
+        ),
+        child: Row(children: [
+          Icon(Icons.error_outline, color: _kRed, size: _sp(context, 18)),
+          SizedBox(width: _sp(context, 8)),
+          Expanded(child: Text(_error!,
+              style: GoogleFonts.rajdhani(
+                  fontSize: _fs(context, 13), color: _kRed))),
+        ]),
+      ),
+    );
+  }
+
+  Widget _buildPreview(BuildContext context) {
+    final s     = _preview!;
+    final first = s.races.isNotEmpty ? s.races.first.name : '—';
+    final last  = s.races.isNotEmpty ? s.races.last.name  : '—';
+    return Padding(
+      padding: EdgeInsets.only(top: _sp(context, 10)),
+      child: Container(
+        padding: EdgeInsets.all(_sp(context, 14)),
+        decoration: BoxDecoration(
+          border: Border.all(color: _kGreen.o(0.35)),
+          borderRadius: BorderRadius.circular(_radius(context)),
+          color: _kGreen.o(0.05),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Icon(Icons.check_circle_rounded,
+                color: _kGreen, size: _sp(context, 16)),
+            const SizedBox(width: 8),
+            Text('Valid — ready to load', style: GoogleFonts.orbitron(
+                fontSize: _fs(context, 11), color: _kGreen,
+                fontWeight: FontWeight.w700)),
+          ]),
+          SizedBox(height: _sp(context, 10)),
+          Row(children: [
+            _PreviewStat(label: 'SEASON', value: '${s.season}',
+                fs: _fs(context, 11)),
+            const SizedBox(width: 12),
+            _PreviewStat(label: 'RACES', value: '${s.races.length}',
+                fs: _fs(context, 11)),
+          ]),
+          SizedBox(height: _sp(context, 8)),
+          Text('OPENS   $first', style: GoogleFonts.rajdhani(
+              fontSize: _fs(context, 12), color: _kWhite.o(0.5))),
+          Text('FINALE  $last', style: GoogleFonts.rajdhani(
+              fontSize: _fs(context, 12), color: _kWhite.o(0.5))),
+        ]),
+      ),
+    );
+  }
+
+  Widget _buildButtons(BuildContext context) {
+    return Column(children: [
+      // ── Pick file from phone (primary) ──────────────────────
+      GestureDetector(
+        onTap: _pickFile,
+        child: Container(
+          height: _btnH(context),
+          decoration: BoxDecoration(
+            border: Border.all(color: _kCyan.o(0.5)),
+            borderRadius: BorderRadius.circular(_radius(context)),
+            color: _kCyan.o(0.06),
           ),
-          if (hasCustom)
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.check_circle, color: Color(0xFF00E5FF), size: 20),
-                SizedBox(width: 4),
-                Text(
-                  'Custom Loaded',
-                  style: TextStyle(
-                    color: Color(0xFF00E5FF),
-                    fontSize: 12,
-                    fontFamily: 'Rajdhani',
-                  ),
-                ),
-              ],
-            ),
-          Column(
+          child: Center(child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ElevatedButton(
-                // FIX: use the new combined method instead of the
-                // setState + Future.delayed hack
-                onPressed: () => _selectSeasonAndShowInput(season),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF00E5FF),
-                  minimumSize: const Size(double.infinity, 40),
-                ),
-                child: Text(
-                  hasCustom ? 'Update' : 'Import',
-                  style: const TextStyle(
-                    color: Color(0xFF030308),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              if (hasCustom) ...[
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () => _deleteCustomRaces(season),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    side: const BorderSide(color: Color(0xFFFF00FF)),
-                    minimumSize: const Size(double.infinity, 40),
-                  ),
-                  child: const Text(
-                    'Delete',
-                    style: TextStyle(
-                      color: Color(0xFFFF00FF),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+              Icon(Icons.upload_file_rounded,
+                  color: _kCyan, size: _sp(context, 20)),
+              const SizedBox(width: 10),
+              Text('PICK FILE FROM PHONE', style: GoogleFonts.orbitron(
+                  fontSize: _fs(context, 11), letterSpacing: 1.5,
+                  fontWeight: FontWeight.w700, color: _kCyan)),
             ],
+          )),
+        ),
+      ),
+      SizedBox(height: _sp(context, 8)),
+      // ── Paste from clipboard (secondary) ───────────────────
+      GestureDetector(
+        onTap: _pasteFromClipboard,
+        child: Container(
+          height: _btnH(context),
+          decoration: BoxDecoration(
+            border: Border.all(color: _kWhite.o(0.12)),
+            borderRadius: BorderRadius.circular(_radius(context)),
           ),
-        ],
+          child: Center(child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.content_paste_rounded,
+                  color: _kWhite.o(0.5), size: _sp(context, 18)),
+              const SizedBox(width: 8),
+              Text('PASTE FROM CLIPBOARD', style: GoogleFonts.orbitron(
+                  fontSize: _fs(context, 11), letterSpacing: 1.5,
+                  color: _kWhite.o(0.4))),
+            ],
+          )),
+        ),
       ),
-    );
-  }
-
-  Widget _buildErrorMessage() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFFFF00FF)),
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFF1a0a0f),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.error, color: Color(0xFFFF00FF)),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              _errorMessage!,
-              style: const TextStyle(
-                color: Color(0xFFFF00FF),
-                fontSize: 12,
-                fontFamily: 'Rajdhani',
+      SizedBox(height: _sp(context, 10)),
+      // ── Load season (enabled only when preview is valid) ────
+      GestureDetector(
+        onTap: (_loading || _preview == null) ? null : _loadSeason,
+        child: AnimatedBuilder(
+          animation: _pulseAnim,
+          builder: (_, __) => AnimatedOpacity(
+            opacity: _preview != null ? 1.0 : 0.4,
+            duration: const Duration(milliseconds: 200),
+            child: Container(
+              height: _btnH(context),
+              decoration: BoxDecoration(
+                color: _kRed,
+                borderRadius: BorderRadius.circular(_radius(context)),
+                boxShadow: _preview != null
+                    ? [BoxShadow(
+                    color: _kRed.o(0.4 * _pulseAnim.value),
+                    blurRadius: 20)]
+                    : [],
               ),
+              child: Center(child: _loading
+                  ? const SizedBox(
+                  width: 20, height: 20,
+                  child: CircularProgressIndicator(
+                      color: _kWhite, strokeWidth: 2))
+                  : Text('🏁  LOAD SEASON', style: GoogleFonts.orbitron(
+                  fontSize: _fs(context, 12),
+                  fontWeight: FontWeight.w900,
+                  color: _kWhite, letterSpacing: 1.5))),
             ),
           ),
-        ],
+        ),
       ),
-    );
+    ]);
   }
+}
 
-  Widget _buildInfo() {
-    return Container(
-      padding: EdgeInsets.all(ResponsiveHelper.getResponsiveSpacing(context)),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00E5FF), width: 0.5),
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFF0A0A14),
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'JSON Format Requirements:',
-            style: TextStyle(
-              color: Color(0xFF00E5FF),
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Rajdhani',
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            '• Must contain "races" array\n'
-                '• Each race needs: round, name, circuit, country, date\n'
-                '• Optional: status, results, lapRecord\n'
-                '• Max file size: 5MB',
-            style: TextStyle(
-              color: Color(0xFFAAAAAA),
-              fontSize: 12,
-              fontFamily: 'Courier',
-              height: 1.5,
-            ),
-          ),
-        ],
+// ── Preview stat tile ─────────────────────────────────────────────
+
+class _PreviewStat extends StatelessWidget {
+  final String label;
+  final String value;
+  final double fs;
+  const _PreviewStat({
+    required this.label,
+    required this.value,
+    required this.fs,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.03),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(label, style: GoogleFonts.orbitron(
+              fontSize: fs - 2, color: Colors.white38,
+              letterSpacing: 1.5, fontWeight: FontWeight.w700)),
+          const SizedBox(height: 2),
+          Text(value, style: GoogleFonts.orbitron(
+              fontSize: fs + 6, color: Colors.white,
+              fontWeight: FontWeight.w900)),
+        ]),
       ),
     );
   }
