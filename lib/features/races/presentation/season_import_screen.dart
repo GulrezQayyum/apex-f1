@@ -22,7 +22,6 @@ const _kRed   = Color(0xFFFF073A);
 const _kGreen = Color(0xFF39FF14);
 const _kWhite = Colors.white;
 
-// withOpacity replacement helpers (avoids deprecated_member_use warnings)
 extension _ColorX on Color {
   Color o(double opacity) => withValues(alpha: opacity);
 }
@@ -133,9 +132,8 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
     _onTextChanged(text);
   }
 
-  /// FIX: Use FilePicker.platform.pickFiles() — correct API for all versions.
-  /// file_picker exposes a static `platform` getter that returns the
-  /// platform implementation; calling pickFiles() on it is the correct pattern.
+  /// NOTE: For file_picker v11.x, use FilePicker.pickFiles() directly.
+  /// The .platform accessor is not available in newer versions.
   Future<void> _pickFile() async {
     try {
       final result = await FilePicker.pickFiles(
@@ -240,7 +238,8 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
     return Scaffold(
       backgroundColor: _kBg,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.fromLTRB(pad, 20, pad, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -252,7 +251,7 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
               _buildTextField(context),
               if (_error != null) _buildError(context),
               if (_preview != null) _buildPreview(context),
-              const Spacer(),
+              SizedBox(height: _sp(context, 16)),
               _buildButtons(context),
             ],
           ),
