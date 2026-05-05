@@ -30,30 +30,6 @@ Screens:
 - My Season (Championship Tracker)
 - Season Picker
 
-App Flow:
-Splash Screen
-    │
-    ▼
-Profile Setup (name → team → driver)
-    │
-    ▼
-Home Screen ──────────────────────────────────────────────────┐
-    │                                                          │
-    ├── Calendar ──► Race Detail ──► Qualifying ──► Race Sim  │
-    │                                   └──────► Race Sim     │
-    │                                               │         │
-    │                                               ▼         │
-    │                                          Result Screen  │
-    │                                          │    │    │    │
-    │                                     Home │  Again │ Debrief
-    │                                               │         │
-    │                                               ▼         │
-    ├── Standings                         My Season ◄─────────┘
-    ├── Drivers
-    ├── Teams
-    ├── My Season
-    └── Season Picker (2023 / 2024 / 2025 / Custom)
-
 ## Features
 
 ### Home Screen
@@ -179,56 +155,6 @@ dependencies:
   animated_text_kit: ^4.2.2     # Splash screen animation
   shared_preferences: ^2.2.2    # Profile + championship + season storage
 
-## Project Structure
-
-lib/
-├── main.dart
-├── core/
-│   └── utils/
-│       └── responsive_helper.dart
-├── features/
-│   ├── splash/
-│   │   └── presentation/splash_screen.dart
-│   ├── onboarding/
-│   │   └── presentation/profile_setup_screen.dart
-│   ├── home/
-│   │   └── presentation/home_screen.dart
-│   ├── races/
-│   │   ├── data/models/race_model.dart
-│   │   └── services/
-│   │       ├── race_service.dart
-│   │       ├── race_service_v2.dart
-│   │       └── custom_races_manager.dart
-│   │   └── presentation/
-│   │       ├── calendar_screen.dart
-│   │       └── race_detail_screen.dart
-│   ├── simulation/
-│   │   ├── domain/race_sim_engine.dart
-│   │   ├── data/circuits/
-│   │   │   ├── circuit_paths.dart
-│   │   │   └── monaco_path.dart
-│   │   └── presentation/
-│   │       ├── qualifying_screen.dart
-│   │       ├── race_sim_screen.dart
-│   │       ├── result_screen.dart
-│   │       ├── debrief_screen.dart
-│   │       └── widgets/multi_car_circuit_painter.dart
-│   ├── standings/presentation/standings_screen.dart
-│   ├── drivers/presentation/drivers_screen.dart
-│   ├── teams/presentation/teams_screen.dart
-│   ├── championship/presentation/championship_screen.dart
-│   └── seasons/presentation/season_picker_screen.dart
-
-assets/
-├── data/
-│   ├── races.json          # default (2024)
-│   ├── races_2023.json
-│   ├── races_2024.json
-│   └── races_2025.json
-└── fonts/
-    ├── Orbitron-Regular.ttf
-    ├── Orbitron-Bold.ttf
-    └── Orbitron-Black.ttf
 
 ## Responsive Design
 
