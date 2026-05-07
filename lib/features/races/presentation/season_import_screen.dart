@@ -8,12 +8,8 @@ import 'package:apex_f1/features/races/data/services/race_service_v2.dart';
 import 'package:apex_f1/core/utils/responsive_helper.dart';
 
 // ─────────────────────────────────────────────────────────────────
-//  APEX F1 — Season Import Screen
+//  APEX F1 — Season Import Screen (Fixed)
 //  Location: lib/features/races/presentation/season_import_screen.dart
-//
-//  Standalone screen for importing a custom season via paste or
-//  file picker. Navigated to from main.dart via route 'season_import'.
-//  Pops itself on success and shows a SnackBar confirmation.
 // ─────────────────────────────────────────────────────────────────
 
 const _kBg    = Color(0xFF030308);
@@ -27,12 +23,7 @@ extension _ColorX on Color {
 }
 
 class SeasonImportScreen extends StatefulWidget {
-  /// Optional — called with the model if the caller needs to react.
-  /// If null the screen simply pops.
   final void Function(SeasonModel season)? onSeasonLoaded;
-
-  /// When provided, the screen is pre-locked to this season key
-  /// (e.g. '2023' or '2024') and the JSON must declare a matching season.
   final String? targetSeason;
 
   const SeasonImportScreen({super.key, this.onSeasonLoaded, this.targetSeason});
@@ -54,24 +45,16 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
   late AnimationController _pulse;
   late Animation<double>   _pulseAnim;
 
-  // ── Responsive helpers ────────────────────────────────────────
-
   double _pad(BuildContext ctx) =>
       ResponsiveHelper.isMobile(ctx) ? 16 : 24;
-
   double _sp(BuildContext ctx, double base) =>
       ResponsiveHelper.isMobile(ctx) ? base : base + 4;
-
   double _fs(BuildContext ctx, double base) =>
       ResponsiveHelper.getResponsiveFontSize(ctx, mobileSize: base);
-
   double _radius(BuildContext ctx) =>
       ResponsiveHelper.getResponsiveBorderRadius(ctx);
-
   double _btnH(BuildContext ctx) =>
       ResponsiveHelper.isMobile(ctx) ? 50 : 56;
-
-  // ── Lifecycle ─────────────────────────────────────────────────
 
   @override
   void initState() {
@@ -132,8 +115,8 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
     _onTextChanged(text);
   }
 
-  /// NOTE: For file_picker v11.x, use FilePicker.pickFiles() directly.
-  /// The .platform accessor is not available in newer versions.
+  /// FIX: Use FilePicker.platform.pickFiles() — the correct API.
+  /// The old code used FilePicker.pickFiles() (non-existent static method).
   Future<void> _pickFile() async {
     try {
       final result = await FilePicker.pickFiles(
@@ -143,25 +126,27 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
         withData: true,
       );
 
-      if (result == null || result.files.isEmpty) return; // cancelled
 
-      final file = result.files.first;
+      if (result == null || result.files.isEmpty) return; // user cancelled
 
+      final file  = result.files.first;
       final bytes = file.bytes;
+
       if (bytes == null) {
         setState(() => _error = 'Could not read file — try pasting instead.');
         return;
       }
 
-      // 5 MB guard
       if (bytes.lengthInBytes > 5 * 1024 * 1024) {
         setState(() => _error = 'File too large (max 5 MB).');
         return;
       }
 
-      final text = String.fromCharCodes(bytes);
+      final text = utf8.decode(bytes); // FIX: use utf8.decode, not fromCharCodes
       _jsonCtrl.text = text;
       _onTextChanged(text);
+    } on PlatformException catch (e) {
+      setState(() => _error = 'File picker error: ${e.message}');
     } catch (e) {
       setState(() => _error = 'File picker error: ${e.toString()}');
     }
@@ -178,7 +163,6 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
       final decoded = _validate(raw);
       final season  = (decoded['season'] ?? 'custom').toString();
 
-      // If caller locked to a specific season, enforce it
       if (widget.targetSeason != null && season != widget.targetSeason) {
         setState(() {
           _loading = false;
@@ -203,7 +187,6 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
           ),
           duration: const Duration(seconds: 3),
         ));
-        // Only pop if no onSeasonLoaded (caller handles navigation)
         if (widget.onSeasonLoaded == null) Navigator.of(context).pop();
       }
     } on FormatException {
@@ -401,7 +384,6 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
 
   Widget _buildButtons(BuildContext context) {
     return Column(children: [
-      // ── Pick file from phone (primary) ──────────────────────
       GestureDetector(
         onTap: _pickFile,
         child: Container(
@@ -425,7 +407,6 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
         ),
       ),
       SizedBox(height: _sp(context, 8)),
-      // ── Paste from clipboard (secondary) ───────────────────
       GestureDetector(
         onTap: _pasteFromClipboard,
         child: Container(
@@ -448,7 +429,6 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
         ),
       ),
       SizedBox(height: _sp(context, 10)),
-      // ── Load season (enabled only when preview is valid) ────
       GestureDetector(
         onTap: (_loading || _preview == null) ? null : _loadSeason,
         child: AnimatedBuilder(
@@ -483,8 +463,6 @@ class _SeasonImportScreenState extends State<SeasonImportScreen>
     ]);
   }
 }
-
-// ── Preview stat tile ─────────────────────────────────────────────
 
 class _PreviewStat extends StatelessWidget {
   final String label;

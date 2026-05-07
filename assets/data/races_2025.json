@@ -1,0 +1,870 @@
+{
+  "season": 2025,
+  "last_updated": "2025-12-07",
+  "races": [
+    {
+      "round": 1,
+      "name": "Australian Grand Prix",
+      "circuit": "Albert Park Circuit",
+      "country": "Australia",
+      "city": "Melbourne",
+      "flag": "🇦🇺",
+      "date": "2025-03-16",
+      "status": "upcoming",
+      "laps": 58,
+      "distance_km": 307.574,
+      "weather": "Mild and sunny",
+      "lap_record": {
+        "time": "1:20.235",
+        "driver": "Charles Leclerc",
+        "year": 2022
+      },
+      "circuit_info": {
+        "length_km": 5.303,
+        "corners": 14,
+        "drs_zones": 4,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "1:24:46.106", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+0.895s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+5.108s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+8.231s",     "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+12.443s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+18.872s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+24.119s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+30.541s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+35.207s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+40.882s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 2,
+      "name": "Chinese Grand Prix",
+      "circuit": "Shanghai International Circuit",
+      "country": "China",
+      "city": "Shanghai",
+      "flag": "🇨🇳",
+      "date": "2025-03-23",
+      "status": "upcoming",
+      "laps": 56,
+      "distance_km": 305.066,
+      "weather": "Overcast and mild",
+      "lap_record": {
+        "time": "1:32.238",
+        "driver": "Michael Schumacher",
+        "year": 2004
+      },
+      "circuit_info": {
+        "length_km": 5.451,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "1:30:53.421", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+9.748s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+14.327s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+21.093s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+28.441s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+33.712s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+41.009s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+47.338s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+54.217s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+58.991s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 3,
+      "name": "Japanese Grand Prix",
+      "circuit": "Suzuka International Racing Course",
+      "country": "Japan",
+      "city": "Suzuka",
+      "flag": "🇯🇵",
+      "date": "2025-04-06",
+      "status": "upcoming",
+      "laps": 53,
+      "distance_km": 307.471,
+      "weather": "Cool and clear",
+      "lap_record": {
+        "time": "1:30.983",
+        "driver": "Lewis Hamilton",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 5.807,
+        "corners": 18,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:33:08.572", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+1.423s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+4.891s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+11.342s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+18.227s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+25.114s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+31.882s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+38.441s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+44.008s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+50.773s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 4,
+      "name": "Bahrain Grand Prix",
+      "circuit": "Bahrain International Circuit",
+      "country": "Bahrain",
+      "city": "Sakhir",
+      "flag": "🇧🇭",
+      "date": "2025-04-13",
+      "status": "upcoming",
+      "laps": 57,
+      "distance_km": 308.238,
+      "weather": "Warm and clear",
+      "lap_record": {
+        "time": "1:31.447",
+        "driver": "Pedro de la Rosa",
+        "year": 2005
+      },
+      "circuit_info": {
+        "length_km": 5.412,
+        "corners": 15,
+        "drs_zones": 3,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "1:29:58.441", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+15.499s",    "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+22.883s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+29.441s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+35.117s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+42.008s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+49.332s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+55.771s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+1:02.441s",  "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:09.882s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 5,
+      "name": "Saudi Arabian Grand Prix",
+      "circuit": "Jeddah Corniche Circuit",
+      "country": "Saudi Arabia",
+      "city": "Jeddah",
+      "flag": "🇸🇦",
+      "date": "2025-04-20",
+      "status": "upcoming",
+      "laps": 50,
+      "distance_km": 308.450,
+      "weather": "Hot and clear",
+      "lap_record": {
+        "time": "1:30.734",
+        "driver": "Lewis Hamilton",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 6.174,
+        "corners": 27,
+        "drs_zones": 3,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "1:20:11.332", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+2.843s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+8.117s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+14.552s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+21.009s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+28.441s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+35.772s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+42.009s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+48.331s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+55.007s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 6,
+      "name": "Miami Grand Prix",
+      "circuit": "Miami International Autodrome",
+      "country": "USA",
+      "city": "Miami",
+      "flag": "🇺🇸",
+      "date": "2025-05-04",
+      "status": "upcoming",
+      "laps": 57,
+      "distance_km": 308.326,
+      "weather": "Hot and humid",
+      "lap_record": {
+        "time": "1:29.708",
+        "driver": "Max Verstappen",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 5.412,
+        "corners": 19,
+        "drs_zones": 3,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "1:30:12.441", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+4.630s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+11.882s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+18.441s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+24.009s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+30.772s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+38.118s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+45.009s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Esteban Ocon",     "driver_id": "oco", "team": "Haas",             "time": "+52.441s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+59.008s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 7,
+      "name": "Emilia Romagna Grand Prix",
+      "circuit": "Autodromo Enzo e Dino Ferrari",
+      "country": "Italy",
+      "city": "Imola",
+      "flag": "🇮🇹",
+      "date": "2025-05-18",
+      "status": "upcoming",
+      "laps": 63,
+      "distance_km": 309.049,
+      "weather": "Warm and sunny",
+      "lap_record": {
+        "time": "1:15.484",
+        "driver": "Max Verstappen",
+        "year": 2022
+      },
+      "circuit_info": {
+        "length_km": 4.909,
+        "corners": 19,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:22:08.772", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+6.109s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+12.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+19.008s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+26.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+33.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+40.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+47.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+54.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+1:01.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 8,
+      "name": "Monaco Grand Prix",
+      "circuit": "Circuit de Monaco",
+      "country": "Monaco",
+      "city": "Monte Carlo",
+      "flag": "🇲🇨",
+      "date": "2025-05-25",
+      "status": "upcoming",
+      "laps": 78,
+      "distance_km": 260.286,
+      "weather": "Warm and sunny",
+      "lap_record": {
+        "time": "1:12.909",
+        "driver": "Lando Norris",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 3.337,
+        "corners": 19,
+        "drs_zones": 1,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "1:51:12.117", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+3.131s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+8.441s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+14.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+20.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+27.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+33.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+40.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+47.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Esteban Ocon",     "driver_id": "oco", "team": "Haas",             "time": "+54.441s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 9,
+      "name": "Spanish Grand Prix",
+      "circuit": "Circuit de Barcelona-Catalunya",
+      "country": "Spain",
+      "city": "Barcelona",
+      "flag": "🇪🇸",
+      "date": "2025-06-01",
+      "status": "upcoming",
+      "laps": 66,
+      "distance_km": 307.236,
+      "weather": "Hot and sunny",
+      "lap_record": {
+        "time": "1:18.149",
+        "driver": "Max Verstappen",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 4.657,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "1:28:44.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+2.471s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+9.882s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+16.441s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+23.009s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+30.332s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+37.009s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+44.441s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+51.118s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+58.009s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 10,
+      "name": "Canadian Grand Prix",
+      "circuit": "Circuit Gilles Villeneuve",
+      "country": "Canada",
+      "city": "Montreal",
+      "flag": "🇨🇦",
+      "date": "2025-06-15",
+      "status": "completed",
+      "laps": 70,
+      "distance_km": 305.270,
+      "weather": "Warm and overcast",
+      "lap_record": {
+        "time": "1:13.078",
+        "driver": "Valtteri Bottas",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 4.361,
+        "corners": 14,
+        "drs_zones": 2,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "1:33:44.227", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+0.228s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+5.441s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+11.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+17.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+24.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+30.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+37.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+44.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+51.441s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 11,
+      "name": "Austrian Grand Prix",
+      "circuit": "Red Bull Ring",
+      "country": "Austria",
+      "city": "Spielberg",
+      "flag": "🇦🇹",
+      "date": "2025-06-29",
+      "status": "upcoming",
+      "laps": 71,
+      "distance_km": 306.452,
+      "weather": "Warm and partly cloudy",
+      "lap_record": {
+        "time": "1:05.619",
+        "driver": "Carlos Sainz",
+        "year": 2020
+      },
+      "circuit_info": {
+        "length_km": 4.318,
+        "corners": 10,
+        "drs_zones": 3,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "1:24:19.441", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+2.695s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+8.009s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+14.441s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+21.009s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+27.332s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+34.009s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+40.441s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+47.118s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+54.009s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 12,
+      "name": "British Grand Prix",
+      "circuit": "Silverstone Circuit",
+      "country": "UK",
+      "city": "Silverstone",
+      "flag": "🇬🇧",
+      "date": "2025-07-06",
+      "status": "upcoming",
+      "laps": 52,
+      "distance_km": 306.198,
+      "weather": "Overcast and cool",
+      "lap_record": {
+        "time": "1:27.097",
+        "driver": "Max Verstappen",
+        "year": 2020
+      },
+      "circuit_info": {
+        "length_km": 5.891,
+        "corners": 18,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "1:21:51.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+6.812s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+13.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+20.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+26.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+33.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+39.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+46.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+53.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:00.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 13,
+      "name": "Belgian Grand Prix",
+      "circuit": "Circuit de Spa-Francorchamps",
+      "country": "Belgium",
+      "city": "Spa",
+      "flag": "🇧🇪",
+      "date": "2025-07-27",
+      "status": "upcoming",
+      "laps": 44,
+      "distance_km": 308.052,
+      "weather": "Mixed, showers",
+      "lap_record": {
+        "time": "1:46.286",
+        "driver": "Valtteri Bottas",
+        "year": 2018
+      },
+      "circuit_info": {
+        "length_km": 7.004,
+        "corners": 19,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "1:22:14.441", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+3.415s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+9.009s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+11.441s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+18.009s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Alexander Albon",  "driver_id": "alb", "team": "Williams",         "time": "+25.332s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+32.009s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Liam Lawson",      "driver_id": "law", "team": "Racing Bulls",     "time": "+39.441s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Gabriel Bortoleto","driver_id": "bor", "team": "Kick Sauber",      "time": "+46.118s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Pierre Gasly",     "driver_id": "gas", "team": "Alpine",           "time": "+53.009s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 14,
+      "name": "Hungarian Grand Prix",
+      "circuit": "Hungaroring",
+      "country": "Hungary",
+      "city": "Budapest",
+      "flag": "🇭🇺",
+      "date": "2025-08-03",
+      "status": "upcoming",
+      "laps": 70,
+      "distance_km": 306.630,
+      "weather": "Very hot and sunny",
+      "lap_record": {
+        "time": "1:16.627",
+        "driver": "Lewis Hamilton",
+        "year": 2020
+      },
+      "circuit_info": {
+        "length_km": 4.381,
+        "corners": 14,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "1:38:12.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+0.698s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+7.441s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+14.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+20.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+27.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+33.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+40.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+47.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+54.441s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 15,
+      "name": "Dutch Grand Prix",
+      "circuit": "Circuit Zandvoort",
+      "country": "Netherlands",
+      "city": "Zandvoort",
+      "flag": "🇳🇱",
+      "date": "2025-08-31",
+      "status": "upcoming",
+      "laps": 72,
+      "distance_km": 306.587,
+      "weather": "Windy and cool",
+      "lap_record": {
+        "time": "1:11.097",
+        "driver": "Max Verstappen",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 4.259,
+        "corners": 14,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "1:30:41.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+1.271s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+8.441s",     "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+15.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+21.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+28.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+34.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Esteban Ocon",     "driver_id": "oco", "team": "Haas",             "time": "+41.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Oliver Bearman",   "driver_id": "bea", "team": "Haas",             "time": "+48.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Pierre Gasly",     "driver_id": "gas", "team": "Alpine",           "time": "+55.441s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 16,
+      "name": "Italian Grand Prix",
+      "circuit": "Autodromo Nazionale Monza",
+      "country": "Italy",
+      "city": "Monza",
+      "flag": "🇮🇹",
+      "date": "2025-09-07",
+      "status": "upcoming",
+      "laps": 53,
+      "distance_km": 306.720,
+      "weather": "Warm and sunny",
+      "lap_record": {
+        "time": "1:21.046",
+        "driver": "Rubens Barrichello",
+        "year": 2004
+      },
+      "circuit_info": {
+        "length_km": 5.793,
+        "corners": 11,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:13:58.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+19.207s",    "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+24.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+31.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+37.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+44.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+50.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+57.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+1:04.009s",  "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:11.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 17,
+      "name": "Azerbaijan Grand Prix",
+      "circuit": "Baku City Circuit",
+      "country": "Azerbaijan",
+      "city": "Baku",
+      "flag": "🇦🇿",
+      "date": "2025-09-21",
+      "status": "upcoming",
+      "laps": 51,
+      "distance_km": 306.049,
+      "weather": "Hot and clear",
+      "lap_record": {
+        "time": "1:43.009",
+        "driver": "Charles Leclerc",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 6.003,
+        "corners": 20,
+        "drs_zones": 2,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:27:34.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+14.609s",    "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+21.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+28.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+34.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+41.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+47.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+54.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+1:01.009s",  "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:08.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 18,
+      "name": "Singapore Grand Prix",
+      "circuit": "Marina Bay Street Circuit",
+      "country": "Singapore",
+      "city": "Singapore",
+      "flag": "🇸🇬",
+      "date": "2025-10-05",
+      "status": "upcoming",
+      "laps": 62,
+      "distance_km": 308.706,
+      "weather": "Hot and humid, night race",
+      "lap_record": {
+        "time": "1:35.867",
+        "driver": "Lewis Hamilton",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 4.940,
+        "corners": 19,
+        "drs_zones": 3,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "1:46:29.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+5.430s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+11.009s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+17.441s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+24.009s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+30.332s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+37.009s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+43.441s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+50.118s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+57.009s",    "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 19,
+      "name": "United States Grand Prix",
+      "circuit": "Circuit of the Americas",
+      "country": "USA",
+      "city": "Austin",
+      "flag": "🇺🇸",
+      "date": "2025-10-19",
+      "status": "upcoming",
+      "laps": 56,
+      "distance_km": 308.405,
+      "weather": "Warm and sunny",
+      "lap_record": {
+        "time": "1:36.169",
+        "driver": "Charles Leclerc",
+        "year": 2019
+      },
+      "circuit_info": {
+        "length_km": 5.513,
+        "corners": 20,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:34:52.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+7.959s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+14.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+21.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+27.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+34.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+40.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+47.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+54.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:01.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 20,
+      "name": "Mexico City Grand Prix",
+      "circuit": "Autodromo Hermanos Rodriguez",
+      "country": "Mexico",
+      "city": "Mexico City",
+      "flag": "🇲🇽",
+      "date": "2025-10-26",
+      "status": "upcoming",
+      "laps": 71,
+      "distance_km": 305.354,
+      "weather": "Mild and clear, high altitude",
+      "lap_record": {
+        "time": "1:17.774",
+        "driver": "Valtteri Bottas",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 4.304,
+        "corners": 17,
+        "drs_zones": 3,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "1:38:22.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+30.324s",    "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+37.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+44.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+50.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+57.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+1:03.441s",  "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+1:10.118s",  "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+1:17.009s",  "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+1:24.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 21,
+      "name": "São Paulo Grand Prix",
+      "circuit": "Autodromo Jose Carlos Pace",
+      "country": "Brazil",
+      "city": "São Paulo",
+      "flag": "🇧🇷",
+      "date": "2025-11-09",
+      "status": "upcoming",
+      "laps": 71,
+      "distance_km": 305.879,
+      "weather": "Wet and unpredictable",
+      "lap_record": {
+        "time": "1:10.540",
+        "driver": "Valtteri Bottas",
+        "year": 2018
+      },
+      "circuit_info": {
+        "length_km": 4.309,
+        "corners": 15,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "1:34:41.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "+10.388s",    "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+16.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+22.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+28.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+35.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+41.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+48.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Fernando Alonso",  "driver_id": "alo", "team": "Aston Martin",     "time": "+55.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:02.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 22,
+      "name": "Las Vegas Grand Prix",
+      "circuit": "Las Vegas Strip Circuit",
+      "country": "USA",
+      "city": "Las Vegas",
+      "flag": "🇺🇸",
+      "date": "2025-11-22",
+      "status": "upcoming",
+      "laps": 50,
+      "distance_km": 309.958,
+      "weather": "Cold and clear, night race",
+      "lap_record": {
+        "time": "1:35.490",
+        "driver": "Oscar Piastri",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 6.201,
+        "corners": 17,
+        "drs_zones": 2,
+        "type": "street"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:22:53.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+23.546s",    "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+29.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+36.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+42.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+49.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Nico Hülkenberg",  "driver_id": "hul", "team": "Kick Sauber",      "time": "+55.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+1:02.118s",  "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "DNF",         "fastest_lap": false, "points": 0  },
+        { "pos": 10, "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "DNF",         "fastest_lap": false, "points": 0  }
+      ]
+    },
+    {
+      "round": 23,
+      "name": "Qatar Grand Prix",
+      "circuit": "Lusail International Circuit",
+      "country": "Qatar",
+      "city": "Lusail",
+      "flag": "🇶🇦",
+      "date": "2025-11-30",
+      "status": "upcoming",
+      "laps": 57,
+      "distance_km": 308.611,
+      "weather": "Warm and clear, night race",
+      "lap_record": {
+        "time": "1:24.319",
+        "driver": "Max Verstappen",
+        "year": 2023
+      },
+      "circuit_info": {
+        "length_km": 5.419,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:21:47.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+7.995s",     "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+14.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+21.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+27.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+34.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+40.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+47.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+54.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:01.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    },
+    {
+      "round": 24,
+      "name": "Abu Dhabi Grand Prix",
+      "circuit": "Yas Marina Circuit",
+      "country": "UAE",
+      "city": "Abu Dhabi",
+      "flag": "🇦🇪",
+      "date": "2025-12-07",
+      "status": "upcoming",
+      "laps": 58,
+      "distance_km": 306.183,
+      "weather": "Warm and clear, twilight race",
+      "lap_record": {
+        "time": "1:26.103",
+        "driver": "Max Verstappen",
+        "year": 2021
+      },
+      "circuit_info": {
+        "length_km": 5.281,
+        "corners": 16,
+        "drs_zones": 2,
+        "type": "permanent"
+      },
+      "results": [
+        { "pos": 1,  "driver": "Max Verstappen",   "driver_id": "ver", "team": "Red Bull Racing",  "time": "1:23:09.009", "fastest_lap": false, "points": 25 },
+        { "pos": 2,  "driver": "Oscar Piastri",    "driver_id": "pia", "team": "McLaren",          "time": "+12.594s",    "fastest_lap": false, "points": 18 },
+        { "pos": 3,  "driver": "Lando Norris",     "driver_id": "nor", "team": "McLaren",          "time": "+19.441s",    "fastest_lap": false, "points": 15 },
+        { "pos": 4,  "driver": "George Russell",   "driver_id": "rus", "team": "Mercedes",         "time": "+26.009s",    "fastest_lap": false, "points": 12 },
+        { "pos": 5,  "driver": "Charles Leclerc",  "driver_id": "lec", "team": "Ferrari",          "time": "+32.332s",    "fastest_lap": false, "points": 10 },
+        { "pos": 6,  "driver": "Lewis Hamilton",   "driver_id": "ham", "team": "Ferrari",          "time": "+39.009s",    "fastest_lap": false, "points": 8  },
+        { "pos": 7,  "driver": "Carlos Sainz",     "driver_id": "sai", "team": "Williams",         "time": "+45.441s",    "fastest_lap": false, "points": 6  },
+        { "pos": 8,  "driver": "Kimi Antonelli",   "driver_id": "ant", "team": "Mercedes",         "time": "+52.118s",    "fastest_lap": false, "points": 4  },
+        { "pos": 9,  "driver": "Yuki Tsunoda",     "driver_id": "tsu", "team": "Red Bull Racing",  "time": "+59.009s",    "fastest_lap": false, "points": 2  },
+        { "pos": 10, "driver": "Isack Hadjar",     "driver_id": "had", "team": "Racing Bulls",     "time": "+1:06.441s",  "fastest_lap": false, "points": 1  }
+      ]
+    }
+  ]
+}

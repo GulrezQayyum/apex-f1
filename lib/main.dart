@@ -15,6 +15,7 @@ import 'package:apex_f1/features/teams/presentation/teams_screen.dart';
 import 'package:apex_f1/features/championship/presentation/championship_screen.dart';
 import 'package:apex_f1/core/utils/responsive_helper.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([

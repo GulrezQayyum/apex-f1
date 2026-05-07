@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:apex_f1/features/races/data/models/race_model.dart';
 
 // ─────────────────────────────────────────────────────────────────
-//  APEX F1 — Race Service (Enhanced)
+//  APEX F1 — Race Service (Fixed)
 //  Location: lib/features/races/data/services/race_service.dart
 // ─────────────────────────────────────────────────────────────────
 
@@ -16,24 +16,52 @@ class RaceService {
 
   // ── Cache & State ────────────────────────────────────────────
   SeasonModel? _cachedSeason;
-  int? _currentSeason;
+  int _currentSeason = 2025; // FIX: was nullable, defaulting to 2024 in weird places
   String? _customJsonData;
 
-  // FIX: in-flight guard so concurrent calls don't double-load
+  // In-flight guard so concurrent calls don't double-load
   Future<SeasonModel>? _loadingFuture;
+
+  // ─────────────────────────────────────────────────────────────
+  //  FIX: These two methods were MISSING — calendar_screen.dart
+  //  was calling them but they didn't exist, so switching season
+  //  had no effect and always fell back to 2024.
+  // ─────────────────────────────────────────────────────────────
+
+  /// Called by the season picker to update the active season.
+  void setCurrentSeason(int season) {
+    if (_currentSeason != season) {
+      _currentSeason = season;
+      // Bust cache so next load fetches the new season's file
+      _cachedSeason = null;
+      _loadingFuture = null;
+      _customJsonData = null;
+    }
+  }
+
+  /// Called by _loadRaces() in CalendarScreen.
+  /// Returns races for the given season, loading from the correct asset file.
+  Future<List<RaceModel>> getAllRacesForSeason(int season) async {
+    // If caller passes a different season than what's cached, update first
+    if (_currentSeason != season) {
+      setCurrentSeason(season);
+    }
+    final seasonModel = await loadSeasonFromAssets(season: season);
+    return seasonModel.races;
+  }
 
   // ── Load & Parse ─────────────────────────────────────────────
 
-  /// Load season from custom JSON string
+  /// Load season from custom JSON string (e.g. file picker)
   Future<SeasonModel> loadFromCustomJson(String jsonString) async {
     try {
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
       _cachedSeason = SeasonModel.fromJson(jsonMap);
-      _currentSeason = _cachedSeason?.season;
+      _currentSeason = _cachedSeason?.season ?? _currentSeason;
       _customJsonData = jsonString;
 
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setInt('selected_season', _currentSeason ?? 2024);
+      await prefs.setInt('selected_season', _currentSeason);
       await prefs.setString('custom_races_json', jsonString);
 
       return _cachedSeason!;
@@ -45,19 +73,20 @@ class RaceService {
   }
 
   /// Load a season from assets.
-  /// FIX: was always loading 'assets/data/races.json' regardless of the
-  /// season parameter — now loads 'assets/data/races_<season>.json'.
+  /// Loads 'assets/data/races_<season>.json'.
   /// Falls back to 'assets/data/races.json' for backward compatibility.
   Future<SeasonModel> loadSeasonFromAssets({int? season}) async {
-    final targetSeason = season ?? _currentSeason ?? 2024;
+    final targetSeason = season ?? _currentSeason;
 
-    // Return cache if we already have this season loaded
-    if (_cachedSeason != null && _currentSeason == targetSeason) {
+    // Return cache only if it matches the requested season
+    if (_cachedSeason != null && _cachedSeason!.season == targetSeason) {
       return _cachedSeason!;
     }
 
-    // FIX: race-condition guard — reuse in-flight future if one exists
-    if (_loadingFuture != null) return _loadingFuture!;
+    // Race-condition guard — reuse in-flight future if one exists for same season
+    if (_loadingFuture != null && _currentSeason == targetSeason) {
+      return _loadingFuture!;
+    }
 
     _loadingFuture = _doLoadFromAssets(targetSeason);
     try {
@@ -69,22 +98,20 @@ class RaceService {
   }
 
   Future<SeasonModel> _doLoadFromAssets(int targetSeason) async {
-    // Try season-specific file first (e.g. races_2025.json)
-    // FIX: original code always loaded 'assets/data/races.json', ignoring year
-    const seasonSpecificPath = 'assets/data/races_';
-    final specificPath = '${seasonSpecificPath}$targetSeason.json';
+    final specificPath = 'assets/data/races_$targetSeason.json';
     const fallbackPath = 'assets/data/races.json';
 
     String jsonString;
     try {
       jsonString = await rootBundle.loadString(specificPath);
     } catch (_) {
-      // Graceful fallback for projects with a single races.json
       try {
         jsonString = await rootBundle.loadString(fallbackPath);
       } catch (e) {
         throw RaceServiceException(
-          'No asset found for season $targetSeason: ${e.toString()}',
+          'No asset found for season $targetSeason. '
+              'Make sure assets/data/races_$targetSeason.json exists '
+              'and is listed in pubspec.yaml.',
         );
       }
     }
@@ -110,8 +137,10 @@ class RaceService {
   /// Initialize — loads user's last selected season or default
   Future<SeasonModel> initialize() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedSeason = prefs.getInt('selected_season') ?? 2024;
+    final savedSeason = prefs.getInt('selected_season') ?? 2025;
     final customJson = prefs.getString('custom_races_json');
+
+    _currentSeason = savedSeason;
 
     if (customJson != null && customJson.isNotEmpty) {
       return loadFromCustomJson(customJson);
@@ -120,10 +149,12 @@ class RaceService {
     }
   }
 
-  /// Legacy method — uses default asset loading
+  /// Legacy method — uses current season
   Future<SeasonModel> loadSeason() async {
-    if (_cachedSeason != null) return _cachedSeason!;
-    return loadSeasonFromAssets();
+    if (_cachedSeason != null && _cachedSeason!.season == _currentSeason) {
+      return _cachedSeason!;
+    }
+    return loadSeasonFromAssets(season: _currentSeason);
   }
 
   /// Force reload from current source
@@ -133,7 +164,7 @@ class RaceService {
     if (_customJsonData != null) {
       return loadFromCustomJson(_customJsonData!);
     } else {
-      return loadSeasonFromAssets(season: _currentSeason ?? 2024);
+      return loadSeasonFromAssets(season: _currentSeason);
     }
   }
 
@@ -142,12 +173,13 @@ class RaceService {
     _cachedSeason = null;
     _customJsonData = null;
     _loadingFuture = null;
+    _currentSeason = 2025;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('selected_season', 2024);
+    await prefs.setInt('selected_season', 2025);
     await prefs.remove('custom_races_json');
   }
 
-  int? get currentSeason => _currentSeason ?? _cachedSeason?.season;
+  int get currentSeason => _currentSeason;
   bool get isUsingCustomJson => _customJsonData != null;
 
   // ── Race Queries ──────────────────────────────────────────────
@@ -251,7 +283,8 @@ class SeasonSummary {
     required this.lastUpdated,
   });
 
-  double get seasonProgress => totalRaces == 0 ? 0 : completedRaces / totalRaces;
+  double get seasonProgress =>
+      totalRaces == 0 ? 0 : completedRaces / totalRaces;
   String get progressLabel => '$completedRaces of $totalRaces races completed';
 }
 

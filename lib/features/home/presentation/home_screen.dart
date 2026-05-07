@@ -96,13 +96,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
 
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() => _now = DateTime.now()); // 👈 THIS LINE
+      setState(() => _now = DateTime.now());
     });
 
     _loadLastResult();
 
-
-   _pulseCtrl = AnimationController(
+    _pulseCtrl = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 1600),
     )..repeat(reverse: true);
     _pulse = Tween<double>(begin: 0.5, end: 1.0).animate(
@@ -125,7 +124,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       final raw = prefs.getString('my_championship') ?? '[]';
       final list = jsonDecode(raw) as List<dynamic>;
       if (list.isNotEmpty && mounted) {
-        // Get the most recent result (last in sorted list)
         setState(() => _lastResult = list.last as Map<String, dynamic>);
       }
     } catch (_) {}
@@ -299,11 +297,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return _NeonCard(
       accentColor: _accent,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Avatar circle
+
+          // ── Avatar circle ──────────────────────
           Container(
-            width: 52,
-            height: 52,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: _accent, width: 1.5),
@@ -316,72 +316,97 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ? widget.profile.name[0].toUpperCase()
                     : '?',
                 style: GoogleFonts.orbitron(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.w900,
                   color: _accent,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 14),
 
+          const SizedBox(width: 12),
+
+          // ── Middle content ─────────────────────
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
+
+                // Label
                 Text(
                   'WELCOME BACK',
                   style: GoogleFonts.orbitron(
-                    fontSize:  R.fsSafe(context, 9),
-                    letterSpacing: 3,
+                    fontSize: 8,
+                    letterSpacing: 2.5,
                     color: _white.withValues(alpha: 0.35),
                   ),
                 ),
-                const SizedBox(height: 3),
+
+                const SizedBox(height: 2),
+
+                // Name
                 Text(
                   widget.profile.name.toUpperCase(),
                   style: GoogleFonts.orbitron(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w900,
                     color: _white,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+
                 const SizedBox(height: 4),
+
+                // Driver · Team row
                 Row(
                   children: [
                     if (driver != null) ...[
-                      Text(driver.flag, style: const TextStyle(fontSize: 13)),
-                      const SizedBox(width: 5),
                       Text(
-                        driver.name,
-                        style: GoogleFonts.rajdhani(
-                          fontSize: 13,
-                          color: _white.withValues(alpha: 0.6),
-                          fontWeight: FontWeight.w600,
+                        driver.flag,
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          driver.name,
+                          style: GoogleFonts.rajdhani(
+                            fontSize: 12,
+                            color: _white.withValues(alpha: 0.6),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                     if (driver != null && team != null)
                       Text(
                         '  ·  ',
-                        style: TextStyle(color: _white.withValues(alpha: 0.2), fontSize: 13),
+                        style: TextStyle(
+                          color: _white.withValues(alpha: 0.2),
+                          fontSize: 12,
+                        ),
                       ),
                     if (team != null)
-                      Text(
-                        team.name,
-                        style: GoogleFonts.rajdhani(
-                          fontSize: 13,
-                          color: team.color,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: Text(
+                          team.name,
+                          style: GoogleFonts.rajdhani(
+                            fontSize: 12,
+                            color: team.color,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     if (driver == null && team == null)
                       Text(
-                        'No driver set',
+                        'No favourites set',
                         style: GoogleFonts.rajdhani(
-                          fontSize: 13,
+                          fontSize: 12,
                           color: _white.withValues(alpha: 0.3),
                         ),
                       ),
@@ -391,26 +416,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
 
-          // Season badge
+          const SizedBox(width: 10),
+
+          // ── Season badge ───────────────────────
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            width: 46,
+            padding: const EdgeInsets.symmetric(vertical: 6),
             decoration: BoxDecoration(
               border: Border.all(color: _white.withValues(alpha: 0.1)),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(3),
             ),
             child: Text(
-              '2024',
+              '2025\nSEASON',
+              textAlign: TextAlign.center,
               style: GoogleFonts.orbitron(
-                fontSize: 10,
+                fontSize: 7,
                 color: _white.withValues(alpha: 0.2),
-                letterSpacing: 2,
+                letterSpacing: 1,
+                height: 1.6,
               ),
             ),
           ),
+
         ],
       ),
     );
   }
+
+
 
   // ── Next race card ──────────────────────────
   Widget _buildNextRaceCard() {
@@ -521,12 +554,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // ── Quick nav grid ──────────────────────────
   Widget _buildQuickNav() {
     final items = [
-      _NavItem(label: 'CALENDAR',      sub: '24 Grand Prix',       icon: '🏁', color: _cyan,                   route: 'calendar'),
-      _NavItem(label: 'STANDINGS',     sub: 'Driver rankings',     icon: '🏆', color: const Color(0xFFFF00FF), route: 'standings'),
-      _NavItem(label: 'DRIVERS',       sub: '20 drivers',          icon: '🧑‍✈️', color: const Color(0xFF39FF14), route: 'drivers'),
-      _NavItem(label: 'RACE SIM',      sub: 'Start a race',        icon: '🎮', color: const Color(0xFFFFE600), route: 'sim'),
-      _NavItem(label: 'TEAMS',         sub: '10 constructors',     icon: '🔧', color: const Color(0xFFFF8000), route: 'teams'),
-      _NavItem(label: 'MY SEASON',     sub: 'Championship tracker',icon: '📊', color: const Color(0xFF6692FF), route: 'championship'),
+      _NavItem(label: 'CALENDAR',  sub: '24 Grand Prix',        icon: '🏁', color: _cyan,                   route: 'calendar'),
+      _NavItem(label: 'STANDINGS', sub: 'Driver rankings',      icon: '🏆', color: const Color(0xFFFF00FF), route: 'standings'),
+      _NavItem(label: 'DRIVERS',   sub: '20 drivers',           icon: '🧑‍✈️', color: const Color(0xFF39FF14), route: 'drivers'),
+      _NavItem(label: 'RACE SIM',  sub: 'Start a race',         icon: '🎮', color: const Color(0xFFFFE600), route: 'sim'),
+      _NavItem(label: 'TEAMS',     sub: '10 constructors',      icon: '🔧', color: const Color(0xFFFF8000), route: 'teams'),
+      _NavItem(label: 'MY SEASON', sub: 'Championship tracker', icon: '📊', color: const Color(0xFF6692FF), route: 'championship'),
     ];
 
     return GridView.count(
@@ -858,7 +891,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
           Text(
-            '2024 SEASON',
+            '2025 SEASON',
             style: GoogleFonts.orbitron(
               fontSize: 9, letterSpacing: 2,
               color: _white.withValues(alpha: 0.15),

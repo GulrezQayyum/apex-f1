@@ -2,23 +2,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:apex_f1/features/races/data/models/race_model.dart';
-import 'package:apex_f1/features/races/data/services/race_service.dart';
+import 'package:apex_f1/features/races/data/services/race_service_v2.dart';
 
 // ─────────────────────────────────────────────────────────────────
-//  APEX F1 — Calendar Screen
+//  APEX F1 — Calendar Screen (Fixed — handles overflow)
 //  Location: lib/features/races/presentation/calendar_screen.dart
 // ─────────────────────────────────────────────────────────────────
 
-
-// ─────────────────────────────────────────────────────────────────
-//  SHARED COLORS — accessible by all classes in this file
-// ─────────────────────────────────────────────────────────────────
 const Color _kBg    = Color(0xFF030308);
 const Color _kCyan  = Color(0xFF00E5FF);
 const Color _kWhite = Colors.white;
 
-// Filter tabs
 enum _Filter { all, upcoming, completed }
+
+const List<String> kAvailableSeasons = ['2023', '2024', '2025'];
 
 class CalendarScreen extends StatefulWidget {
   final void Function(RaceModel race) onRaceTapped;
@@ -32,24 +29,19 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen>
     with TickerProviderStateMixin {
 
-  // ── State ──────────────────────────────────
-  final _service = RaceService();
+  final _service = RaceServiceV2();
+
   List<RaceModel> _allRaces = [];
   bool _loading = true;
   String? _error;
   _Filter _filter = _Filter.all;
 
-  // ── Animation ──────────────────────────────
+  String _currentSeason = kAvailableSeasons.last;
+
   late AnimationController _entryCtrl;
   late Animation<double> _entryAnim;
   late AnimationController _pulseCtrl;
   late Animation<double> _pulseAnim;
-
-  // ── Colors ─────────────────────────────────
-
-  // ─────────────────────────────────────────────────────────────
-  //  INIT
-  // ─────────────────────────────────────────────────────────────
 
   @override
   void initState() {
@@ -78,27 +70,44 @@ class _CalendarScreenState extends State<CalendarScreen>
   }
 
   Future<void> _loadRaces() async {
+    setState(() { _loading = true; _error = null; });
     try {
-      final races = await _service.getAllRaces();
+      final seasonModel = await _service.getSeasonRaces(_currentSeason);
       if (mounted) {
-        setState(() { _allRaces = races; _loading = false; });
-        _entryCtrl.forward();
+        setState(() { _allRaces = seasonModel.races; _loading = false; });
+        _entryCtrl.forward(from: 0);
       }
-    } on RaceServiceException catch (e) {
-      if (mounted) setState(() { _error = e.message; _loading = false; });
+    } catch (e) {
+      if (mounted) {
+        setState(() { _error = e.toString(); _loading = false; });
+      }
     }
   }
 
-  // ── Filtered list ──────────────────────────
+  void _showSeasonPicker() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _SeasonPickerSheet(
+        currentSeason: _currentSeason,
+        availableSeasons: kAvailableSeasons,
+        onSeasonSelected: (season) {
+          Navigator.pop(context);
+          if (season != _currentSeason) {
+            setState(() => _currentSeason = season);
+            _service.switchSeason(season);
+            _loadRaces();
+          }
+        },
+      ),
+    );
+  }
+
   List<RaceModel> get _filtered => switch (_filter) {
     _Filter.all       => _allRaces,
     _Filter.upcoming  => _allRaces.where((r) => r.status.isUpcoming).toList(),
     _Filter.completed => _allRaces.where((r) => r.status.isCompleted).toList(),
   };
-
-  // ─────────────────────────────────────────────────────────────
-  //  BUILD
-  // ─────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -106,13 +115,8 @@ class _CalendarScreenState extends State<CalendarScreen>
       backgroundColor: _kBg,
       body: Stack(
         children: [
-          // Particles
           const _ParticleField(),
-
-          // Scanlines
           Positioned.fill(child: CustomPaint(painter: _ScanlinePainter())),
-
-          // Top accent line
           Positioned(
             top: 0, left: 0, right: 0,
             child: AnimatedBuilder(
@@ -122,16 +126,14 @@ class _CalendarScreenState extends State<CalendarScreen>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     Colors.transparent,
-                    _kCyan.withValues(alpha: _pulseAnim.value),
-                    const Color(0xFFFF00FF).withValues(alpha: _pulseAnim.value * 0.6),
+                    _kCyan.withOpacity(_pulseAnim.value),
+                    const Color(0xFFFF00FF).withOpacity(_pulseAnim.value * 0.6),
                     Colors.transparent,
                   ]),
                 ),
               ),
             ),
           ),
-
-          // Content
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,14 +150,12 @@ class _CalendarScreenState extends State<CalendarScreen>
     );
   }
 
-  // ── Header ─────────────────────────────────
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Back + title row
           Row(
             children: [
               GestureDetector(
@@ -163,98 +163,94 @@ class _CalendarScreenState extends State<CalendarScreen>
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    border: Border.all(color: _kWhite.withValues(alpha: 0.15)),
+                    border: Border.all(color: _kWhite.withOpacity(0.15)),
                     borderRadius: BorderRadius.circular(2),
                   ),
-                  child: Text(
-                    '‹  BACK',
-                    style: GoogleFonts.orbitron(
-                      fontSize: 9, letterSpacing: 2,
-                      color: _kWhite.withValues(alpha: 0.4),
-                    ),
-                  ),
+                  child: Text('‹  BACK', style: GoogleFonts.orbitron(
+                    fontSize: 9, letterSpacing: 2,
+                    color: _kWhite.withOpacity(0.4),
+                  )),
                 ),
               ),
               const Spacer(),
-              // Season badge
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  border: Border.all(color: _kCyan.withValues(alpha: 0.3)),
-                  borderRadius: BorderRadius.circular(2),
-                  color: _kCyan.withValues(alpha: 0.05),
-                ),
-                child: Text(
-                  '2024 SEASON',
-                  style: GoogleFonts.orbitron(
-                    fontSize: 9, letterSpacing: 2,
-                    color: _kCyan.withValues(alpha: 0.7),
+              GestureDetector(
+                onTap: _showSeasonPicker,
+                child: AnimatedBuilder(
+                  animation: _pulseAnim,
+                  builder: (_, __) => Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: _kCyan.withOpacity(0.5)),
+                      borderRadius: BorderRadius.circular(2),
+                      color: _kCyan.withOpacity(0.08),
+                      boxShadow: [
+                        BoxShadow(
+                          color: _kCyan.withOpacity(0.15 * _pulseAnim.value),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '$_currentSeason SEASON',
+                          style: GoogleFonts.orbitron(
+                            fontSize: 9, letterSpacing: 2,
+                            color: _kCyan, fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        const Icon(Icons.keyboard_arrow_down_rounded,
+                            color: _kCyan, size: 14),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-
-          // Title
-          Text(
-            'RACE',
-            style: GoogleFonts.orbitron(
-              fontSize: 32, fontWeight: FontWeight.w900,
-              color: _kWhite, letterSpacing: 2, height: 1,
-            ),
-          ),
+          Text('RACE', style: GoogleFonts.orbitron(
+            fontSize: 32, fontWeight: FontWeight.w900,
+            color: _kWhite, letterSpacing: 2, height: 1,
+          )),
           AnimatedBuilder(
             animation: _pulseAnim,
-            builder: (_, __) => Text(
-              'CALENDAR',
-              style: GoogleFonts.orbitron(
-                fontSize: 32, fontWeight: FontWeight.w900,
-                letterSpacing: 2, height: 1,
-                color: _kCyan,
-                shadows: [
-                  Shadow(
-                    color: _kCyan.withValues(alpha: 0.5 * _pulseAnim.value),
-                    blurRadius: 16,
-                  ),
-                ],
-              ),
-            ),
+            builder: (_, __) => Text('CALENDAR', style: GoogleFonts.orbitron(
+              fontSize: 32, fontWeight: FontWeight.w900,
+              letterSpacing: 2, height: 1, color: _kCyan,
+              shadows: [Shadow(
+                color: _kCyan.withOpacity(0.5 * _pulseAnim.value),
+                blurRadius: 16,
+              )],
+            )),
           ),
           const SizedBox(height: 12),
-
-          // Stats row
           if (!_loading && _error == null)
             Row(
               children: [
                 _buildStatChip(
                   '${_allRaces.where((r) => r.status.isCompleted).length}',
-                  'COMPLETED',
-                  const Color(0xFF39FF14),
+                  'COMPLETED', const Color(0xFF39FF14),
                 ),
                 const SizedBox(width: 8),
                 _buildStatChip(
                   '${_allRaces.where((r) => r.status.isUpcoming).length}',
-                  'UPCOMING',
-                  _kCyan,
+                  'UPCOMING', _kCyan,
                 ),
                 const SizedBox(width: 8),
-                _buildStatChip(
-                  '${_allRaces.length}',
-                  'TOTAL',
-                  _kWhite.withValues(alpha: 0.4),
-                ),
+                _buildStatChip('${_allRaces.length}', 'TOTAL',
+                    _kWhite.withOpacity(0.4)),
               ],
             ),
           const SizedBox(height: 16),
-
-          // Neon divider
           Container(
             height: 1,
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
                 Colors.transparent,
-                _kCyan.withValues(alpha: 0.4),
+                _kCyan.withOpacity(0.4),
                 Colors.transparent,
               ]),
             ),
@@ -268,41 +264,32 @@ class _CalendarScreenState extends State<CalendarScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: color.withValues(alpha: 0.2)),
+        border: Border.all(color: color.withOpacity(0.2)),
         borderRadius: BorderRadius.circular(2),
-        color: color.withValues(alpha: 0.05),
+        color: color.withOpacity(0.05),
       ),
       child: Row(
         children: [
-          Text(
-            value,
-            style: GoogleFonts.orbitron(
-              fontSize: 13, fontWeight: FontWeight.w900,
-              color: color,
-              shadows: [Shadow(color: color.withValues(alpha: 0.4), blurRadius: 6)],
-            ),
-          ),
+          Text(value, style: GoogleFonts.orbitron(
+            fontSize: 13, fontWeight: FontWeight.w900, color: color,
+            shadows: [Shadow(color: color.withOpacity(0.4), blurRadius: 6)],
+          )),
           const SizedBox(width: 5),
-          Text(
-            label,
-            style: GoogleFonts.orbitron(
-              fontSize: 8, letterSpacing: 1.5,
-              color: color.withValues(alpha: 0.6),
-            ),
-          ),
+          Text(label, style: GoogleFonts.orbitron(
+            fontSize: 8, letterSpacing: 1.5,
+            color: color.withOpacity(0.6),
+          )),
         ],
       ),
     );
   }
 
-  // ── Filter tabs ────────────────────────────
   Widget _buildFilterTabs() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
       child: Row(
         children: _Filter.values.map((f) {
           final active = _filter == f;
-          final label = f.name.toUpperCase();
           return GestureDetector(
             onTap: () => setState(() => _filter = f),
             child: AnimatedContainer(
@@ -312,18 +299,18 @@ class _CalendarScreenState extends State<CalendarScreen>
               decoration: BoxDecoration(
                 color: active ? _kCyan : Colors.transparent,
                 border: Border.all(
-                  color: active ? _kCyan : _kWhite.withValues(alpha: 0.15),
+                  color: active ? _kCyan : _kWhite.withOpacity(0.15),
                 ),
                 borderRadius: BorderRadius.circular(2),
                 boxShadow: active
-                    ? [BoxShadow(color: _kCyan.withValues(alpha: 0.3), blurRadius: 10)]
+                    ? [BoxShadow(color: _kCyan.withOpacity(0.3), blurRadius: 10)]
                     : null,
               ),
               child: Text(
-                label,
+                f.name.toUpperCase(),
                 style: GoogleFonts.orbitron(
                   fontSize: 9, letterSpacing: 2, fontWeight: FontWeight.w700,
-                  color: active ? Colors.black : _kWhite.withValues(alpha: 0.4),
+                  color: active ? Colors.black : _kWhite.withOpacity(0.4),
                 ),
               ),
             ),
@@ -333,7 +320,6 @@ class _CalendarScreenState extends State<CalendarScreen>
     );
   }
 
-  // ── Body ───────────────────────────────────
   Widget _buildBody() {
     if (_loading) return _buildLoading();
     if (_error != null) return _buildError();
@@ -346,20 +332,13 @@ class _CalendarScreenState extends State<CalendarScreen>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 32, height: 32,
-            child: CircularProgressIndicator(
-              color: _kCyan, strokeWidth: 1.5,
-            ),
-          ),
+          const SizedBox(width: 32, height: 32,
+              child: CircularProgressIndicator(color: _kCyan, strokeWidth: 1.5)),
           const SizedBox(height: 16),
-          Text(
-            'LOADING RACES...',
-            style: GoogleFonts.orbitron(
-              fontSize: 10, letterSpacing: 3,
-              color: _kWhite.withValues(alpha: 0.3),
-            ),
-          ),
+          Text('LOADING $_currentSeason SEASON...', style: GoogleFonts.orbitron(
+            fontSize: 10, letterSpacing: 3,
+            color: _kWhite.withOpacity(0.3),
+          )),
         ],
       ),
     );
@@ -372,43 +351,31 @@ class _CalendarScreenState extends State<CalendarScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '⚠',
-              style: TextStyle(
-                fontSize: 32, color: const Color(0xFFFF073A).withValues(alpha: 0.8),
-              ),
-            ),
+            Text('⚠', style: TextStyle(
+              fontSize: 32,
+              color: const Color(0xFFFF073A).withOpacity(0.8),
+            )),
             const SizedBox(height: 12),
-            Text(
-              'FAILED TO LOAD',
-              style: GoogleFonts.orbitron(
-                fontSize: 12, letterSpacing: 3,
-                color: const Color(0xFFFF073A),
-              ),
-            ),
+            Text('FAILED TO LOAD', style: GoogleFonts.orbitron(
+              fontSize: 12, letterSpacing: 3,
+              color: const Color(0xFFFF073A),
+            )),
             const SizedBox(height: 8),
-            Text(
-              _error ?? 'Unknown error',
-              style: GoogleFonts.rajdhani(
-                fontSize: 13, color: _kWhite.withValues(alpha: 0.3),
-              ),
-              textAlign: TextAlign.center,
-            ),
+            Text(_error ?? 'Unknown error', style: GoogleFonts.rajdhani(
+              fontSize: 13, color: _kWhite.withOpacity(0.3),
+            ), textAlign: TextAlign.center),
             const SizedBox(height: 20),
             GestureDetector(
-              onTap: () { setState(() { _loading = true; _error = null; }); _loadRaces(); },
+              onTap: _loadRaces,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
-                  border: Border.all(color: _kCyan.withValues(alpha: 0.5)),
+                  border: Border.all(color: _kCyan.withOpacity(0.5)),
                   borderRadius: BorderRadius.circular(2),
                 ),
-                child: Text(
-                  'RETRY',
-                  style: GoogleFonts.orbitron(
-                    fontSize: 10, letterSpacing: 3, color: _kCyan,
-                  ),
-                ),
+                child: Text('RETRY', style: GoogleFonts.orbitron(
+                  fontSize: 10, letterSpacing: 3, color: _kCyan,
+                )),
               ),
             ),
           ],
@@ -419,13 +386,10 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   Widget _buildEmpty() {
     return Center(
-      child: Text(
-        'NO RACES FOUND',
-        style: GoogleFonts.orbitron(
-          fontSize: 12, letterSpacing: 3,
-          color: _kWhite.withValues(alpha: 0.2),
-        ),
-      ),
+      child: Text('NO RACES FOUND', style: GoogleFonts.orbitron(
+        fontSize: 12, letterSpacing: 3,
+        color: _kWhite.withOpacity(0.2),
+      )),
     );
   }
 
@@ -437,7 +401,6 @@ class _CalendarScreenState extends State<CalendarScreen>
         itemCount: _filtered.length,
         itemBuilder: (_, i) {
           final race = _filtered[i];
-          // Staggered animation delay per card
           return TweenAnimationBuilder<double>(
             tween: Tween(begin: 0.0, end: 1.0),
             duration: Duration(milliseconds: 300 + i * 50),
@@ -449,10 +412,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                 child: child,
               ),
             ),
-            child: _RaceCard(
-              race: race,
-              onTap: () => widget.onRaceTapped(race),
-            ),
+            child: _RaceCard(race: race, onTap: () => widget.onRaceTapped(race)),
           );
         },
       ),
@@ -461,15 +421,132 @@ class _CalendarScreenState extends State<CalendarScreen>
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  RACE CARD
+//  SEASON PICKER BOTTOM SHEET
+// ─────────────────────────────────────────────────────────────────
+
+class _SeasonPickerSheet extends StatelessWidget {
+  final String currentSeason;
+  final List<String> availableSeasons;
+  final void Function(String season) onSeasonSelected;
+
+  const _SeasonPickerSheet({
+    required this.currentSeason,
+    required this.availableSeasons,
+    required this.onSeasonSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFF0A0A14),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        border: Border(top: BorderSide(color: Color(0xFF00E5FF), width: 1)),
+      ),
+      padding: const EdgeInsets.fromLTRB(24, 20, 24, 40),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              width: 40, height: 3,
+              margin: const EdgeInsets.only(bottom: 20),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(999),
+              ),
+            ),
+          ),
+          Text('SELECT SEASON', style: GoogleFonts.orbitron(
+            fontSize: 14, fontWeight: FontWeight.w900,
+            color: Colors.white, letterSpacing: 2,
+          )),
+          const SizedBox(height: 6),
+          Text('TAP TO SWITCH SEASON', style: GoogleFonts.orbitron(
+            fontSize: 9, letterSpacing: 2,
+            color: Colors.white.withOpacity(0.3),
+          )),
+          const SizedBox(height: 24),
+          ...availableSeasons.reversed.map((season) {
+            final isActive = season == currentSeason;
+            final isLatest = season == availableSeasons.last;
+            return GestureDetector(
+              onTap: () => onSeasonSelected(season),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isActive
+                        ? const Color(0xFF00E5FF)
+                        : Colors.white.withOpacity(0.1),
+                    width: isActive ? 1.5 : 1,
+                  ),
+                  borderRadius: BorderRadius.circular(4),
+                  color: isActive
+                      ? const Color(0xFF00E5FF).withOpacity(0.1)
+                      : Colors.white.withOpacity(0.02),
+                ),
+                child: Row(
+                  children: [
+                    Text(season, style: GoogleFonts.orbitron(
+                      fontSize: 22, fontWeight: FontWeight.w900,
+                      color: isActive ? const Color(0xFF00E5FF) : Colors.white,
+                    )),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('FORMULA ONE SEASON', style: GoogleFonts.orbitron(
+                          fontSize: 9, letterSpacing: 1.5,
+                          color: Colors.white.withOpacity(0.4),
+                        )),
+                        if (isLatest)
+                          Text('LATEST', style: GoogleFonts.orbitron(
+                            fontSize: 8, letterSpacing: 2,
+                            color: const Color(0xFF39FF14),
+                          )),
+                        if (isActive && !isLatest)
+                          Text('CURRENT', style: GoogleFonts.orbitron(
+                            fontSize: 8, letterSpacing: 2,
+                            color: const Color(0xFF00E5FF),
+                          )),
+                      ],
+                    ),
+                    const Spacer(),
+                    if (isActive)
+                      Container(
+                        width: 10, height: 10,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xFF00E5FF),
+                          boxShadow: [BoxShadow(
+                            color: const Color(0xFF00E5FF).withOpacity(0.6),
+                            blurRadius: 6,
+                          )],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+//  RACE CARD (STRICT LAYOUT — FINAL FIX)
 // ─────────────────────────────────────────────────────────────────
 
 class _RaceCard extends StatefulWidget {
   final RaceModel race;
   final VoidCallback onTap;
-
   const _RaceCard({required this.race, required this.onTap});
-
   @override
   State<_RaceCard> createState() => _RaceCardState();
 }
@@ -477,7 +554,6 @@ class _RaceCard extends StatefulWidget {
 class _RaceCardState extends State<_RaceCard> {
   bool _hovered = false;
 
-  // Team-like color per race based on round
   Color get _roundColor {
     const colors = [
       Color(0xFF00E5FF), Color(0xFFFF00FF), Color(0xFF39FF14),
@@ -501,74 +577,61 @@ class _RaceCardState extends State<_RaceCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(12), // Slightly reduced padding
         decoration: BoxDecoration(
           border: Border.all(
             color: _hovered
-                ? _roundColor.withValues(alpha: 0.7)
-                : Colors.white.withValues(alpha: 0.08),
+                ? _roundColor.withOpacity(0.7)
+                : Colors.white.withOpacity(0.08),
           ),
           borderRadius: BorderRadius.circular(4),
           color: _hovered
-              ? _roundColor.withValues(alpha: 0.06)
-              : Colors.white.withValues(alpha: 0.02),
-          boxShadow: _hovered
-              ? [BoxShadow(color: _roundColor.withValues(alpha: 0.15), blurRadius: 12)]
-              : null,
+              ? _roundColor.withOpacity(0.06)
+              : Colors.white.withOpacity(0.02),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Round number
+            // 1. ROUND NUMBER (Fixed Width)
             SizedBox(
-              width: 36,
+              width: 32,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'R',
-                    style: GoogleFonts.orbitron(
-                      fontSize: 8, letterSpacing: 1,
-                      color: Colors.white.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  Text(
-                    '${race.round}',
-                    style: GoogleFonts.orbitron(
-                      fontSize: 18, fontWeight: FontWeight.w900,
-                      color: completed
-                          ? _roundColor
-                          : Colors.white.withValues(alpha: 0.25),
-                      shadows: completed
-                          ? [Shadow(color: _roundColor.withValues(alpha: 0.5), blurRadius: 8)]
-                          : null,
-                    ),
-                  ),
+                  Text('R', style: GoogleFonts.orbitron(
+                    fontSize: 7, color: Colors.white.withOpacity(0.2),
+                  )),
+                  Text('${race.round}', style: GoogleFonts.orbitron(
+                    fontSize: 16, fontWeight: FontWeight.w900,
+                    color: completed ? _roundColor : Colors.white.withOpacity(0.25),
+                  )),
                 ],
               ),
             ),
 
-            // Left divider line
+            // 2. VERTICAL DIVIDER
             Container(
-              width: 1, height: 48,
-              margin: const EdgeInsets.symmetric(horizontal: 12),
-              color: _roundColor.withValues(alpha: completed ? 0.4 : 0.15),
+              width: 1, height: 40,
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              color: _roundColor.withOpacity(0.2),
             ),
 
-            // Flag + race info
+            // 3. MAIN CONTENT (Flexible & Expanded)
             Expanded(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Text(race.flag, style: const TextStyle(fontSize: 16)),
-                      const SizedBox(width: 8),
-                      Expanded(
+                      Text(race.flag, style: const TextStyle(fontSize: 14)),
+                      const SizedBox(width: 6),
+                      Expanded( // Force text to wrap/truncate inside this row
                         child: Text(
-                          race.name,
+                          race.name.toUpperCase(),
                           style: GoogleFonts.orbitron(
-                            fontSize: 11, fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                            letterSpacing: 0.3,
+                            fontSize: 10, fontWeight: FontWeight.w800,
+                            color: Colors.white, letterSpacing: 0.5,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -576,40 +639,30 @@ class _RaceCardState extends State<_RaceCard> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
-                    '${race.circuit}  ·  ${race.city}',
+                    '${race.circuit} · ${race.city}',
                     style: GoogleFonts.rajdhani(
-                      fontSize: 11,
-                      color: Colors.white.withValues(alpha: 0.35),
+                      fontSize: 10, color: Colors.white.withOpacity(0.4),
+                      fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-
-                  // Winner row if completed
                   if (completed && race.winner != null) ...[
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 4),
                     Row(
                       children: [
-                        Text(
-                          '🏆',
-                          style: const TextStyle(fontSize: 11),
-                        ),
+                        const Text('🏆', style: TextStyle(fontSize: 9)),
                         const SizedBox(width: 4),
-                        Text(
-                          race.winner!.driver,
-                          style: GoogleFonts.rajdhani(
-                            fontSize: 12, fontWeight: FontWeight.w700,
-                            color: const Color(0xFFFFE600).withValues(alpha: 0.8),
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          race.winner!.team,
-                          style: GoogleFonts.rajdhani(
-                            fontSize: 11,
-                            color: Colors.white.withValues(alpha: 0.3),
+                        Flexible(
+                          child: Text(
+                            race.winner!.driver,
+                            style: GoogleFonts.rajdhani(
+                              fontSize: 11, fontWeight: FontWeight.w700,
+                              color: const Color(0xFFFFE600).withOpacity(0.8),
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -619,55 +672,39 @@ class _RaceCardState extends State<_RaceCard> {
               ),
             ),
 
-            // Right side — date + status
+            const SizedBox(width: 8),
+
+            // 4. DATE & STATUS (Fixed Alignment)
             Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  race.shortDate,
-                  style: GoogleFonts.orbitron(
-                    fontSize: 11, fontWeight: FontWeight.w700,
-                    color: _roundColor,
-                    shadows: [Shadow(color: _roundColor.withValues(alpha: 0.4), blurRadius: 6)],
-                  ),
-                ),
-                const SizedBox(height: 6),
+                Text(race.shortDate, style: GoogleFonts.orbitron(
+                  fontSize: 10, fontWeight: FontWeight.w700,
+                  color: _roundColor,
+                )),
+                const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(999),
+                    borderRadius: BorderRadius.circular(2),
                     color: completed
-                        ? const Color(0xFF39FF14).withValues(alpha: 0.1)
-                        : _kCyan.withValues(alpha: 0.1),
+                        ? const Color(0xFF39FF14).withOpacity(0.1)
+                        : _kCyan.withOpacity(0.1),
                     border: Border.all(
                       color: completed
-                          ? const Color(0xFF39FF14).withValues(alpha: 0.3)
-                          : _kCyan.withValues(alpha: 0.3),
+                          ? const Color(0xFF39FF14).withOpacity(0.3)
+                          : _kCyan.withOpacity(0.3),
                     ),
                   ),
                   child: Text(
                     completed ? 'DONE' : 'UPCOMING',
                     style: GoogleFonts.orbitron(
-                      fontSize: 7, letterSpacing: 1,
-                      color: completed
-                          ? const Color(0xFF39FF14)
-                          : _kCyan,
+                      fontSize: 7, fontWeight: FontWeight.w700,
+                      color: completed ? const Color(0xFF39FF14) : _kCyan,
                     ),
                   ),
                 ),
-                // Days left for upcoming
-                if (!completed) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    race.daysUntil > 0
-                        ? '${race.daysUntil}d away'
-                        : 'TODAY',
-                    style: GoogleFonts.rajdhani(
-                      fontSize: 11,
-                      color: Colors.white.withValues(alpha: 0.25),
-                    ),
-                  ),
-                ],
               ],
             ),
           ],
@@ -697,7 +734,7 @@ class _ParticleFieldState extends State<_ParticleField>
     c: [
       const Color(0xFF00E5FF), const Color(0xFFFF00FF),
       const Color(0xFF39FF14), const Color(0xFFFFE600),
-    ][i % 4].withValues(alpha: 0.2 + _rng.nextDouble() * 0.15),
+    ][i % 4].withOpacity(0.2 + _rng.nextDouble() * 0.15),
   ));
 
   @override
@@ -737,14 +774,10 @@ class _PPainter extends CustomPainter {
   bool shouldRepaint(_PPainter o) => o.prog != prog;
 }
 
-// ─────────────────────────────────────────────────────────────────
-//  SCANLINE PAINTER
-// ─────────────────────────────────────────────────────────────────
-
 class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final p = Paint()..color = Colors.black.withValues(alpha: 0.022);
+    final p = Paint()..color = Colors.black.withOpacity(0.022);
     for (double y = 0; y < size.height; y += 4) {
       canvas.drawRect(Rect.fromLTWH(0, y + 2, size.width, 2), p);
     }
