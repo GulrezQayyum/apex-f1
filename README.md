@@ -285,4 +285,4 @@ What started as a simple calendar app became a full race simulation with:
 
 Every line of Dart. Every GPS coordinate. Every rival personality. Built from scratch. 🏁
 
-Made by: Gulrez Qayyum
+Built by: Gulrez Qayyum
