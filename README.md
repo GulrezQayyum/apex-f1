@@ -1,12 +1,12 @@
-# APEX F1 🏎️
+# APEX F1 
 
 A full Formula 1 race simulation experience built entirely in Flutter and Dart. Neon dark theme. GPS-accurate circuit maps.  
 20 cars racing in real time. Three full seasons (2023, 2024, 2025). Built from scratch as a university project.
 
 ## Links
 
-- 🔥 **Firebase Console:** https://console.firebase.google.com/project/apex-f1-159/overview
-- 🌐 **Hosting URL:** https://apex-f1-159.web.app
+-  **Firebase Console:** https://console.firebase.google.com/project/apex-f1-159/overview
+-  **Hosting URL:** https://apex-f1-159.web.app
 
 ## What is APEX F1?
 
@@ -126,7 +126,7 @@ Constructor Championship tab:
 - Race‑by‑race history list with position, points, tyre, fastest lap
 - Reset with confirmation dialog
 
-### Season Picker ✨ New
+### Season Picker  
 - Switch between 2023, 2024, and 2025 seasons
 - Each season loads its own races_YEAR.json from assets
 - Custom season — paste any valid races.json content to load any season
@@ -137,9 +137,9 @@ Constructor Championship tab:
 
 | Season | Status | Notes |
 |--------|--------|-------|
-| 2025 | ✅ Upcoming | All races are set to `upcoming` — you can play and simulate every race of the 2025 season |
-| 2024 | 🏁 Completed | All races are marked `completed` — final results and standings are shown |
-| 2023 | 🏁 Completed | All races are marked `completed` — final results and standings are shown |
+| 2025 |  Upcoming | All races are set to `upcoming` — you can play and simulate every race of the 2025 season |
+| 2024 |  Completed | All races are marked `completed` — final results and standings are shown |
+| 2023 |  Completed | All races are marked `completed` — final results and standings are shown |
 
 > **Want to race the 2023 or 2024 seasons?**  
 > You can unlock any race for simulation by editing the season's JSON file in `assets/data/` and changing the race's `"status"` field from `"completed"` to `"upcoming"`. This lets you re-live any race from past seasons in full simulation mode.
@@ -225,7 +225,7 @@ Format for custom seasons:
 }
 
 To use a custom season:
-1. Tap the 📅 season badge on the home screen
+1. Tap the  season badge on the home screen
 2. Select CUSTOM SEASON
 3. Paste the JSON
 4. Press LOAD SEASON
